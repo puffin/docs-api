@@ -6,7 +6,7 @@ info:
     email: dev@rea.ch
   x-logo:
     url: "http://api-docs.rea.ch/static/rea.ch-logo-black.png"
-    backgroundColor: "#f0f0f0"
+    backgroundColor: "#fafafa"
 basePath: /v1/
 host: api.rea.ch
 tags:
