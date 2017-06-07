@@ -1,8 +1,12 @@
-.PHONY: build build-v1 clean
+.PHONY: build build-v1 clean deploy
 
 V1_YAML = v1/html/static/reach-openapi-v1.yaml
 
 V1_SRC = v1/source
+
+deploy: build
+	@git add .
+	@git diff --quiet --exit-code --cached || git commit -m "build docs"
 
 build: build-v1
 
@@ -28,6 +32,3 @@ clean:
 
 	rm -f .npminstall
 	rm -rf node_modules
-
-deploy: build
-	@git diff --quiet --exit-code --cached || git commit -m "build docs"
