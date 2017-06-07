@@ -12,11 +12,9 @@ host: api.rea.ch
 tags:
   - name: introduction
     description: |
-
+      The Reach Web API allows components and clients to interact with the reach ecosystem.
   - name: basics
     description: |
-      The Web API consists of HTTP RPC-style methods.
-
       All methods must be called using HTTPS. Arguments can be passed as GET or POST params, or a mix.
       The response contains a JSON object, which will always contain a top-level boolean property
       `ok`, indicating success or failure. For failure results, the `error` property will contain a
@@ -34,6 +32,12 @@ tags:
         "error": "something_bad"
       }
       ```
+  - name: authentication
+    description: |
+      Authenticate your Web API requests by providing a bearer token, which identifies a single user.
+
+      JSON Web Token (JWT) should be passed in all Web API calls as a parameter called `token`.
+
   - name: messages
     description: |
       The Message resource of Chat represents a single message within a Conversation.
@@ -46,6 +50,7 @@ x-tagGroups:
   - name: Standard Features
     tags:
       - basics
+      - authentication
   - name: Chat Service
     tags:
       - messages
