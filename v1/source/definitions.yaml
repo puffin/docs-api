@@ -3,16 +3,24 @@ definitions:
     type: object
     properties:
       ok:
-        description: Indicating success or failure.
-        type: boolean
+        $ref: '#/definitions/FieldOkTrue'
       messages:
         type: array
         items:
-          $ref: '#/definitions/Message'
+          $ref: '#/definitions/MessageObject'
       meta:
         $ref: '#/definitions/Meta'
 
   Message:
+    type: object
+    properties:
+      ok:
+        $ref: '#/definitions/FieldOkTrue'
+      message:
+        type: object
+        $ref: '#/definitions/MessageObject'
+
+  MessageObject:
     type: object
     required:
       - body
@@ -96,12 +104,27 @@ definitions:
         description: the key attribute of the object where the resource content can be found.
         type: string
 
+  FieldOkTrue:
+    description: Indicating success or failure.
+    type: boolean
+    default: true
+
+  FieldOkFalse:
+    description: Indicating success or failure.
+    type: boolean
+    default: false
+
+  AppOk:
+    type: object
+    properties:
+      ok:
+        $ref: '#/definitions/FieldOkTrue'
+
   AppError:
     type: object
     properties:
       ok:
-        description: Indicating success or failure.
-        type: boolean
+        $ref: '#/definitions/FieldOkFalse'
       error:
         description: a short machine-readable error code.
         type: string

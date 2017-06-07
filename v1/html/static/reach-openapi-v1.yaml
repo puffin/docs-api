@@ -136,7 +136,24 @@ paths:
         - messages
       summary: Send message to conversation
       description: |
-         Send a message to a conversation.
+        Send a message to a conversation.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | conversation_not_found | Value passed for `conv_sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | not_in_conversation | Cannot post user messages to a conversation they are not in. |
+        | is_archived | Conversation has been archived. |
+        | msg_too_long | Message body is too long. |
+        | no_text | No message text provided. |
+
       parameters:
         - name: conv_sid
           in: path
@@ -147,27 +164,141 @@ paths:
           in: body
           description: The message to create.
           schema:
-            $ref: '#/definitions/Message'
+            $ref: '#/definitions/MessageObject'
       responses:
         '201':
-          description: Message created successfully
+          description: Message creation successful
           schema:
             $ref: '#/definitions/Message'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+  /chat/conversations/{conv_sid}/messages/{sid}:
+    put:
+      tags:
+        - messages
+      summary: Update a message
+      description: |
+        Update a message.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | conversation_not_found | Value passed for `conv_sid` was invalid. |
+        | message_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_update_message | Authenticated user does not have permission to update this message. |
+        | msg_too_long | Message body is too long. |
+        | no_text | No message text provided. |
+      parameters:
+        - name: conv_sid
+          in: path
+          description: The conversation ID to get the messages for.
+          required: true
+          type: string
+        - name: sid
+          in: path
+          description: A character string that uniquely identifies this message.
+          required: true
+          type: string
+        - name: message
+          in: body
+          description: The message to create.
+          schema:
+            $ref: '#/definitions/MessageObject'
+      responses:
+        '200':
+          description: Message update successful
+          schema:
+            $ref: '#/definitions/Message'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+    delete:
+      tags:
+        - messages
+      summary: Delete a message
+      description: |
+        Delete a message.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | conversation_not_found | Value passed for `conv_sid` was invalid. |
+        | message_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_delete_message | Authenticated user does not have permission to delete this message. |
+      parameters:
+        - name: conv_sid
+          in: path
+          description: The conversation ID to get the messages for.
+          required: true
+          type: string
+        - name: sid
+          in: path
+          description: A character string that uniquely identifies this message.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Message deletion successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
 definitions:
   Messages:
     type: object
     properties:
       ok:
-        description: Indicating success or failure.
-        type: boolean
+        $ref: '#/definitions/FieldOkTrue'
       messages:
         type: array
         items:
-          $ref: '#/definitions/Message'
+          $ref: '#/definitions/MessageObject'
       meta:
         $ref: '#/definitions/Meta'
 
   Message:
+    type: object
+    properties:
+      ok:
+        $ref: '#/definitions/FieldOkTrue'
+      message:
+        type: object
+        $ref: '#/definitions/MessageObject'
+
+  MessageObject:
     type: object
     required:
       - body
@@ -251,12 +382,27 @@ definitions:
         description: the key attribute of the object where the resource content can be found.
         type: string
 
+  FieldOkTrue:
+    description: Indicating success or failure.
+    type: boolean
+    default: true
+
+  FieldOkFalse:
+    description: Indicating success or failure.
+    type: boolean
+    default: false
+
+  AppOk:
+    type: object
+    properties:
+      ok:
+        $ref: '#/definitions/FieldOkTrue'
+
   AppError:
     type: object
     properties:
       ok:
-        description: Indicating success or failure.
-        type: boolean
+        $ref: '#/definitions/FieldOkFalse'
       error:
         description: a short machine-readable error code.
         type: string
