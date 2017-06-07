@@ -1,0 +1,22 @@
+{
+  "name": "docs-api",
+  "version": "1.0.0",
+  "description": "This respository holds the API reference available at http://api-docs.rea.ch.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reach-service/docs-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reach-service/docs-api/issues"
+  },
+  "homepage": "https://github.com/reach-service/docs-api#readme",
+  "dependencies": {
+    "auth-static": "^1.0.3"
+  }
+}

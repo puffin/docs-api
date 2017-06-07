@@ -1,0 +1,107 @@
+definitions:
+  Messages:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+      messages:
+        type: array
+        items:
+          $ref: '#/definitions/Message'
+      meta:
+        $ref: '#/definitions/Meta'
+
+  Message:
+    type: object
+    required:
+      - body
+      - from
+    properties:
+      sid:
+        description: A character string that uniquely identifies this message.
+        type: string
+        readOnly: true
+      date_created:
+        description: The timestamp that this resource was created.
+        type: string
+        format: date-time
+        readOnly: true
+      date_updated:
+        description: The timestamp that this resource was updated.
+        type: string
+        format: date-time
+        readOnly: true
+      from:
+        description: |
+          Identity of the message’s author. If the message was created by a system,
+          the value will be `system`.
+        type: string
+      type:
+        description: The type of the message.
+        type: string
+        default: message
+      unfurl_links:
+        description: Pass `true` to enable unfurling of text-based content.
+        type: boolean
+        default: false
+      unfurl_media:
+        description: Pass `false` to disable unfurling of media content.
+        type: boolean
+        default: true
+      was_edited:
+        description: |
+          `true` if the message has been updated since it was created.
+          `false` if it has not changed.
+        type: boolean
+        default: false
+        readOnly: true
+      index:
+        description:  The index of the message within the conversation.
+        type: integer
+        default: 1
+        readOnly: true
+      attributes:
+        description: |
+          An optional string metadata field that can be use to store any data you wish.
+          The string value must contain structurally valid JSON if specified.
+          Note that this will always be null for resources returned via LIST GET operations,
+          but will be present for single GET.
+        type: string
+      body:
+        description: The content of the message.
+        type: string
+      thread_sid:
+        description: Provide another message's sid value to make this message a reply.
+        type: string
+
+  Meta:
+    type: object
+    properties:
+      page:
+        description: Starting page for pagination.
+        type: integer
+      page_size:
+        description: Number of object to display for pagination.
+        type: integer
+      first_page_url:
+        type: string
+      previous_page_url:
+        type: string
+      url:
+        type: string
+      next_page_url:
+        type: string
+      key:
+        description: the key attribute of the object where the resource content can be found.
+        type: string
+
+  AppError:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+      error:
+        description: a short machine-readable error code.
+        type: string

@@ -1,0 +1,7 @@
+# Mac OSX
+.DS_Store
+
+# Build
+*reach-openapi-v1.yaml
+.npminstall
+node_modules
