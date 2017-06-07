@@ -31,6 +31,4 @@ build-v1: .npminstall
 
 clean:
 	@echo Cleaning
-
 	rm -f .npminstall
-	rm -rf node_modules
