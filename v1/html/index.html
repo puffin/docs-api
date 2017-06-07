@@ -4,9 +4,8 @@
     <title>Reach API Reference</title>
     <!-- needed for adaptive design -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="shortcut icon" href="./static/favicon.ico">
-
+    <link rel="stylesheet" href="./static/extra.css">
     <!--
     ReDoc doesn't change outer page styles
     -->
@@ -18,7 +17,7 @@
     </style>
   </head>
   <body>
-    <redoc lazy-rendering suppress-warnings spec-url='./static/reach-openapi-v1.yaml'></redoc>
+    <redoc lazy-rendering suppress-warnings expand-responses='200,201' spec-url='./static/reach-openapi-v1.yaml'></redoc>
     <script src="./static/redoc.min.js"> </script>
   </body>
 </html>
