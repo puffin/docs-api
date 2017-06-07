@@ -327,6 +327,10 @@ definitions:
         description: The type of the message.
         type: string
         default: message
+        enum:
+          - message
+          - event
+          - ad
       unfurl_links:
         description: Pass `true` to enable unfurling of text-based content.
         type: boolean
