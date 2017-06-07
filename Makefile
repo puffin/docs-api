@@ -28,3 +28,6 @@ clean:
 
 	rm -f .npminstall
 	rm -rf node_modules
+
+deploy: build
+	@git diff --quiet --exit-code --cached || git commit -m "build docs"
