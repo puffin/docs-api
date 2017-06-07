@@ -3,7 +3,9 @@ definitions:
     type: object
     properties:
       ok:
-        $ref: '#/definitions/FieldOkTrue'
+        description: Indicating success or failure.
+        type: boolean
+        default: true
       messages:
         type: array
         items:
@@ -15,7 +17,9 @@ definitions:
     type: object
     properties:
       ok:
-        $ref: '#/definitions/FieldOkTrue'
+        description: Indicating success or failure.
+        type: boolean
+        default: true
       message:
         type: object
         $ref: '#/definitions/MessageObject'
@@ -108,27 +112,21 @@ definitions:
         description: the key attribute of the object where the resource content can be found.
         type: string
 
-  FieldOkTrue:
-    description: Indicating success or failure.
-    type: boolean
-    default: true
-
-  FieldOkFalse:
-    description: Indicating success or failure.
-    type: boolean
-    default: false
-
   AppOk:
     type: object
     properties:
       ok:
-        $ref: '#/definitions/FieldOkTrue'
+        description: Indicating success or failure.
+        type: boolean
+        default: true
 
   AppError:
     type: object
     properties:
       ok:
-        $ref: '#/definitions/FieldOkFalse'
+        description: Indicating success or failure.
+        type: boolean
+        default: false
       error:
         description: a short machine-readable error code.
         type: string
