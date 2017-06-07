@@ -5,8 +5,10 @@ V1_YAML = v1/html/static/reach-openapi-v1.yaml
 V1_SRC = v1/source
 
 deploy: build
+	@echo "Pushing to production"
 	@git add .
 	@git diff --quiet --exit-code --cached || git commit -m "build docs"
+	@git push git@github.com:reach-service/docs-api.git master
 
 build: build-v1
 
