@@ -1,4 +1,4 @@
-  Messages:
+  Chat-Messages:
     type: object
     properties:
       ok:
@@ -9,11 +9,11 @@
         type: array
         uniqueItems: true
         items:
-          $ref: '#/definitions/MessageObject'
+          $ref: '#/definitions/Chat-MessageObject'
       meta:
         $ref: '#/definitions/Meta'
 
-  Message:
+  Chat-Message:
     type: object
     properties:
       ok:
@@ -22,9 +22,9 @@
         default: true
       message:
         type: object
-        $ref: '#/definitions/MessageObject'
+        $ref: '#/definitions/Chat-MessageObject'
 
-  MessageObject:
+  Chat-MessageObject:
     type: object
     required:
       - body
@@ -95,7 +95,7 @@
         description: Provide another message's sid value to make this message a reply.
         type: string
 
-  Conversation:
+  Chat-Conversation:
     type: object
     properties:
       ok:
@@ -104,9 +104,9 @@
         default: true
       conversation:
         type: object
-        $ref: '#/definitions/ConversationObject'
+        $ref: '#/definitions/Chat-ConversationObject'
 
-  ConversationObject:
+  Chat-ConversationObject:
     type: object
     required:
       - title

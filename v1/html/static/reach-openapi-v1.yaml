@@ -122,12 +122,12 @@ paths:
           in: body
           description: The conversation to create.
           schema:
-            $ref: '#/definitions/ConversationObject'
+            $ref: '#/definitions/Chat-ConversationObject'
       responses:
         '201':
           description: Conversation creation successful
           schema:
-            $ref: '#/definitions/Conversation'
+            $ref: '#/definitions/Chat-Conversation'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
@@ -165,7 +165,60 @@ paths:
         '200':
           description: Conversation retrieval successful
           schema:
-            $ref: '#/definitions/Conversation'
+            $ref: '#/definitions/Chat-Conversation'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+    put:
+      tags:
+        - conversations
+      summary: Update a conversation
+      description: |
+        Update a conversation.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | conversation_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_update_conversation | Authenticated user does not have permission to update this conversation. |
+      parameters:
+        - name: conversation
+          in: body
+          description: The conversation to update.
+          schema:
+            type: object
+            properties:
+              title:
+                description: The conversation title.
+                type: string
+              objective:
+                description: The conversation objective.
+                type: string
+              type:
+                description: The conversation type. Either `private` or `public`.
+                type: string
+                default: private
+                enum:
+                  - private
+                  - public
+      responses:
+        '200':
+          description: Conversation update successful
+          schema:
+            $ref: '#/definitions/Chat-Conversation'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
@@ -208,7 +261,7 @@ paths:
         '200':
           description: Message list retrieval successful
           schema:
-            $ref: '#/definitions/Messages'
+            $ref: '#/definitions/Chat-Messages'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
@@ -247,12 +300,12 @@ paths:
           in: body
           description: The message to create.
           schema:
-            $ref: '#/definitions/MessageObject'
+            $ref: '#/definitions/Chat-MessageObject'
       responses:
         '201':
           description: Message creation successful
           schema:
-            $ref: '#/definitions/Message'
+            $ref: '#/definitions/Chat-Message'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
@@ -292,7 +345,7 @@ paths:
         '200':
           description: Message retrieval successful
           schema:
-            $ref: '#/definitions/Message'
+            $ref: '#/definitions/Chat-Message'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
@@ -327,7 +380,7 @@ paths:
       parameters:
         - name: message
           in: body
-          description: The message to create.
+          description: The message to update.
           schema:
             type: object
             properties:
@@ -356,7 +409,7 @@ paths:
         '200':
           description: Message update successful
           schema:
-            $ref: '#/definitions/Message'
+            $ref: '#/definitions/Chat-Message'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
@@ -434,7 +487,7 @@ paths:
         '200':
           description: Message list retrieval successful
           schema:
-            $ref: '#/definitions/Messages'
+            $ref: '#/definitions/Chat-Messages'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
@@ -483,7 +536,7 @@ definitions:
       error:
         description: a short machine-readable error code.
         type: string
-  Messages:
+  Chat-Messages:
     type: object
     properties:
       ok:
@@ -494,11 +547,11 @@ definitions:
         type: array
         uniqueItems: true
         items:
-          $ref: '#/definitions/MessageObject'
+          $ref: '#/definitions/Chat-MessageObject'
       meta:
         $ref: '#/definitions/Meta'
 
-  Message:
+  Chat-Message:
     type: object
     properties:
       ok:
@@ -507,9 +560,9 @@ definitions:
         default: true
       message:
         type: object
-        $ref: '#/definitions/MessageObject'
+        $ref: '#/definitions/Chat-MessageObject'
 
-  MessageObject:
+  Chat-MessageObject:
     type: object
     required:
       - body
@@ -580,7 +633,7 @@ definitions:
         description: Provide another message's sid value to make this message a reply.
         type: string
 
-  Conversation:
+  Chat-Conversation:
     type: object
     properties:
       ok:
@@ -589,9 +642,9 @@ definitions:
         default: true
       conversation:
         type: object
-        $ref: '#/definitions/ConversationObject'
+        $ref: '#/definitions/Chat-ConversationObject'
 
-  ConversationObject:
+  Chat-ConversationObject:
     type: object
     required:
       - title

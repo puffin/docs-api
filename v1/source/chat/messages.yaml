@@ -32,7 +32,7 @@
         '200':
           description: Message list retrieval successful
           schema:
-            $ref: '#/definitions/Messages'
+            $ref: '#/definitions/Chat-Messages'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
@@ -71,12 +71,12 @@
           in: body
           description: The message to create.
           schema:
-            $ref: '#/definitions/MessageObject'
+            $ref: '#/definitions/Chat-MessageObject'
       responses:
         '201':
           description: Message creation successful
           schema:
-            $ref: '#/definitions/Message'
+            $ref: '#/definitions/Chat-Message'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
@@ -116,7 +116,7 @@
         '200':
           description: Message retrieval successful
           schema:
-            $ref: '#/definitions/Message'
+            $ref: '#/definitions/Chat-Message'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
@@ -151,7 +151,7 @@
       parameters:
         - name: message
           in: body
-          description: The message to create.
+          description: The message to update.
           schema:
             type: object
             properties:
@@ -180,7 +180,7 @@
         '200':
           description: Message update successful
           schema:
-            $ref: '#/definitions/Message'
+            $ref: '#/definitions/Chat-Message'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
@@ -258,7 +258,7 @@
         '200':
           description: Message list retrieval successful
           schema:
-            $ref: '#/definitions/Messages'
+            $ref: '#/definitions/Chat-Messages'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
