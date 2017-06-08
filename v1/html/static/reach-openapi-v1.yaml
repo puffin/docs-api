@@ -94,6 +94,12 @@ parameters:
     type: integer
 paths:
   /chat/conversations/{conv_sid}/messages:
+    parameters:
+      - name: conv_sid
+        in: path
+        description: The conversation ID to get the messages for.
+        required: true
+        type: string
     get:
       tags:
         - messages
@@ -116,11 +122,6 @@ paths:
         | invalid_page_size | Value passed for `page_size` was invalid |
 
       parameters:
-        - name: conv_sid
-          in: path
-          description: The conversation ID to get the messages for.
-          required: true
-          type: string
         - $ref: "#/parameters/page"
         - $ref: "#/parameters/page_size"
       responses:
@@ -137,12 +138,13 @@ paths:
         '404':
           $ref: '#/responses/NotFound'
 
+  /chat/messages:
     post:
       tags:
         - messages
-      summary: Send message to conversation
+      summary: Create a message
       description: |
-        Send a message to a conversation.
+        Create a new message in a conversation. To create the message as a response to another message, provide `thread_id`.
 
         #### Errors
 
@@ -161,11 +163,6 @@ paths:
         | no_text | No message text provided. |
 
       parameters:
-        - name: conv_sid
-          in: path
-          description: The conversation ID to post the messages to
-          required: true
-          type: string
         - name: message
           in: body
           description: The message to create.
@@ -185,7 +182,13 @@ paths:
         '404':
           $ref: '#/responses/NotFound'
 
-  /chat/conversations/{conv_sid}/messages/{sid}:
+  /chat/messages/{sid}:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this message.
+        required: true
+        type: string
     put:
       tags:
         - messages
@@ -209,21 +212,33 @@ paths:
         | msg_too_long | Message body is too long. |
         | no_text | No message text provided. |
       parameters:
-        - name: conv_sid
-          in: path
-          description: The conversation ID to get the messages for.
-          required: true
-          type: string
-        - name: sid
-          in: path
-          description: A character string that uniquely identifies this message.
-          required: true
-          type: string
         - name: message
           in: body
           description: The message to create.
           schema:
-            $ref: '#/definitions/MessageObject'
+            type: object
+            properties:
+              unfurl_links:
+                description: Pass `true` to enable unfurling of text-based content.
+                type: boolean
+                default: false
+              unfurl_media:
+                description: Pass `false` to disable unfurling of media content.
+                type: boolean
+                default: true
+              attributes:
+                description: |
+                  An optional string metadata field that can be use to store any data you wish.
+                  The string value must contain structurally valid JSON if specified.
+                  Note that this will always be null for resources returned via LIST GET operations,
+                  but will be present for single GET.
+                type: string
+              body:
+                description: The content of the message.
+                type: string
+              thread_sid:
+                description: Provide another message's sid value to make this message a reply.
+                type: string
       responses:
         '200':
           description: Message update successful
@@ -258,17 +273,6 @@ paths:
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
         | cant_delete_message | Authenticated user does not have permission to delete this message. |
-      parameters:
-        - name: conv_sid
-          in: path
-          description: The conversation ID to get the messages for.
-          required: true
-          type: string
-        - name: sid
-          in: path
-          description: A character string that uniquely identifies this message.
-          required: true
-          type: string
       responses:
         '200':
           description: Message deletion successful
@@ -283,6 +287,45 @@ paths:
         '404':
           $ref: '#/responses/NotFound'
 definitions:
+  Meta:
+    type: object
+    properties:
+      page:
+        description: Starting page for pagination.
+        type: integer
+      page_size:
+        description: Number of object to display for pagination.
+        type: integer
+      first_page_url:
+        type: string
+      previous_page_url:
+        type: string
+      url:
+        type: string
+      next_page_url:
+        type: string
+      key:
+        description: the key attribute of the object where the resource content can be found.
+        type: string
+
+  AppOk:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+
+  AppError:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: false
+      error:
+        description: a short machine-readable error code.
+        type: string
   Messages:
     type: object
     properties:
@@ -313,6 +356,7 @@ definitions:
     required:
       - body
       - from
+      - to
     properties:
       sid:
         description: A character string that uniquely identifies this message.
@@ -332,6 +376,9 @@ definitions:
         description: |
           Identity of the message’s author. If the message was created by a system,
           the value will be `system`.
+        type: string
+      to:
+        description: The unique id of the conversation this message is sent to.
         type: string
       type:
         description: The type of the message.
@@ -373,44 +420,4 @@ definitions:
         type: string
       thread_sid:
         description: Provide another message's sid value to make this message a reply.
-        type: string
-
-  Meta:
-    type: object
-    properties:
-      page:
-        description: Starting page for pagination.
-        type: integer
-      page_size:
-        description: Number of object to display for pagination.
-        type: integer
-      first_page_url:
-        type: string
-      previous_page_url:
-        type: string
-      url:
-        type: string
-      next_page_url:
-        type: string
-      key:
-        description: the key attribute of the object where the resource content can be found.
-        type: string
-
-  AppOk:
-    type: object
-    properties:
-      ok:
-        description: Indicating success or failure.
-        type: boolean
-        default: true
-
-  AppError:
-    type: object
-    properties:
-      ok:
-        description: Indicating success or failure.
-        type: boolean
-        default: false
-      error:
-        description: a short machine-readable error code.
         type: string

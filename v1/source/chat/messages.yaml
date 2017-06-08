@@ -1,4 +1,10 @@
   /chat/conversations/{conv_sid}/messages:
+    parameters:
+      - name: conv_sid
+        in: path
+        description: The conversation ID to get the messages for.
+        required: true
+        type: string
     get:
       tags:
         - messages
@@ -21,11 +27,6 @@
         | invalid_page_size | Value passed for `page_size` was invalid |
 
       parameters:
-        - name: conv_sid
-          in: path
-          description: The conversation ID to get the messages for.
-          required: true
-          type: string
         - $ref: "#/parameters/page"
         - $ref: "#/parameters/page_size"
       responses:
@@ -42,12 +43,13 @@
         '404':
           $ref: '#/responses/NotFound'
 
+  /chat/messages:
     post:
       tags:
         - messages
-      summary: Send message to conversation
+      summary: Create a message
       description: |
-        Send a message to a conversation.
+        Create a new message in a conversation. To create the message as a response to another message, provide `thread_id`.
 
         #### Errors
 
@@ -66,11 +68,6 @@
         | no_text | No message text provided. |
 
       parameters:
-        - name: conv_sid
-          in: path
-          description: The conversation ID to post the messages to
-          required: true
-          type: string
         - name: message
           in: body
           description: The message to create.
@@ -90,7 +87,13 @@
         '404':
           $ref: '#/responses/NotFound'
 
-  /chat/conversations/{conv_sid}/messages/{sid}:
+  /chat/messages/{sid}:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this message.
+        required: true
+        type: string
     put:
       tags:
         - messages
@@ -114,21 +117,33 @@
         | msg_too_long | Message body is too long. |
         | no_text | No message text provided. |
       parameters:
-        - name: conv_sid
-          in: path
-          description: The conversation ID to get the messages for.
-          required: true
-          type: string
-        - name: sid
-          in: path
-          description: A character string that uniquely identifies this message.
-          required: true
-          type: string
         - name: message
           in: body
           description: The message to create.
           schema:
-            $ref: '#/definitions/MessageObject'
+            type: object
+            properties:
+              unfurl_links:
+                description: Pass `true` to enable unfurling of text-based content.
+                type: boolean
+                default: false
+              unfurl_media:
+                description: Pass `false` to disable unfurling of media content.
+                type: boolean
+                default: true
+              attributes:
+                description: |
+                  An optional string metadata field that can be use to store any data you wish.
+                  The string value must contain structurally valid JSON if specified.
+                  Note that this will always be null for resources returned via LIST GET operations,
+                  but will be present for single GET.
+                type: string
+              body:
+                description: The content of the message.
+                type: string
+              thread_sid:
+                description: Provide another message's sid value to make this message a reply.
+                type: string
       responses:
         '200':
           description: Message update successful
@@ -163,17 +178,6 @@
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
         | cant_delete_message | Authenticated user does not have permission to delete this message. |
-      parameters:
-        - name: conv_sid
-          in: path
-          description: The conversation ID to get the messages for.
-          required: true
-          type: string
-        - name: sid
-          in: path
-          description: A character string that uniquely identifies this message.
-          required: true
-          type: string
       responses:
         '200':
           description: Message deletion successful
