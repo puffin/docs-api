@@ -2,6 +2,7 @@ swagger: '2.0'
 info:
   version: 1.0.0
   title: Reach API Reference
+  description: Reach API Specification cover all microservices and microapps endpoints.
   contact:
     email: dev@rea.ch
   x-logo:
@@ -78,4 +79,17 @@ responses:
     description: Resource not found
     schema:
       $ref: '#/definitions/AppError'
+parameters:
+  page:
+    name: page
+    in: query
+    description: The page to select.
+    default: 0
+    type: integer
+  page_size:
+    name: page_size
+    in: query
+    description: The number of messages per page.
+    default: 50
+    type: integer
 paths:

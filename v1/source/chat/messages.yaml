@@ -26,16 +26,8 @@
           description: The conversation ID to get the messages for.
           required: true
           type: string
-        - name: page
-          in: query
-          description: The page to select.
-          default: 0
-          type: integer
-        - name: page_size
-          in: query
-          description: The number of messages per page.
-          default: 50
-          type: integer
+        - $ref: "#/parameters/page"
+        - $ref: "#/parameters/page_size"
       responses:
         '200':
           description: Message list retrieval successful
