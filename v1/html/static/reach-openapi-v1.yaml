@@ -307,6 +307,61 @@ paths:
           $ref: '#/responses/Forbidden'
         '404':
           $ref: '#/responses/NotFound'
+
+  /chat/conversations/{sid}/invite:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this conversation.
+        required: true
+        type: string
+    post:
+      tags:
+        - conversations
+      summary: Add a user
+      description: |
+        Invite a user to a conversation.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | conversation_not_found | Value passed for `sid` was invalid. |
+        | user_not_found | Value passed for `user` was invalid. |
+        | cant_invite_self | Authenticated user cannot invite themselves to a conversation. |
+        | not_in_conversation | Authenticated user is not in the conversation. |
+        | already_in_conversation | Invited user is already in the conversation. |
+        | is_archived | Conversation has been archived. |
+        | cant_invite | User cannot be invited to this conversation. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+      parameters:
+        - name: user
+          in: body
+          description: The user to add.
+          schema:
+            type: object
+            properties:
+              user_sid:
+                description: The user unique identifier.
+                type: string
+      responses:
+        '200':
+          description: Conversation member creation successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
   /chat/conversations/{conv_sid}/messages:
     parameters:
       - name: conv_sid
