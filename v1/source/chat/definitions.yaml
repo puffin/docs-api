@@ -132,7 +132,7 @@
         readOnly: true
       created_by:
         description: |
-          Identity of the channel's creator. If the channel was created by a
+          Identity of the conversation's creator. If the conversation was created by a
           system, the value will be `system`.
         type: string
         readOnly: true
@@ -146,3 +146,13 @@
       title:
         description: The conversation title.
         type: string
+      objective:
+        description: The conversation objective.
+        type: string
+      type:
+        description: The conversation type. Either `private` or `public`.
+        type: string
+        default: private
+        enum:
+          - private
+          - public
