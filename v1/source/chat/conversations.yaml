@@ -127,3 +127,83 @@
           $ref: '#/responses/Forbidden'
         '404':
           $ref: '#/responses/NotFound'
+
+  /chat/conversations/{sid}/archive:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this conversation.
+        required: true
+        type: string
+    post:
+      tags:
+        - conversations
+      summary: Archive a conversation
+      description: |
+        Archive a conversation.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | conversation_not_found | Value passed for `sid` was invalid. |
+        | already_archived | Conversation has already been archived. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+      responses:
+        '200':
+          description: Conversation archive successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+  /chat/conversations/{sid}/unarchive:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this conversation.
+        required: true
+        type: string
+    post:
+      tags:
+        - conversations
+      summary: Unarchive a conversation
+      description: |
+        Unarchive a conversation.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | conversation_not_found | Value passed for `sid` was invalid. |
+        | not_archived | Conversation is not archived. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+      responses:
+        '200':
+          description: Conversation unarchive successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
