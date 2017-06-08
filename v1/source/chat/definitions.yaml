@@ -7,6 +7,7 @@
         default: true
       messages:
         type: array
+        uniqueItems: true
         items:
           $ref: '#/definitions/MessageObject'
       meta:

@@ -120,7 +120,6 @@ paths:
         | invalid_auth | Invalid authentication token. |
         | invalid_page | Value passed for `page` was invalid |
         | invalid_page_size | Value passed for `page_size` was invalid |
-
       parameters:
         - $ref: "#/parameters/page"
         - $ref: "#/parameters/page_size"
@@ -335,6 +334,7 @@ definitions:
         default: true
       messages:
         type: array
+        uniqueItems: true
         items:
           $ref: '#/definitions/MessageObject'
       meta:
