@@ -340,9 +340,9 @@ paths:
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
       parameters:
-        - name: user
-          in: body
-          description: The user to add.
+        - in: body
+          name: body
+          required: true
           schema:
             type: object
             properties:
