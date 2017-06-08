@@ -16,6 +16,7 @@ build-v1: .npminstall
 	@echo Building reach openapi yaml for v1
 
 	@cat $(V1_SRC)/introduction.yaml > $(V1_YAML)
+	@cat $(V1_SRC)/chat/conversations.yaml >> $(V1_YAML)
 	@cat $(V1_SRC)/chat/messages.yaml >> $(V1_YAML)
 
 	# Compile all definitions files

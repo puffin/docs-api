@@ -109,9 +109,7 @@
   ConversationObject:
     type: object
     required:
-      - body
-      - from
-      - to
+      - title
     properties:
       sid:
         description: A character string that uniquely identifies this conversation.
@@ -144,4 +142,7 @@
           The string value must contain structurally valid JSON if specified.
           Note that this will always be null for resources returned via LIST GET operations,
           but will be present for single GET.
+        type: string
+      title:
+        description: The conversation title.
         type: string

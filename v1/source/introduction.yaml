@@ -58,6 +58,7 @@ x-tagGroups:
       - authentication
   - name: Chat Service
     tags:
+      - conversations
       - messages
 schemes:
   - http
