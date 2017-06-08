@@ -317,6 +317,51 @@ paths:
           $ref: '#/responses/Forbidden'
         '404':
           $ref: '#/responses/NotFound'
+
+  /chat/messages/{sid}/thread:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this message.
+        required: true
+        type: string
+
+    get:
+      tags:
+        - messages
+      summary: Get a thread
+      description: |
+        Get a list of messages in a thread. Use the query parameters to modify the behaviour of this endpoint.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | message_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | invalid_page | Value passed for `page` was invalid |
+        | invalid_page_size | Value passed for `page_size` was invalid |
+      parameters:
+        - $ref: "#/parameters/page"
+        - $ref: "#/parameters/page_size"
+      responses:
+        '200':
+          description: Message list retrieval successful
+          schema:
+            $ref: '#/definitions/Messages'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
 definitions:
   Meta:
     type: object
