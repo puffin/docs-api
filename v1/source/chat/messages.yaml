@@ -93,6 +93,39 @@
         description: A character string that uniquely identifies this message.
         required: true
         type: string
+
+    get:
+      tags:
+        - messages
+      summary: Get a message
+      description: |
+        Get a single message.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | message_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+      responses:
+        '200':
+          description: Message retrieval successful
+          schema:
+            $ref: '#/definitions/Message'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
     put:
       tags:
         - messages
@@ -172,7 +205,6 @@
 
         | Error | Description |
         | - | - |
-        | conversation_not_found | Value passed for `conv_sid` was invalid. |
         | message_not_found | Value passed for `sid` was invalid. |
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
