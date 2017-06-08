@@ -17,7 +17,8 @@ build-v1: .npminstall
 
 	@cat $(V1_SRC)/introduction.yaml > $(V1_YAML)
 	@cat $(V1_SRC)/chat/messages.yaml >> $(V1_YAML)
-	
+
+	# Compile all definitions files
 	@cat $(V1_SRC)/definitions.yaml >> $(V1_YAML)
 	@cat $(V1_SRC)/chat/definitions.yaml >> $(V1_YAML)
 
