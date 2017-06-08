@@ -39,6 +39,10 @@ tags:
 
       JSON Web Token (JWT) should be passed in all Web API calls as a parameter called `token`.
 
+  - name: conversations
+    description: |
+      The Conversation resource of Chat represents a "chat room" - a scope in which
+      Messages can be sent and received. Users can be added or invited to join conversations.
   - name: messages
     description: |
       The Message resource of Chat represents a single message within a Conversation.
@@ -497,4 +501,55 @@ definitions:
         type: string
       thread_sid:
         description: Provide another message's sid value to make this message a reply.
+        type: string
+
+  Conversation:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      conversation:
+        type: object
+        $ref: '#/definitions/ConversationObject'
+
+  ConversationObject:
+    type: object
+    required:
+      - body
+      - from
+      - to
+    properties:
+      sid:
+        description: A character string that uniquely identifies this conversation.
+        type: string
+        readOnly: true
+      date_created:
+        description: The timestamp that this resource was created.
+        type: string
+        format: date-time
+        readOnly: true
+      date_updated:
+        description: The timestamp that this resource was updated.
+        type: string
+        format: date-time
+        readOnly: true
+      date_archived:
+        description: The timestamp that this resource was archived.
+        type: string
+        format: date-time
+        readOnly: true
+      created_by:
+        description: |
+          Identity of the channel's creator. If the channel was created by a
+          system, the value will be `system`.
+        type: string
+        readOnly: true
+      attributes:
+        description: |
+          An optional string metadata field that can be use to store any data you wish.
+          The string value must contain structurally valid JSON if specified.
+          Note that this will always be null for resources returned via LIST GET operations,
+          but will be present for single GET.
         type: string

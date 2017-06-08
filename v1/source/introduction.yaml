@@ -39,6 +39,10 @@ tags:
 
       JSON Web Token (JWT) should be passed in all Web API calls as a parameter called `token`.
 
+  - name: conversations
+    description: |
+      The Conversation resource of Chat represents a "chat room" - a scope in which
+      Messages can be sent and received. Users can be added or invited to join conversations.
   - name: messages
     description: |
       The Message resource of Chat represents a single message within a Conversation.
