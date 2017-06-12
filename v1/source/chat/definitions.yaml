@@ -176,6 +176,7 @@
         type: array
         items:
           type: string
+        readOnly: true
       participants:
         description: List of users that participate in this conversation with a persona.
         type: array
@@ -188,11 +189,12 @@
             persona:
               type: object
               $ref: '#/definitions/Chat-PersonaObject'
+        readOnly: true
       latest:
         description: The latest message sid in the conversation.
         type: string
         readOnly: true
-        
+
   Chat-Users:
     type: object
     properties:

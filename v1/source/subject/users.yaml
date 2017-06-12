@@ -1,22 +1,16 @@
-  /inbox/events:
+  /subject/users/{sid}/subjects:
     parameters:
-      - in: body
-        name: body
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this user.
         required: true
-        schema:
-          type: object
-          required:
-            - user_sid
-          properties:
-            user_sid:
-              type: string
-              description: The user ID to get the events for.
+        type: string
     get:
       tags:
-        - 1. events
-      summary: Get events for a user
+        - 2. users
+      summary: Get subjects for user
       description: |
-        Get a list of events in a user inbox. Use the query parameters to modify the behaviour of this endpoint.
+        Get all the subjects for a user.
 
         #### Errors
 
@@ -26,7 +20,7 @@
 
         | Error | Description |
         | - | - |
-        | user_not_found | Value passed for `user_sid` was invalid. |
+        | user_not_found | Value passed for `user` was invalid. |
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
         | invalid_page | Value passed for `page` was invalid |
@@ -36,9 +30,9 @@
         - $ref: "#/parameters/page_size"
       responses:
         '200':
-          description: Event list retrieval successful
+          description: Subject list retrieval successful
           schema:
-            $ref: '#/definitions/Inbox-Events'
+            $ref: '#/definitions/Subject-Subjects'
         '400':
           $ref: '#/responses/BadRequest'
         '401':

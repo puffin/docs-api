@@ -39,38 +39,46 @@ tags:
 
       JSON Web Token (JWT) should be passed in all Web API calls as a parameter called `token`.
 
-  - name: conversations
+  - name: 3. conversations
     description: |
       The Conversation resource of Chat represents a "chat room" - a scope in which
       Messages can be sent and received. Users can be added or invited to join conversations.
-  - name: messages
+  - name: 3. messages
     description: |
       The Message resource of Chat represents a single message within a Conversation.
 
       Posting to the Messages resource of a Conversation allows you to send messages to the Conversation via the REST API on behalf of a user.
-  - name: users
+  - name: 3. users
     description: |
       The User resource of Chat represents a unique identity interacting with the service.
 
-  - name: events
+  - name: 1. events
     description: |
       The Microapp inbox provide an interface to retrieve Inbox events.
 
       Inbox events are comprised of notification events, conversation events, and subject events.
 
-  - name: notifications
+  - name: 4. notifications
     description: |
       The Notification resource of the Notify service represents a notification to be sent to registered Bindings.
 
       Currently the following channels are supported:
       * APNS for iOS devices
       * Inbox service
-  - name: bindings
+
+  - name: 4. bindings
     description: |
       The Binding resource binds a User to its Address. Addresses are different per channel.
       For instance, for iOS push notifications the address is an APNS device token,
       and for inbox it's the User unique identifier. Creating a Binding for an Identity and Address
       allows to send notifications to an identity rather than a specific device.
+
+  - name: 2. subjects
+    description: |
+      The Subject resource.
+  - name: 2. users
+    description: |
+      The User resource of Subject represents a unique identity interacting with the service.
 x-tagGroups:
   - name: Introduction
     tags:
@@ -79,18 +87,22 @@ x-tagGroups:
     tags:
       - basics
       - authentication
-  - name: Chat Service
+  - name: 1. Inbox Service
     tags:
-      - conversations
-      - messages
-      - users
-  - name: Inbox Service
+      - 1. events
+  - name: 2. Subject Service
     tags:
-      - events
-  - name: Notify Service
+      - 2. subjects
+      - 2. users
+  - name: 3. Chat Service
     tags:
-      - notifications
-      - bindings
+      - 3. conversations
+      - 3. messages
+      - 3. users
+  - name: 4. Notify Service
+    tags:
+      - 4. notifications
+      - 4. bindings
 schemes:
   - http
   - https

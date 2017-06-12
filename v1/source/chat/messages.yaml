@@ -7,7 +7,7 @@
         type: string
     get:
       tags:
-        - messages
+        - 3. messages
       summary: Get messages for a conversation
       description: |
         Get a list of messages in a conversation. Use the query parameters to modify the behaviour of this endpoint.
@@ -45,7 +45,7 @@
   /chat/messages:
     post:
       tags:
-        - messages
+        - 3. messages
       summary: Create a message
       description: |
         Create a new message in a conversation. To create the message as a response to another message, provide `thread_id`.
@@ -96,7 +96,7 @@
 
     get:
       tags:
-        - messages
+        - 3. messages
       summary: Get a message
       description: |
         Get a single message.
@@ -128,7 +128,7 @@
 
     put:
       tags:
-        - messages
+        - 3. messages
       summary: Update a message
       description: |
         Update a message.
@@ -192,7 +192,7 @@
 
     delete:
       tags:
-        - messages
+        - 3. messages
       summary: Delete a message
       description: |
         Delete a message.
@@ -233,7 +233,7 @@
 
     get:
       tags:
-        - messages
+        - 3. messages
       summary: Get a thread
       description: |
         Get a list of messages in a thread. Use the query parameters to modify the behaviour of this endpoint.

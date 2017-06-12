@@ -1,7 +1,7 @@
   /notify/bindings:
     get:
       tags:
-        - bindings
+        - 4. bindings
       summary: Get user bindings
       description: |
         Get a list of bindings for a user. Use the query parameters to modify the behaviour of this endpoint.
@@ -49,7 +49,7 @@
 
     post:
       tags:
-        - bindings
+        - 4. bindings
       summary: Create a binding
       description: |
         Creating a Binding with the same `address` as that of an existing Binding will replace
@@ -101,7 +101,7 @@
 
     get:
       tags:
-        - bindings
+        - 4. bindings
       summary: Retrieve a binding
       description: |
         Get a single binding.
@@ -133,7 +133,7 @@
 
     delete:
       tags:
-        - bindings
+        - 4. bindings
       summary: Delete a binding
       description: |
         Delete a binding.

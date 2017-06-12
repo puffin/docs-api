@@ -20,6 +20,9 @@ build-v1: .npminstall
 	@cat $(V1_SRC)/chat/messages.yaml >> $(V1_YAML)
 	@cat $(V1_SRC)/chat/users.yaml >> $(V1_YAML)
 
+	@cat $(V1_SRC)/subject/subjects.yaml >> $(V1_YAML)
+	@cat $(V1_SRC)/subject/users.yaml >> $(V1_YAML)
+
 	@cat $(V1_SRC)/inbox/events.yaml >> $(V1_YAML)
 
 	@cat $(V1_SRC)/notify/notifications.yaml >> $(V1_YAML)
@@ -28,6 +31,7 @@ build-v1: .npminstall
 	# Compile all definitions files
 	@cat $(V1_SRC)/definitions.yaml >> $(V1_YAML)
 	@cat $(V1_SRC)/chat/definitions.yaml >> $(V1_YAML)
+	@cat $(V1_SRC)/subject/definitions.yaml >> $(V1_YAML)
 	@cat $(V1_SRC)/inbox/definitions.yaml >> $(V1_YAML)
 	@cat $(V1_SRC)/notify/definitions.yaml >> $(V1_YAML)
 

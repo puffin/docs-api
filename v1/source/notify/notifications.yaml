@@ -1,7 +1,7 @@
   /notify/notications:
     get:
       tags:
-        - notifications
+        - 4. notifications
       summary: Get user notifications
       description: |
         Get a list of notifications for a user. Use the query parameters to modify the behaviour of this endpoint.
@@ -58,7 +58,7 @@
 
     post:
       tags:
-        - notifications
+        - 4. notifications
       summary: Send a notification
       description: |
         Notifications can be channel specific to take full advantage of channel specific

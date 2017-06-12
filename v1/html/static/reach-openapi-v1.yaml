@@ -39,38 +39,46 @@ tags:
 
       JSON Web Token (JWT) should be passed in all Web API calls as a parameter called `token`.
 
-  - name: conversations
+  - name: 3. conversations
     description: |
       The Conversation resource of Chat represents a "chat room" - a scope in which
       Messages can be sent and received. Users can be added or invited to join conversations.
-  - name: messages
+  - name: 3. messages
     description: |
       The Message resource of Chat represents a single message within a Conversation.
 
       Posting to the Messages resource of a Conversation allows you to send messages to the Conversation via the REST API on behalf of a user.
-  - name: users
+  - name: 3. users
     description: |
       The User resource of Chat represents a unique identity interacting with the service.
 
-  - name: events
+  - name: 1. events
     description: |
       The Microapp inbox provide an interface to retrieve Inbox events.
 
       Inbox events are comprised of notification events, conversation events, and subject events.
 
-  - name: notifications
+  - name: 4. notifications
     description: |
       The Notification resource of the Notify service represents a notification to be sent to registered Bindings.
 
       Currently the following channels are supported:
       * APNS for iOS devices
       * Inbox service
-  - name: bindings
+
+  - name: 4. bindings
     description: |
       The Binding resource binds a User to its Address. Addresses are different per channel.
       For instance, for iOS push notifications the address is an APNS device token,
       and for inbox it's the User unique identifier. Creating a Binding for an Identity and Address
       allows to send notifications to an identity rather than a specific device.
+
+  - name: 2. subjects
+    description: |
+      The Subject resource.
+  - name: 2. users
+    description: |
+      The User resource of Subject represents a unique identity interacting with the service.
 x-tagGroups:
   - name: Introduction
     tags:
@@ -79,18 +87,22 @@ x-tagGroups:
     tags:
       - basics
       - authentication
-  - name: Chat Service
+  - name: 1. Inbox Service
     tags:
-      - conversations
-      - messages
-      - users
-  - name: Inbox Service
+      - 1. events
+  - name: 2. Subject Service
     tags:
-      - events
-  - name: Notify Service
+      - 2. subjects
+      - 2. users
+  - name: 3. Chat Service
     tags:
-      - notifications
-      - bindings
+      - 3. conversations
+      - 3. messages
+      - 3. users
+  - name: 4. Notify Service
+    tags:
+      - 4. notifications
+      - 4. bindings
 schemes:
   - http
   - https
@@ -132,7 +144,7 @@ paths:
   /chat/conversations:
     post:
       tags:
-        - conversations
+        - 3. conversations
       summary: Create a conversation
       description: |
         Create a new conversation.
@@ -176,7 +188,7 @@ paths:
 
     get:
       tags:
-        - conversations
+        - 3. conversations
       summary: Get a conversation
       description: |
         Get a single conversation.
@@ -208,7 +220,7 @@ paths:
 
     put:
       tags:
-        - conversations
+        - 3. conversations
       summary: Update a conversation
       description: |
         Update a conversation.
@@ -268,7 +280,7 @@ paths:
         type: string
     post:
       tags:
-        - conversations
+        - 3. conversations
       summary: Archive a conversation
       description: |
         Archive a conversation.
@@ -308,7 +320,7 @@ paths:
         type: string
     post:
       tags:
-        - conversations
+        - 3. conversations
       summary: Unarchive a conversation
       description: |
         Unarchive a conversation.
@@ -348,7 +360,7 @@ paths:
         type: string
     post:
       tags:
-        - conversations
+        - 3. conversations
       summary: Add user to conversation
       description: |
         Invite a user to a conversation.
@@ -417,7 +429,7 @@ paths:
         type: string
     delete:
       tags:
-        - conversations
+        - 3. conversations
       summary: Remove user from conversation
       description: |
         Remove a user from a conversation.
@@ -474,7 +486,7 @@ paths:
         type: string
     post:
       tags:
-        - conversations
+        - 3. conversations
       summary: Join a conversation
       description: |
         User join a conversation with a persona.
@@ -527,7 +539,7 @@ paths:
         type: string
     delete:
       tags:
-        - conversations
+        - 3. conversations
       summary: Leave a conversation
       description: |
         User leave a conversation.
@@ -566,7 +578,7 @@ paths:
         type: string
     get:
       tags:
-        - messages
+        - 3. messages
       summary: Get messages for a conversation
       description: |
         Get a list of messages in a conversation. Use the query parameters to modify the behaviour of this endpoint.
@@ -604,7 +616,7 @@ paths:
   /chat/messages:
     post:
       tags:
-        - messages
+        - 3. messages
       summary: Create a message
       description: |
         Create a new message in a conversation. To create the message as a response to another message, provide `thread_id`.
@@ -655,7 +667,7 @@ paths:
 
     get:
       tags:
-        - messages
+        - 3. messages
       summary: Get a message
       description: |
         Get a single message.
@@ -687,7 +699,7 @@ paths:
 
     put:
       tags:
-        - messages
+        - 3. messages
       summary: Update a message
       description: |
         Update a message.
@@ -751,7 +763,7 @@ paths:
 
     delete:
       tags:
-        - messages
+        - 3. messages
       summary: Delete a message
       description: |
         Delete a message.
@@ -792,7 +804,7 @@ paths:
 
     get:
       tags:
-        - messages
+        - 3. messages
       summary: Get a thread
       description: |
         Get a list of messages in a thread. Use the query parameters to modify the behaviour of this endpoint.
@@ -829,7 +841,7 @@ paths:
   /chat/users:
     get:
       tags:
-        - users
+        - 3. users
       summary: Get users
       description: |
         Get a list of users. Based on query string parameters, select users from
@@ -882,7 +894,7 @@ paths:
         type: string
     get:
       tags:
-        - users
+        - 3. users
       summary: Get a user
       description: |
         Get a single user.
@@ -916,7 +928,7 @@ paths:
   /chat/users/ids:
     get:
       tags:
-        - users
+        - 3. users
       summary: Get users by ids
       description: |
         Get a list of users based on a provided list of user ids.
@@ -968,7 +980,7 @@ paths:
         type: string
     get:
       tags:
-        - users
+        - 3. users
       summary: Get conversations for user
       description: |
         Get all the conversations for a user.
@@ -1007,6 +1019,85 @@ paths:
           $ref: '#/responses/Forbidden'
         '404':
           $ref: '#/responses/NotFound'
+  /subject/subjects:
+    post:
+      tags:
+        - 2. subjects
+      summary: Create a subject
+      description: |
+        Create a new subject.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+
+      parameters:
+        - name: subject
+          in: body
+          description: The subject to create.
+          schema:
+            $ref: '#/definitions/Subject-SubjectObject'
+      responses:
+        '201':
+          description: Subject creation successful
+          schema:
+            $ref: '#/definitions/Subject-Subject'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+  /subject/users/{sid}/subjects:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this user.
+        required: true
+        type: string
+    get:
+      tags:
+        - 2. users
+      summary: Get subjects for user
+      description: |
+        Get all the subjects for a user.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | user_not_found | Value passed for `user` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | invalid_page | Value passed for `page` was invalid |
+        | invalid_page_size | Value passed for `page_size` was invalid |
+      parameters:
+        - $ref: "#/parameters/page"
+        - $ref: "#/parameters/page_size"
+      responses:
+        '200':
+          description: Subject list retrieval successful
+          schema:
+            $ref: '#/definitions/Subject-Subjects'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
   /inbox/events:
     parameters:
       - in: body
@@ -1022,7 +1113,7 @@ paths:
               description: The user ID to get the events for.
     get:
       tags:
-        - events
+        - 1. events
       summary: Get events for a user
       description: |
         Get a list of events in a user inbox. Use the query parameters to modify the behaviour of this endpoint.
@@ -1059,7 +1150,7 @@ paths:
   /notify/notications:
     get:
       tags:
-        - notifications
+        - 4. notifications
       summary: Get user notifications
       description: |
         Get a list of notifications for a user. Use the query parameters to modify the behaviour of this endpoint.
@@ -1116,7 +1207,7 @@ paths:
 
     post:
       tags:
-        - notifications
+        - 4. notifications
       summary: Send a notification
       description: |
         Notifications can be channel specific to take full advantage of channel specific
@@ -1163,7 +1254,7 @@ paths:
   /notify/bindings:
     get:
       tags:
-        - bindings
+        - 4. bindings
       summary: Get user bindings
       description: |
         Get a list of bindings for a user. Use the query parameters to modify the behaviour of this endpoint.
@@ -1211,7 +1302,7 @@ paths:
 
     post:
       tags:
-        - bindings
+        - 4. bindings
       summary: Create a binding
       description: |
         Creating a Binding with the same `address` as that of an existing Binding will replace
@@ -1263,7 +1354,7 @@ paths:
 
     get:
       tags:
-        - bindings
+        - 4. bindings
       summary: Retrieve a binding
       description: |
         Get a single binding.
@@ -1295,7 +1386,7 @@ paths:
 
     delete:
       tags:
-        - bindings
+        - 4. bindings
       summary: Delete a binding
       description: |
         Delete a binding.
@@ -1543,6 +1634,7 @@ definitions:
         type: array
         items:
           type: string
+        readOnly: true
       participants:
         description: List of users that participate in this conversation with a persona.
         type: array
@@ -1555,11 +1647,12 @@ definitions:
             persona:
               type: object
               $ref: '#/definitions/Chat-PersonaObject'
+        readOnly: true
       latest:
         description: The latest message sid in the conversation.
         type: string
         readOnly: true
-        
+
   Chat-Users:
     type: object
     properties:
@@ -1633,6 +1726,76 @@ definitions:
       name:
         description: The name of the persona.
         type: string
+  Subject-Subjects:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      subjects:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: '#/definitions/Subject-SubjectObject'
+      meta:
+        $ref: '#/definitions/Meta'
+
+  Subject-Subject:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      subject:
+        type: object
+        $ref: '#/definitions/Subject-SubjectObject'
+
+  Subject-SubjectObject:
+    type: object
+    required:
+      - title
+    properties:
+      sid:
+        description: A character string that uniquely identifies this subject.
+        type: string
+        readOnly: true
+      date_created:
+        description: The timestamp that this resource was created.
+        type: string
+        format: date-time
+        readOnly: true
+      date_updated:
+        description: The timestamp that this resource was updated.
+        type: string
+        format: date-time
+        readOnly: true
+      created_by:
+        description: |
+          Identity of the subject's creator. If the subject was created by a
+          system, the value will be `system`.
+        type: string
+        readOnly: true
+      attributes:
+        description: |
+          An optional string metadata field that can be use to store any data you wish.
+          The string value must contain structurally valid JSON if specified.
+          Note that this will always be null for resources returned via LIST GET operations,
+          but will be present for single GET.
+        type: string
+      name:
+        description: The subject name.
+        type: string
+      description:
+        description: The subject description.
+        type: string
+      users:
+        description: List of user sids that have access to this subject.
+        type: array
+        items:
+          type: string
+        readOnly: true
   Inbox-Events:
     type: object
     properties:

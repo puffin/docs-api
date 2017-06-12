@@ -1,0 +1,36 @@
+  /subject/subjects:
+    post:
+      tags:
+        - 2. subjects
+      summary: Create a subject
+      description: |
+        Create a new subject.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+
+      parameters:
+        - name: subject
+          in: body
+          description: The subject to create.
+          schema:
+            $ref: '#/definitions/Subject-SubjectObject'
+      responses:
+        '201':
+          description: Subject creation successful
+          schema:
+            $ref: '#/definitions/Subject-Subject'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'

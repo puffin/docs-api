@@ -1,0 +1,70 @@
+  Subject-Subjects:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      subjects:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: '#/definitions/Subject-SubjectObject'
+      meta:
+        $ref: '#/definitions/Meta'
+
+  Subject-Subject:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      subject:
+        type: object
+        $ref: '#/definitions/Subject-SubjectObject'
+
+  Subject-SubjectObject:
+    type: object
+    required:
+      - title
+    properties:
+      sid:
+        description: A character string that uniquely identifies this subject.
+        type: string
+        readOnly: true
+      date_created:
+        description: The timestamp that this resource was created.
+        type: string
+        format: date-time
+        readOnly: true
+      date_updated:
+        description: The timestamp that this resource was updated.
+        type: string
+        format: date-time
+        readOnly: true
+      created_by:
+        description: |
+          Identity of the subject's creator. If the subject was created by a
+          system, the value will be `system`.
+        type: string
+        readOnly: true
+      attributes:
+        description: |
+          An optional string metadata field that can be use to store any data you wish.
+          The string value must contain structurally valid JSON if specified.
+          Note that this will always be null for resources returned via LIST GET operations,
+          but will be present for single GET.
+        type: string
+      name:
+        description: The subject name.
+        type: string
+      description:
+        description: The subject description.
+        type: string
+      users:
+        description: List of user sids that have access to this subject.
+        type: array
+        items:
+          type: string
+        readOnly: true

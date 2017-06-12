@@ -1,7 +1,7 @@
   /chat/users:
     get:
       tags:
-        - users
+        - 3. users
       summary: Get users
       description: |
         Get a list of users. Based on query string parameters, select users from
@@ -54,7 +54,7 @@
         type: string
     get:
       tags:
-        - users
+        - 3. users
       summary: Get a user
       description: |
         Get a single user.
@@ -88,7 +88,7 @@
   /chat/users/ids:
     get:
       tags:
-        - users
+        - 3. users
       summary: Get users by ids
       description: |
         Get a list of users based on a provided list of user ids.
@@ -140,7 +140,7 @@
         type: string
     get:
       tags:
-        - users
+        - 3. users
       summary: Get conversations for user
       description: |
         Get all the conversations for a user.

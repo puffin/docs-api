@@ -1,7 +1,7 @@
   /chat/conversations:
     post:
       tags:
-        - conversations
+        - 3. conversations
       summary: Create a conversation
       description: |
         Create a new conversation.
@@ -45,7 +45,7 @@
 
     get:
       tags:
-        - conversations
+        - 3. conversations
       summary: Get a conversation
       description: |
         Get a single conversation.
@@ -77,7 +77,7 @@
 
     put:
       tags:
-        - conversations
+        - 3. conversations
       summary: Update a conversation
       description: |
         Update a conversation.
@@ -137,7 +137,7 @@
         type: string
     post:
       tags:
-        - conversations
+        - 3. conversations
       summary: Archive a conversation
       description: |
         Archive a conversation.
@@ -177,7 +177,7 @@
         type: string
     post:
       tags:
-        - conversations
+        - 3. conversations
       summary: Unarchive a conversation
       description: |
         Unarchive a conversation.
@@ -217,7 +217,7 @@
         type: string
     post:
       tags:
-        - conversations
+        - 3. conversations
       summary: Add user to conversation
       description: |
         Invite a user to a conversation.
@@ -286,7 +286,7 @@
         type: string
     delete:
       tags:
-        - conversations
+        - 3. conversations
       summary: Remove user from conversation
       description: |
         Remove a user from a conversation.
@@ -343,7 +343,7 @@
         type: string
     post:
       tags:
-        - conversations
+        - 3. conversations
       summary: Join a conversation
       description: |
         User join a conversation with a persona.
@@ -396,7 +396,7 @@
         type: string
     delete:
       tags:
-        - conversations
+        - 3. conversations
       summary: Leave a conversation
       description: |
         User leave a conversation.
