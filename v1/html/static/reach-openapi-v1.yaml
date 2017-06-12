@@ -65,6 +65,12 @@ tags:
       Currently the following channels are supported:
       * APNS for iOS devices
       * Inbox service
+  - name: bindings
+    description: |
+      The Binding resource binds a User to its Address. Addresses are different per channel.
+      For instance, for iOS push notifications the address is an APNS device token,
+      and for inbox it's the User unique identifier. Creating a Binding for an Identity and Address
+      allows to send notifications to an identity rather than a specific device.
 x-tagGroups:
   - name: Introduction
     tags:
@@ -84,6 +90,7 @@ x-tagGroups:
   - name: Notify Service
     tags:
       - notifications
+      - bindings
 schemes:
   - http
   - https
@@ -1069,6 +1076,21 @@ paths:
         Channel specific payload of a notification can be provided by adding a parameter
         where the name is the channel type (apn or inbox) and the value is the channel
         specific payload in a json object.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | user_not_found | Value passed for `user_sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | msg_too_long | Notification body is too long. |
+        | no_text | No body text provided. |
+
       parameters:
         - in: body
           name: body
@@ -1081,6 +1103,98 @@ paths:
           description: Notification creation successful
           schema:
             $ref: '#/definitions/Notify-Notification'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+  /notify/bindings:
+    get:
+      tags:
+        - bindings
+      summary: Get user bindings
+      description: |
+        Get a list of bindings for a user. Use the query parameters to modify the behaviour of this endpoint.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | user_not_found | Value passed for `user_sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | invalid_page | Value passed for `page` was invalid |
+        | invalid_page_size | Value passed for `page_size` was invalid |
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required:
+              - user_sid
+            properties:
+              user_sid:
+                type: string
+                description: The user ID to get the bindings for.
+        - $ref: "#/parameters/page"
+        - $ref: "#/parameters/page_size"
+      responses:
+        '200':
+          description: Binding list retrieval successful
+          schema:
+            $ref: '#/definitions/Notify-Bindings'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+    post:
+      tags:
+        - bindings
+      summary: Create a binding
+      description: |
+        Creating a Binding with the same `address` as that of an existing Binding will replace
+        the existing Binding with the new one. In order to avoid such leaking when creating
+        a new Binding, we remove any previous Binding with the same `address`.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | user_not_found | Value passed for `user_sid` was invalid. |
+        | address_missing | No address provided. |
+        | invalid_binding_type | Invalid binding type. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref:  '#/definitions/Notify-BindingObject'
+
+      responses:
+        '201':
+          description: Notification creation successful
+          schema:
+            $ref: '#/definitions/Notify-Binding'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
@@ -1450,7 +1564,7 @@ definitions:
         type: string
         readOnly: true
       user_sid:
-        description: A character string that uniquely identifies the user of this notification.
+        description: A character string that uniquely identifies the user.
         type: string
       date_created:
         description: The timestamp that this resource was created.
@@ -1492,3 +1606,62 @@ definitions:
         description: |
           Inbox specific payload that overrides corresponding attributes in generic payload.
         default: null
+
+  Notify-Bindings:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      bindings:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: '#/definitions/Notify-BindingObject'
+      meta:
+        $ref: '#/definitions/Meta'
+
+  Notify-Binding:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      binding:
+        type: object
+        $ref: '#/definitions/Notify-BindingObject'
+
+  Notify-BindingObject:
+    type: object
+    properties:
+      sid:
+        description: A character string that uniquely identifies this binding.
+        type: string
+        readOnly: true
+      date_created:
+        description: The timestamp that this resource was created.
+        type: string
+        format: date-time
+        readOnly: true
+      date_updated:
+        description: The timestamp that this resource was updated.
+        type: string
+        format: date-time
+        readOnly: true
+      user_sid:
+        description: A character string that uniquely identifies the user.
+        type: string
+      type:
+        description: The type of the binding. This determines the transport technology to use.
+        type: string
+        default: inbox
+        enum:
+          - apn
+          - inbox
+      address:
+        description: |
+          The address specific to the channel. For APNS it is the device token.
+          For Inbox it is the User unique identifier.
+        type: string

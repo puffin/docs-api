@@ -32,7 +32,7 @@
         type: string
         readOnly: true
       user_sid:
-        description: A character string that uniquely identifies the user of this notification.
+        description: A character string that uniquely identifies the user.
         type: string
       date_created:
         description: The timestamp that this resource was created.
@@ -74,3 +74,62 @@
         description: |
           Inbox specific payload that overrides corresponding attributes in generic payload.
         default: null
+
+  Notify-Bindings:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      bindings:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: '#/definitions/Notify-BindingObject'
+      meta:
+        $ref: '#/definitions/Meta'
+
+  Notify-Binding:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      binding:
+        type: object
+        $ref: '#/definitions/Notify-BindingObject'
+
+  Notify-BindingObject:
+    type: object
+    properties:
+      sid:
+        description: A character string that uniquely identifies this binding.
+        type: string
+        readOnly: true
+      date_created:
+        description: The timestamp that this resource was created.
+        type: string
+        format: date-time
+        readOnly: true
+      date_updated:
+        description: The timestamp that this resource was updated.
+        type: string
+        format: date-time
+        readOnly: true
+      user_sid:
+        description: A character string that uniquely identifies the user.
+        type: string
+      type:
+        description: The type of the binding. This determines the transport technology to use.
+        type: string
+        default: inbox
+        enum:
+          - apn
+          - inbox
+      address:
+        description: |
+          The address specific to the channel. For APNS it is the device token.
+          For Inbox it is the User unique identifier.
+        type: string

@@ -65,6 +65,12 @@ tags:
       Currently the following channels are supported:
       * APNS for iOS devices
       * Inbox service
+  - name: bindings
+    description: |
+      The Binding resource binds a User to its Address. Addresses are different per channel.
+      For instance, for iOS push notifications the address is an APNS device token,
+      and for inbox it's the User unique identifier. Creating a Binding for an Identity and Address
+      allows to send notifications to an identity rather than a specific device.
 x-tagGroups:
   - name: Introduction
     tags:
@@ -84,6 +90,7 @@ x-tagGroups:
   - name: Notify Service
     tags:
       - notifications
+      - bindings
 schemes:
   - http
   - https

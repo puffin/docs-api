@@ -23,6 +23,7 @@ build-v1: .npminstall
 	@cat $(V1_SRC)/inbox/events.yaml >> $(V1_YAML)
 
 	@cat $(V1_SRC)/notify/notifications.yaml >> $(V1_YAML)
+	@cat $(V1_SRC)/notify/bindings.yaml >> $(V1_YAML)
 
 	# Compile all definitions files
 	@cat $(V1_SRC)/definitions.yaml >> $(V1_YAML)
