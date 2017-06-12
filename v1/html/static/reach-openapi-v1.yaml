@@ -1055,6 +1055,46 @@ paths:
           $ref: '#/responses/Unauthorized'
         '403':
           $ref: '#/responses/Forbidden'
+
+  /subject/subjects/{sid}:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this subject.
+        required: true
+        type: string
+
+    get:
+      tags:
+        - 2. subjects
+      summary: Get a subject
+      description: |
+        Get a single subject.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | subject_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+      responses:
+        '200':
+          description: Subject retrieval successful
+          schema:
+            $ref: '#/definitions/Subject-Subject'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
   /subject/users/{sid}/subjects:
     parameters:
       - name: sid
