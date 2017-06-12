@@ -61,7 +61,7 @@
           - none
           - invite
       apn:
-        type: object
+        type: string
         description: |
           APNS specific payload that overrides corresponding attributes in a generic payload.
 
@@ -70,7 +70,7 @@
           the dictionary. Refer to [APNS documentation](https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html) for more details.
         default: null
       inbox:
-        type: object
+        type: string
         description: |
           Inbox specific payload that overrides corresponding attributes in generic payload.
         default: null
