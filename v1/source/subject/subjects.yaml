@@ -128,7 +128,6 @@
                 enum:
                   - admin
                   - member
-                  - guest
       responses:
         '200':
           description: Subject member creation successful
