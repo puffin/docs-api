@@ -156,11 +156,23 @@
         enum:
           - private
           - public
-      members:
-        description: List of user sids for all users in this conversation.
+      users:
+        description: List of user sids that have access to this conversation.
         type: array
         items:
           type: string
+      participants:
+        description: List of users that participate in this conversation with a persona.
+        type: array
+        items:
+          type: object
+          properties:
+            user_sid:
+              type: string
+              description: A character string that uniquely identifies the user.
+            persona:
+              type: object
+              $ref: '#/definitions/Chat-PersonaObject'
 
   Chat-Users:
     type: object
