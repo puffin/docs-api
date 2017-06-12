@@ -1000,6 +1000,95 @@ paths:
           $ref: '#/responses/Forbidden'
         '404':
           $ref: '#/responses/NotFound'
+  /notify/notications:
+    get:
+      tags:
+        - notifications
+      summary: Get user notifications
+      description: |
+        Get a list of notifications for a user. Use the query parameters to modify the behaviour of this endpoint.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | user_not_found | Value passed for `user_sid` was invalid. |
+        | channel_not_supported | Value passed for `channel` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | invalid_page | Value passed for `page` was invalid |
+        | invalid_page_size | Value passed for `page_size` was invalid |
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required:
+              - user_sid
+            properties:
+              user_sid:
+                type: string
+                description: The user ID to get the notifications for.
+              channel:
+                type: string
+                description: The channel of notifications to retrieve.
+                default: all
+                enum:
+                  - all
+                  - apn
+                  - inbox
+        - $ref: "#/parameters/page"
+        - $ref: "#/parameters/page_size"
+      responses:
+        '200':
+          description: Notication list retrieval successful
+          schema:
+            $ref: '#/definitions/Notify-Notifications'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+    post:
+      tags:
+        - notifications
+      summary: Send a notification
+      description: |
+        Notifications can be channel specific to take full advantage of channel specific
+        features or to customize content for each channel.
+
+        Channel specific payload of a notification can be provided by adding a parameter
+        where the name is the channel type (apn or inbox) and the value is the channel
+        specific payload in a json object.
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref:  '#/definitions/Notify-NotificationObject'
+
+      responses:
+        '201':
+          description: Notification creation successful
+          schema:
+            $ref: '#/definitions/Notify-Notification'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
 definitions:
   Meta:
     type: object
@@ -1327,3 +1416,79 @@ definitions:
         description: An event associated object. Can be a `notification`, `conversation` or `subject`
         type: object
         readOnly: true
+  Notify-Notifications:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      notications:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: '#/definitions/Notify-NotificationObject'
+      meta:
+        $ref: '#/definitions/Meta'
+
+  Notify-Notification:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      notication:
+        type: object
+        $ref: '#/definitions/Notify-NotificationObject'
+
+  Notify-NotificationObject:
+    type: object
+    properties:
+      sid:
+        description: A character string that uniquely identifies this notification.
+        type: string
+        readOnly: true
+      user_sid:
+        description: A character string that uniquely identifies the user of this notification.
+        type: string
+      date_created:
+        description: The timestamp that this resource was created.
+        type: string
+        format: date-time
+        readOnly: true
+      title:
+        description: The title of the notification.
+        type: string
+      body:
+        description: The content of the notification.
+        type: string
+      channel:
+        type: string
+        description: The channel of the notification.
+        default: all
+        enum:
+          - all
+          - apn
+          - inbox
+      action:
+        type: string
+        description: Specifies the actions to be displayed for the notification.
+        default: none
+        enum:
+          - none
+          - invite
+      apn:
+        type: object
+        description: |
+          APNS specific payload that overrides corresponding attributes in a generic payload.
+
+          This value is mapped to the Payload item, therefore the aps key has to be used
+          to change standard attributes. Adds custom key-value pairs to the root of
+          the dictionary. Refer to [APNS documentation](https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html) for more details.
+        default: null
+      inbox:
+        type: object
+        description: |
+          Inbox specific payload that overrides corresponding attributes in generic payload.
+        default: null

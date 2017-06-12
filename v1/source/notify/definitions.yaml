@@ -1,0 +1,76 @@
+  Notify-Notifications:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      notications:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: '#/definitions/Notify-NotificationObject'
+      meta:
+        $ref: '#/definitions/Meta'
+
+  Notify-Notification:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      notication:
+        type: object
+        $ref: '#/definitions/Notify-NotificationObject'
+
+  Notify-NotificationObject:
+    type: object
+    properties:
+      sid:
+        description: A character string that uniquely identifies this notification.
+        type: string
+        readOnly: true
+      user_sid:
+        description: A character string that uniquely identifies the user of this notification.
+        type: string
+      date_created:
+        description: The timestamp that this resource was created.
+        type: string
+        format: date-time
+        readOnly: true
+      title:
+        description: The title of the notification.
+        type: string
+      body:
+        description: The content of the notification.
+        type: string
+      channel:
+        type: string
+        description: The channel of the notification.
+        default: all
+        enum:
+          - all
+          - apn
+          - inbox
+      action:
+        type: string
+        description: Specifies the actions to be displayed for the notification.
+        default: none
+        enum:
+          - none
+          - invite
+      apn:
+        type: object
+        description: |
+          APNS specific payload that overrides corresponding attributes in a generic payload.
+
+          This value is mapped to the Payload item, therefore the aps key has to be used
+          to change standard attributes. Adds custom key-value pairs to the root of
+          the dictionary. Refer to [APNS documentation](https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html) for more details.
+        default: null
+      inbox:
+        type: object
+        description: |
+          Inbox specific payload that overrides corresponding attributes in generic payload.
+        default: null

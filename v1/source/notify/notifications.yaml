@@ -1,0 +1,89 @@
+  /notify/notications:
+    get:
+      tags:
+        - notifications
+      summary: Get user notifications
+      description: |
+        Get a list of notifications for a user. Use the query parameters to modify the behaviour of this endpoint.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | user_not_found | Value passed for `user_sid` was invalid. |
+        | channel_not_supported | Value passed for `channel` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | invalid_page | Value passed for `page` was invalid |
+        | invalid_page_size | Value passed for `page_size` was invalid |
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required:
+              - user_sid
+            properties:
+              user_sid:
+                type: string
+                description: The user ID to get the notifications for.
+              channel:
+                type: string
+                description: The channel of notifications to retrieve.
+                default: all
+                enum:
+                  - all
+                  - apn
+                  - inbox
+        - $ref: "#/parameters/page"
+        - $ref: "#/parameters/page_size"
+      responses:
+        '200':
+          description: Notication list retrieval successful
+          schema:
+            $ref: '#/definitions/Notify-Notifications'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+    post:
+      tags:
+        - notifications
+      summary: Send a notification
+      description: |
+        Notifications can be channel specific to take full advantage of channel specific
+        features or to customize content for each channel.
+
+        Channel specific payload of a notification can be provided by adding a parameter
+        where the name is the channel type (apn or inbox) and the value is the channel
+        specific payload in a json object.
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref:  '#/definitions/Notify-NotificationObject'
+
+      responses:
+        '201':
+          description: Notification creation successful
+          schema:
+            $ref: '#/definitions/Notify-Notification'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'

@@ -22,10 +22,13 @@ build-v1: .npminstall
 
 	@cat $(V1_SRC)/inbox/events.yaml >> $(V1_YAML)
 
+	@cat $(V1_SRC)/notify/notifications.yaml >> $(V1_YAML)
+
 	# Compile all definitions files
 	@cat $(V1_SRC)/definitions.yaml >> $(V1_YAML)
 	@cat $(V1_SRC)/chat/definitions.yaml >> $(V1_YAML)
 	@cat $(V1_SRC)/inbox/definitions.yaml >> $(V1_YAML)
+	@cat $(V1_SRC)/notify/definitions.yaml >> $(V1_YAML)
 
 	@node_modules/swagger-cli/bin/swagger.js validate $(V1_YAML)
 
