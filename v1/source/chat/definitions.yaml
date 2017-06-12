@@ -95,6 +95,21 @@
         description: Provide another message's sid value to make this message a reply.
         type: string
 
+  Chat-Conversations:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      conversations:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: '#/definitions/Chat-ConversationObject'
+      meta:
+        $ref: '#/definitions/Meta'
+
   Chat-Conversation:
     type: object
     properties:
@@ -173,7 +188,11 @@
             persona:
               type: object
               $ref: '#/definitions/Chat-PersonaObject'
-
+      latest:
+        description: The latest message sid in the conversation.
+        type: string
+        readOnly: true
+        
   Chat-Users:
     type: object
     properties:

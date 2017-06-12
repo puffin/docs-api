@@ -958,6 +958,55 @@ paths:
           $ref: '#/responses/Forbidden'
         '404':
           $ref: '#/responses/NotFound'
+
+  /chat/users/{sid}/conversations:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this user.
+        required: true
+        type: string
+    get:
+      tags:
+        - users
+      summary: Get conversations for user
+      description: |
+        Get all the conversations for a user.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | user_not_found | Value passed for `user` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | invalid_page | Value passed for `page` was invalid |
+        | invalid_page_size | Value passed for `page_size` was invalid |
+      parameters:
+        - name: sort
+          in: query
+          description: Represents the sort operation to be applied when working with the result sets.
+          type: string
+          default: latest-message
+        - $ref: "#/parameters/page"
+        - $ref: "#/parameters/page_size"
+      responses:
+        '200':
+          description: Conversation list retrieval successful
+          schema:
+            $ref: '#/definitions/Chat-Conversations'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
   /inbox/events:
     parameters:
       - in: body
@@ -1413,6 +1462,21 @@ definitions:
         description: Provide another message's sid value to make this message a reply.
         type: string
 
+  Chat-Conversations:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      conversations:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: '#/definitions/Chat-ConversationObject'
+      meta:
+        $ref: '#/definitions/Meta'
+
   Chat-Conversation:
     type: object
     properties:
@@ -1491,7 +1555,11 @@ definitions:
             persona:
               type: object
               $ref: '#/definitions/Chat-PersonaObject'
-
+      latest:
+        description: The latest message sid in the conversation.
+        type: string
+        readOnly: true
+        
   Chat-Users:
     type: object
     properties:
