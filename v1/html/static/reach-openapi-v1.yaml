@@ -1192,9 +1192,82 @@ paths:
 
       responses:
         '201':
-          description: Notification creation successful
+          description: Binding creation successful
           schema:
             $ref: '#/definitions/Notify-Binding'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+  /notify/bindings/{sid}:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this binding.
+        required: true
+        type: string
+
+    get:
+      tags:
+        - bindings
+      summary: Retrieve a binding
+      description: |
+        Get a single binding.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | binding_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+      responses:
+        '200':
+          description: Binding retrieval successful
+          schema:
+            $ref: '#/definitions/Notify-Binding'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+    delete:
+      tags:
+        - bindings
+      summary: Delete a binding
+      description: |
+        Delete a binding.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | binding_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_delete_binding | Authenticated user does not have permission to delete this binding. |
+      responses:
+        '200':
+          description: Binding deletion successful
+          schema:
+            $ref: '#/definitions/AppOk'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
