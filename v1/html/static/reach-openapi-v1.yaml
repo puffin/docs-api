@@ -993,3 +993,8 @@ definitions:
         enum:
           - private
           - public
+      members:
+        description: List of user sids for all users in this conversation.
+        type: array
+        items:
+          type: string
