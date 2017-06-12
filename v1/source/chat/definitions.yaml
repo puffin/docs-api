@@ -161,3 +161,77 @@
         type: array
         items:
           type: string
+
+  Chat-Users:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      users:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: '#/definitions/Chat-UserObject'
+      meta:
+        $ref: '#/definitions/Meta'
+
+  Chat-User:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      user:
+        type: object
+        $ref: '#/definitions/Chat-UserObject'
+
+  Chat-UserObject:
+    allOf:
+    - $ref:  '#/definitions/Chat-UserBaseObject'
+    - type: object
+      properties:
+        personas:
+          type: array
+          items:
+            $ref: '#/definitions/Chat-PersonaObject'
+
+  Chat-UserBaseObject:
+    type: object
+    properties:
+      sid:
+        description: A character string that uniquely identifies this user.
+        type: string
+        readOnly: true
+      username:
+        description: The username of a user.
+        type: string
+        readOnly: true
+      full_name:
+        description: The user full name.
+        type: string
+        readOnly: true
+      avatar:
+        description: URL to the user avatar picture.
+        type: string
+        readOnly: true
+      attributes:
+        description: |
+          An optional string metadata field that can be use to store any data you wish.
+          The string value must contain structurally valid JSON if specified.
+          Note that this will always be null for resources returned via LIST GET operations,
+          but will be present for single GET.
+        type: string
+
+  Chat-PersonaObject:
+    type: object
+    properties:
+      sid:
+        description: A character string that uniquely identifies this persona.
+        type: string
+        readOnly: true
+      name:
+        description: The name of the persona.
+        type: string

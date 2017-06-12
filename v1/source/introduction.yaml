@@ -48,6 +48,9 @@ tags:
       The Message resource of Chat represents a single message within a Conversation.
 
       Posting to the Messages resource of a Conversation allows you to send messages to the Conversation via the REST API on behalf of a user.
+  - name: users
+    description: |
+      The User resource of Chat represents a unique identity interacting with the service.
 x-tagGroups:
   - name: Introduction
     tags:
@@ -60,6 +63,7 @@ x-tagGroups:
     tags:
       - conversations
       - messages
+      - users
 schemes:
   - http
   - https
