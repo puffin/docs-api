@@ -92,7 +92,7 @@
         Valid user roles are `admin` or `member`.
 
         #### Permissions
-        Must have the `admin` role on the subject to invite users to conversation with a specific
+        Must have the `admin` role on the subject to invite users to subject with a specific
         role.
 
         #### Errors
