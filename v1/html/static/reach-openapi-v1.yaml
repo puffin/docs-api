@@ -322,6 +322,12 @@ paths:
       description: |
         Invite a user to a conversation.
 
+        Valid user roles are `admin`, `member` or `guest`.
+
+        #### Permissions
+        Must have the `admin` role on the conversation to invite users to conversation with a specific
+        role.
+
         #### Errors
 
         This table lists the expected errors that this method could return. However, other
@@ -349,9 +355,74 @@ paths:
               user_sid:
                 description: The user unique identifier.
                 type: string
+              role:
+                description: The user role for this conversation.
+                type: string
+                default: member
+                enum:
+                  - admin
+                  - member
+                  - guest
       responses:
         '200':
           description: Conversation member creation successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+  /chat/conversations/{sid}/kick:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this conversation.
+        required: true
+        type: string
+    delete:
+      tags:
+        - conversations
+      summary: Remove user from conversation
+      description: |
+        Remove a user from a conversation.
+
+        #### Permissions
+        Must have the `admin` role on the conversation to remove users from conversation.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | conversation_not_found | Value passed for `sid` was invalid. |
+        | user_not_found | Value passed for `user` was invalid. |
+        | cant_kick_self | Authenticated user cannot kick themselves from a conversation. |
+        | not_in_conversation | User is not in the conversation. |
+        | is_archived | Conversation has been archived. |
+        | cant_invite | User cannot be invited to this conversation. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              user_sid:
+                description: The user unique identifier.
+                type: string
+      responses:
+        '200':
+          description: Conversation member deletion successful
           schema:
             $ref: '#/definitions/AppOk'
         '400':

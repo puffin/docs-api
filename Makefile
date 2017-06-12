@@ -36,3 +36,6 @@ build-v1: .npminstall
 clean:
 	@echo Cleaning
 	rm -f .npminstall
+
+serve:
+	@node index.js
