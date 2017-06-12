@@ -51,6 +51,20 @@ tags:
   - name: users
     description: |
       The User resource of Chat represents a unique identity interacting with the service.
+
+  - name: events
+    description: |
+      The Microapp inbox provide an interface to retrieve Inbox events.
+
+      Inbox events are comprised of notification events, conversation events, and subject events.
+
+  - name: notifications
+    description: |
+      The Notification resource of the Notify service represents a notification to be sent to registered Bindings.
+
+      Currently the following channels are supported:
+      * APNS for iOS devices
+      * Inbox service
 x-tagGroups:
   - name: Introduction
     tags:
@@ -64,6 +78,12 @@ x-tagGroups:
       - conversations
       - messages
       - users
+  - name: Inbox Service
+    tags:
+      - events
+  - name: Notify Service
+    tags:
+      - notifications
 schemes:
   - http
   - https

@@ -1,0 +1,38 @@
+  Inbox-Events:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      events:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: '#/definitions/Inbox-EventObject'
+      meta:
+        $ref: '#/definitions/Meta'
+
+  Inbox-EventObject:
+    type: object
+    properties:
+      sid:
+        description: A character string that uniquely identifies this event.
+        type: string
+        readOnly: true
+      date_created:
+        description: The timestamp that this resource was created.
+        type: string
+        format: date-time
+        readOnly: true
+      type:
+        type: string
+        enum:
+          - notification
+          - conversation
+          - subject
+        readOnly: true
+      object:
+        description: An event associated object. Can be a `notification`, `conversation` or `subject`
+        type: object
+        readOnly: true

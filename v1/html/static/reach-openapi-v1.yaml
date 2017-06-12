@@ -51,6 +51,20 @@ tags:
   - name: users
     description: |
       The User resource of Chat represents a unique identity interacting with the service.
+
+  - name: events
+    description: |
+      The Microapp inbox provide an interface to retrieve Inbox events.
+
+      Inbox events are comprised of notification events, conversation events, and subject events.
+
+  - name: notifications
+    description: |
+      The Notification resource of the Notify service represents a notification to be sent to registered Bindings.
+
+      Currently the following channels are supported:
+      * APNS for iOS devices
+      * Inbox service
 x-tagGroups:
   - name: Introduction
     tags:
@@ -64,6 +78,12 @@ x-tagGroups:
       - conversations
       - messages
       - users
+  - name: Inbox Service
+    tags:
+      - events
+  - name: Notify Service
+    tags:
+      - notifications
 schemes:
   - http
   - https
@@ -931,6 +951,55 @@ paths:
           $ref: '#/responses/Forbidden'
         '404':
           $ref: '#/responses/NotFound'
+  /inbox/events:
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - user_sid
+          properties:
+            user_sid:
+              type: string
+              description: The user ID to get the events for.
+    get:
+      tags:
+        - events
+      summary: Get events for a user
+      description: |
+        Get a list of events in a user inbox. Use the query parameters to modify the behaviour of this endpoint.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | user_not_found | Value passed for `user_sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | invalid_page | Value passed for `page` was invalid |
+        | invalid_page_size | Value passed for `page_size` was invalid |
+      parameters:
+        - $ref: "#/parameters/page"
+        - $ref: "#/parameters/page_size"
+      responses:
+        '200':
+          description: Event list retrieval successful
+          schema:
+            $ref: '#/definitions/Inbox-Events'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
 definitions:
   Meta:
     type: object
@@ -1220,3 +1289,41 @@ definitions:
       name:
         description: The name of the persona.
         type: string
+  Inbox-Events:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      events:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: '#/definitions/Inbox-EventObject'
+      meta:
+        $ref: '#/definitions/Meta'
+
+  Inbox-EventObject:
+    type: object
+    properties:
+      sid:
+        description: A character string that uniquely identifies this event.
+        type: string
+        readOnly: true
+      date_created:
+        description: The timestamp that this resource was created.
+        type: string
+        format: date-time
+        readOnly: true
+      type:
+        type: string
+        enum:
+          - notification
+          - conversation
+          - subject
+        readOnly: true
+      object:
+        description: An event associated object. Can be a `notification`, `conversation` or `subject`
+        type: object
+        readOnly: true
