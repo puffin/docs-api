@@ -218,7 +218,7 @@
     post:
       tags:
         - conversations
-      summary: Add a user to conversation
+      summary: Add user to conversation
       description: |
         Invite a user to a conversation.
 
