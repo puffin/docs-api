@@ -107,7 +107,7 @@
         | user_not_found | Value passed for `user` was invalid. |
         | cant_invite_self | Authenticated user cannot invite themselves to a subject. |
         | not_in_subject | Authenticated user is not in the subject. |
-        | already_in_subjecrt | Invited user is already in the subject. |
+        | already_in_subject | Invited user is already in the subject. |
         | cant_invite | User cannot be invited to this subject. |
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
