@@ -140,3 +140,36 @@
           $ref: '#/responses/Forbidden'
         '404':
           $ref: '#/responses/NotFound'
+
+  /auth/me:
+    get:
+      tags:
+        - 5. authentication
+      summary: Get user info
+      description: |
+        Get information about a logged in user
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | no_auth | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+
+      responses:
+        '200':
+          description: User retrieval successful
+          schema:
+            $ref: '#/definitions/Auth-UserObject'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
