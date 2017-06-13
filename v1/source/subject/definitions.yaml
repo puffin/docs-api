@@ -74,3 +74,10 @@
         items:
           type: string
         readOnly: true
+
+  Subject-SubjectLinkObject:
+    type: object
+    properties:
+      sid:
+        description: The unique identifier of the subject to link.
+        type: string

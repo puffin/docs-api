@@ -278,3 +278,90 @@
           $ref: '#/responses/Forbidden'
         '404':
           $ref: '#/responses/NotFound'
+
+  /subject/subjects/{sid}/link:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this subject.
+        required: true
+        type: string
+    post:
+      tags:
+        - 2. subjects
+      summary: Link a subject
+      description: |
+        Link two subjects together.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | subject_not_found | Value passed for `sid` was invalid. |
+        | already_linked | Subjects are already linked together. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_link_subject | Authenticated user does not have permission to link this subject. |
+      parameters:
+        - name: subject
+          in: body
+          description: The subject to link to.
+          schema:
+            $ref: '#/definitions/Subject-SubjectLinkObject'
+      responses:
+        '200':
+          description: Subject link successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+    delete:
+      tags:
+        - 2. subjects
+      summary: Unlink a subject
+      description: |
+        Unlink two subjects.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | subject_not_found | Value passed for `sid` was invalid. |
+        | not_linked | Subjects are not linked together. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_unlink_subject | Authenticated user does not have permission to unlink this subject. |
+      parameters:
+        - name: subject
+          in: body
+          description: The subject to unlink from.
+          schema:
+            $ref: '#/definitions/Subject-SubjectLinkObject'
+      responses:
+        '200':
+          description: Subject unlink successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
