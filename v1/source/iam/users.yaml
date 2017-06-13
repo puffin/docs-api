@@ -1,6 +1,6 @@
-  /iam/user/{user_sid}/role:
+  /iam/user/{sid}/role:
     parameters:
-      - name: user_sid
+      - name: sid
         in: path
         description: A character string that uniquely identifies the user.
         required: true
@@ -21,7 +21,7 @@
 
         | Error | Description |
         | - | - |
-        | user_not_found | Value passed for `user_sid` was invalid. |
+        | user_not_found | Value passed for `sid` was invalid. |
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
         | no_access | User do not have access to this resource. |
@@ -64,7 +64,7 @@
 
         | Error | Description |
         | - | - |
-        | user_not_found | Value passed for `user_sid` was invalid. |
+        | user_not_found | Value passed for `sid` was invalid. |
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
         | cant_add_role | Authenticated user does not have permission to add this role to this resource. |
@@ -104,7 +104,7 @@
 
         | Error | Description |
         | - | - |
-        | user_not_found | Value passed for `user_sid` was invalid. |
+        | user_not_found | Value passed for `sid` was invalid. |
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
         | cant_remove_role | Authenticated user does not have permission to remove this role to this resource. |
@@ -120,6 +120,51 @@
           description: Role deletion successful
           schema:
             $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+  /iam/users/{sid}/users:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies the user.
+        required: true
+        type: string
+
+    get:
+      tags:
+        - 6. users
+      summary: Retrieve users access
+      description: |
+        Retrieve all users that have access to the user.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | user_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | no_access | User do not have access to this resource. |
+
+      parameters:
+        - $ref: "#/parameters/page"
+        - $ref: "#/parameters/page_size"
+      responses:
+        '200':
+          description: Users list retrieval successful
+          schema:
+            $ref: '#/definitions/IAM-Users'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
