@@ -1,4 +1,4 @@
-  IAM-UserRole:
+  IAM-User:
     type: object
     properties:
       ok:
@@ -12,6 +12,23 @@
         type: object
         $ref: '#/definitions/IAM-ResourceObject'
 
+  IAM-UserObject:
+    type: object
+    properties:
+      role:
+        description: The role for this resource.
+        type: string
+        default: member
+        enum:
+          - org_owner
+          - org_admin
+          - org_member
+          - admin
+          - member
+          - guest
+      resource:
+        type: object
+        $ref: '#/definitions/IAM-ResourceObject'
 
   IAM-RoleObject:
     type: object
@@ -31,7 +48,6 @@
           - admin
           - member
           - guest
-        readOnly: true
 
   IAM-ResourceObject:
     type: object
