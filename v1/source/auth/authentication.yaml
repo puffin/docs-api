@@ -27,7 +27,7 @@
               - email
               - password
             properties:
-              username:
+              email:
                 type: string
                 description: The user email address.
               password:
