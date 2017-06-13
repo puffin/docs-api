@@ -307,7 +307,6 @@
         | cant_kick_self | Authenticated user cannot kick themselves from a conversation. |
         | not_in_conversation | User is not in the conversation. |
         | is_archived | Conversation has been archived. |
-        | cant_invite | User cannot be invited to this conversation. |
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
       parameters:
