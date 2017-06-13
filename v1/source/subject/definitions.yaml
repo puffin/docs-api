@@ -68,3 +68,9 @@
         items:
           type: string
         readOnly: true
+      participants:
+        description: List of users that participate in this subject.
+        type: array
+        items:
+          type: string
+        readOnly: true

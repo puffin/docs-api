@@ -75,7 +75,7 @@
         '404':
           $ref: '#/responses/NotFound'
 
-  /subject/subjects/{sid}/user/add:
+  /subject/subjects/{sid}/invite:
     parameters:
       - name: sid
         in: path
@@ -142,7 +142,7 @@
         '404':
           $ref: '#/responses/NotFound'
 
-  /subject/subjects/{sid}/user/kick:
+  /subject/subjects/{sid}/kick:
     parameters:
       - name: sid
         in: path
@@ -186,6 +186,88 @@
       responses:
         '200':
           description: subject member deletion successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+  /subject/subjects/{sid}/join:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this subject.
+        required: true
+        type: string
+    post:
+      tags:
+        - 2. subjects
+      summary: Join a subject
+      description: |
+        User join a subject.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | subject_not_found | Value passed for `sid` was invalid. |
+        | user_not_found | Value passed for `user` was invalid. |
+        | already_in_subject | User is already member of the subject. |
+        | not_in_subject | User is not in the subject. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+      responses:
+        '200':
+          description: Subject join successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+  /subject/subjects/{sid}/leave:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this subject.
+        required: true
+        type: string
+    delete:
+      tags:
+        - 2. subjects
+      summary: Leave a subject
+      description: |
+        User leave a subject.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | subject_not_found | Value passed for `sid` was invalid. |
+        | not_in_subject | User is not in the subject. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+      responses:
+        '200':
+          description: Subject leave successful
           schema:
             $ref: '#/definitions/AppOk'
         '400':
