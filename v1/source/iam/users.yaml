@@ -24,6 +24,7 @@
         | user_not_found | Value passed for `user` was invalid. |
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
+        | no_access | User do not have access to this resource. |
 
       parameters:
         - name: body
