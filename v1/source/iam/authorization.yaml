@@ -1,0 +1,39 @@
+  /iam/role:
+    get:
+      tags:
+        - 6. authorization
+      summary: Retrieve user role
+      description: |
+        Retrieve a user role for a specific resource object
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+
+      parameters:
+        - name: body
+          in: body
+          description: The resource to check.
+          schema:
+            $ref: '#/definitions/IAM-RoleObject'
+
+      responses:
+        '200':
+          description: Role retrieval successful
+          schema:
+            $ref: '#/definitions/IAM-Role'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'

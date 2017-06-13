@@ -1,0 +1,33 @@
+  IAM-Role:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      user:
+        type: object
+        $ref: '#/definitions/IAM-RoleObject'
+
+  IAM-RoleObject:
+    type: object
+    properties:
+      user_sid:
+        description: The user unique identifier.
+        type: string
+        readOnly: true
+      role:
+        description: The user role for this resource.
+        type: string
+        default: member
+        enum:
+          - org_owner
+          - org_admin
+          - org_member
+          - admin
+          - member
+          - guest
+        readOnly: true
+      resource:
+        description: The resource object.
+        type: object

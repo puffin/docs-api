@@ -132,6 +132,14 @@ tags:
       protected resources. As JWTs are self-contained, all the necessary information
       is there, reducing the need to query the database multiple times.
 
+  - name: 6. authorization
+    description: |
+      Identity and access management (IAM) solutions store information about
+      parties (e.g. administrators, owners, members, ..) and resources (e.g. subjects,
+      conversations, messages, ..), along with the rules governing access to those resources.
+
+      Identity management solutions then apply these rules to determine who can or
+      can't access or manipulate a resource.
 x-tagGroups:
   - name: Introduction
     tags:
@@ -159,6 +167,9 @@ x-tagGroups:
   - name: 5. Auth Service
     tags:
       - 5. authentication
+  - name: 6. IAM Service
+    tags:
+      - 6. authorization
 schemes:
   - http
   - https

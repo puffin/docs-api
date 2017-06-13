@@ -132,6 +132,14 @@ tags:
       protected resources. As JWTs are self-contained, all the necessary information
       is there, reducing the need to query the database multiple times.
 
+  - name: 6. authorization
+    description: |
+      Identity and access management (IAM) solutions store information about
+      parties (e.g. administrators, owners, members, ..) and resources (e.g. subjects,
+      conversations, messages, ..), along with the rules governing access to those resources.
+
+      Identity management solutions then apply these rules to determine who can or
+      can't access or manipulate a resource.
 x-tagGroups:
   - name: Introduction
     tags:
@@ -159,6 +167,9 @@ x-tagGroups:
   - name: 5. Auth Service
     tags:
       - 5. authentication
+  - name: 6. IAM Service
+    tags:
+      - 6. authorization
 schemes:
   - http
   - https
@@ -1862,6 +1873,45 @@ paths:
           $ref: '#/responses/Forbidden'
         '404':
           $ref: '#/responses/NotFound'
+  /iam/role:
+    get:
+      tags:
+        - 6. authorization
+      summary: Retrieve user role
+      description: |
+        Retrieve a user role for a specific resource object
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+
+      parameters:
+        - name: body
+          in: body
+          description: The resource to check.
+          schema:
+            $ref: '#/definitions/IAM-RoleObject'
+
+      responses:
+        '200':
+          description: Role retrieval successful
+          schema:
+            $ref: '#/definitions/IAM-Role'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
 definitions:
   Meta:
     type: object
@@ -2496,3 +2546,36 @@ definitions:
         type: string
         format: date-time
         readOnly: true
+  IAM-Role:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      user:
+        type: object
+        $ref: '#/definitions/IAM-RoleObject'
+
+  IAM-RoleObject:
+    type: object
+    properties:
+      user_sid:
+        description: The user unique identifier.
+        type: string
+        readOnly: true
+      role:
+        description: The user role for this resource.
+        type: string
+        default: member
+        enum:
+          - org_owner
+          - org_admin
+          - org_member
+          - admin
+          - member
+          - guest
+        readOnly: true
+      resource:
+        description: The resource object.
+        type: object
