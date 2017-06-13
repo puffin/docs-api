@@ -1279,6 +1279,13 @@ paths:
       description: |
         Get a list of events in a user inbox. Use the query parameters to modify the behaviour of this endpoint.
 
+        #### Event associated objects
+
+        An event associated object can be a `notification`, `conversation` or `subject`.
+
+        Properties to properly format each associated objects can be found in respective
+        section.
+
         #### Errors
 
         This table lists the expected errors that this method could return. However, other
