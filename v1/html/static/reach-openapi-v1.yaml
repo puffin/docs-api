@@ -132,14 +132,9 @@ tags:
       protected resources. As JWTs are self-contained, all the necessary information
       is there, reducing the need to query the database multiple times.
 
-  - name: 6. authorization
+  - name: 6. users
     description: |
-      Identity and access management (IAM) solutions store information about
-      parties (e.g. administrators, owners, members, ..) and resources (e.g. subjects,
-      conversations, messages, ..), along with the rules governing access to those resources.
-
-      Identity management solutions then apply these rules to determine who can or
-      can't access or manipulate a resource.
+      Identity and access management for the User resource.
 x-tagGroups:
   - name: Introduction
     tags:
@@ -169,7 +164,7 @@ x-tagGroups:
       - 5. authentication
   - name: 6. IAM Service
     tags:
-      - 6. authorization
+      - 6. users
 schemes:
   - http
   - https
@@ -1873,11 +1868,18 @@ paths:
           $ref: '#/responses/Forbidden'
         '404':
           $ref: '#/responses/NotFound'
-  /iam/role:
+  /iam/user/{user_sid}/role:
+    parameters:
+      - name: user_sid
+        in: path
+        description: A character string that uniquely identifies the user.
+        required: true
+        type: string
+
     get:
       tags:
-        - 6. authorization
-      summary: Retrieve user role
+        - 6. users
+      summary: Retrieve resource user role
       description: |
         Retrieve a user role for a specific resource object
 
@@ -1897,13 +1899,13 @@ paths:
           in: body
           description: The resource to check.
           schema:
-            $ref: '#/definitions/IAM-RoleObject'
+            $ref: '#/definitions/IAM-ResourceObject'
 
       responses:
         '200':
           description: Role retrieval successful
           schema:
-            $ref: '#/definitions/IAM-Role'
+            $ref: '#/definitions/IAM-UserRole'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
@@ -2546,7 +2548,7 @@ definitions:
         type: string
         format: date-time
         readOnly: true
-  IAM-Role:
+  IAM-UserRole:
     type: object
     properties:
       ok:
@@ -2556,16 +2558,20 @@ definitions:
       user:
         type: object
         $ref: '#/definitions/IAM-RoleObject'
+      resource:
+        type: object
+        $ref: '#/definitions/IAM-ResourceObject'
+
 
   IAM-RoleObject:
     type: object
     properties:
-      user_sid:
-        description: The user unique identifier.
+      sid:
+        description: The resource unique identifier.
         type: string
         readOnly: true
       role:
-        description: The user role for this resource.
+        description: The role for this resource.
         type: string
         default: member
         enum:
@@ -2576,6 +2582,17 @@ definitions:
           - member
           - guest
         readOnly: true
-      resource:
-        description: The resource object.
-        type: object
+
+  IAM-ResourceObject:
+    type: object
+    properties:
+      sid:
+        description: The unique identifier of the resource.
+        type: string
+      type:
+        description: The user role for this resource.
+        type: string
+        enum:
+          - conversation
+          - subject
+          - user

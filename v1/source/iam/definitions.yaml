@@ -1,4 +1,4 @@
-  IAM-Role:
+  IAM-UserRole:
     type: object
     properties:
       ok:
@@ -8,16 +8,20 @@
       user:
         type: object
         $ref: '#/definitions/IAM-RoleObject'
+      resource:
+        type: object
+        $ref: '#/definitions/IAM-ResourceObject'
+
 
   IAM-RoleObject:
     type: object
     properties:
-      user_sid:
-        description: The user unique identifier.
+      sid:
+        description: The resource unique identifier.
         type: string
         readOnly: true
       role:
-        description: The user role for this resource.
+        description: The role for this resource.
         type: string
         default: member
         enum:
@@ -28,6 +32,17 @@
           - member
           - guest
         readOnly: true
-      resource:
-        description: The resource object.
-        type: object
+
+  IAM-ResourceObject:
+    type: object
+    properties:
+      sid:
+        description: The unique identifier of the resource.
+        type: string
+      type:
+        description: The user role for this resource.
+        type: string
+        enum:
+          - conversation
+          - subject
+          - user
