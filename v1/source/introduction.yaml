@@ -135,6 +135,9 @@ tags:
   - name: 6. users
     description: |
       Identity and access management for the User resource.
+  - name: 6. conversations
+    description: |
+      Identity and access management for the Conversation resource.
 x-tagGroups:
   - name: Introduction
     tags:
@@ -165,6 +168,7 @@ x-tagGroups:
   - name: 6. IAM Service
     tags:
       - 6. users
+      - 6. conversations
 schemes:
   - http
   - https

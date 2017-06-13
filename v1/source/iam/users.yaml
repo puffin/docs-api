@@ -21,7 +21,7 @@
 
         | Error | Description |
         | - | - |
-        | user_not_found | Value passed for `user` was invalid. |
+        | user_not_found | Value passed for `user_sid` was invalid. |
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
         | no_access | User do not have access to this resource. |
@@ -64,7 +64,7 @@
 
         | Error | Description |
         | - | - |
-        | user_not_found | Value passed for `user` was invalid. |
+        | user_not_found | Value passed for `user_sid` was invalid. |
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
         | cant_add_role | Authenticated user does not have permission to add this role to this resource. |
@@ -104,7 +104,7 @@
 
         | Error | Description |
         | - | - |
-        | user_not_found | Value passed for `user` was invalid. |
+        | user_not_found | Value passed for `user_sid` was invalid. |
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
         | cant_remove_role | Authenticated user does not have permission to remove this role to this resource. |

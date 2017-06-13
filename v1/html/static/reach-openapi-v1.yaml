@@ -135,6 +135,9 @@ tags:
   - name: 6. users
     description: |
       Identity and access management for the User resource.
+  - name: 6. conversations
+    description: |
+      Identity and access management for the Conversation resource.
 x-tagGroups:
   - name: Introduction
     tags:
@@ -165,6 +168,7 @@ x-tagGroups:
   - name: 6. IAM Service
     tags:
       - 6. users
+      - 6. conversations
 schemes:
   - http
   - https
@@ -1891,7 +1895,7 @@ paths:
 
         | Error | Description |
         | - | - |
-        | user_not_found | Value passed for `user` was invalid. |
+        | user_not_found | Value passed for `user_sid` was invalid. |
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
         | no_access | User do not have access to this resource. |
@@ -1934,7 +1938,7 @@ paths:
 
         | Error | Description |
         | - | - |
-        | user_not_found | Value passed for `user` was invalid. |
+        | user_not_found | Value passed for `user_sid` was invalid. |
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
         | cant_add_role | Authenticated user does not have permission to add this role to this resource. |
@@ -1974,7 +1978,7 @@ paths:
 
         | Error | Description |
         | - | - |
-        | user_not_found | Value passed for `user` was invalid. |
+        | user_not_found | Value passed for `user_sid` was invalid. |
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
         | cant_remove_role | Authenticated user does not have permission to remove this role to this resource. |
@@ -1990,6 +1994,50 @@ paths:
           description: Role deletion successful
           schema:
             $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+  /iam/conversation/{conv_sid}/users:
+    parameters:
+      - name: conv_sid
+        in: path
+        description: A character string that uniquely identifies the conversation.
+        required: true
+        type: string
+
+    get:
+      tags:
+        - 6. conversations
+      summary: Retrieve users access
+      description: |
+        Retrieve all users that have access to the conversation.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | conversation_not_found | Value passed for `conv_sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | no_access | User do not have access to this resource. |
+
+      parameters:
+        - $ref: "#/parameters/page"
+        - $ref: "#/parameters/page_size"
+      responses:
+        '200':
+          description: Users list retrieval successful
+          schema:
+            $ref: '#/definitions/IAM-Users'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
@@ -2632,6 +2680,24 @@ definitions:
         type: string
         format: date-time
         readOnly: true
+  IAM-Users:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      users:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: '#/definitions/IAM-RoleObject'
+      resource:
+        type: object
+        $ref: '#/definitions/IAM-ResourceObject'
+      meta:
+        $ref: '#/definitions/Meta'
+
   IAM-User:
     type: object
     properties:

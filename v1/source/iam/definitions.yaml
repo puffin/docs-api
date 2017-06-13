@@ -1,3 +1,21 @@
+  IAM-Users:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      users:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: '#/definitions/IAM-RoleObject'
+      resource:
+        type: object
+        $ref: '#/definitions/IAM-ResourceObject'
+      meta:
+        $ref: '#/definitions/Meta'
+
   IAM-User:
     type: object
     properties:

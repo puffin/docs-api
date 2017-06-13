@@ -31,6 +31,7 @@ build-v1: .npminstall
 	@cat $(V1_SRC)/auth/authentication.yaml >> $(V1_YAML)
 
 	@cat $(V1_SRC)/iam/users.yaml >> $(V1_YAML)
+	@cat $(V1_SRC)/iam/conversations.yaml >> $(V1_YAML)
 
 	# Compile all definitions files
 	@cat $(V1_SRC)/definitions.yaml >> $(V1_YAML)
