@@ -1,17 +1,17 @@
-  /iam/conversations/{sid}/users:
+  /iam/subjects/{sid}/users:
     parameters:
       - name: sid
         in: path
-        description: A character string that uniquely identifies the conversation.
+        description: A character string that uniquely identifies the subject.
         required: true
         type: string
 
     get:
       tags:
-        - 6. conversations
+        - 6. subjects
       summary: Retrieve users access
       description: |
-        Retrieve all users that have access to the conversation.
+        Retrieve all users that have access to the subject.
 
         #### Errors
 
@@ -21,7 +21,7 @@
 
         | Error | Description |
         | - | - |
-        | conversation_not_found | Value passed for `sid` was invalid. |
+        | subject_not_found | Value passed for `sid` was invalid. |
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
         | no_access | User do not have access to this resource. |

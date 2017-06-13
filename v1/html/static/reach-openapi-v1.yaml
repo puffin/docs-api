@@ -138,6 +138,9 @@ tags:
   - name: 6. conversations
     description: |
       Identity and access management for the Conversation resource.
+  - name: 6. subjects
+    description: |
+      Identity and access management for the Subject resource.
 x-tagGroups:
   - name: Introduction
     tags:
@@ -169,6 +172,7 @@ x-tagGroups:
     tags:
       - 6. users
       - 6. conversations
+      - 6. subjects
 schemes:
   - http
   - https
@@ -2002,9 +2006,9 @@ paths:
           $ref: '#/responses/Forbidden'
         '404':
           $ref: '#/responses/NotFound'
-  /iam/conversation/{conv_sid}/users:
+  /iam/conversations/{sid}/users:
     parameters:
-      - name: conv_sid
+      - name: sid
         in: path
         description: A character string that uniquely identifies the conversation.
         required: true
@@ -2025,7 +2029,51 @@ paths:
 
         | Error | Description |
         | - | - |
-        | conversation_not_found | Value passed for `conv_sid` was invalid. |
+        | conversation_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | no_access | User do not have access to this resource. |
+
+      parameters:
+        - $ref: "#/parameters/page"
+        - $ref: "#/parameters/page_size"
+      responses:
+        '200':
+          description: Users list retrieval successful
+          schema:
+            $ref: '#/definitions/IAM-Users'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+  /iam/subjects/{sid}/users:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies the subject.
+        required: true
+        type: string
+
+    get:
+      tags:
+        - 6. subjects
+      summary: Retrieve users access
+      description: |
+        Retrieve all users that have access to the subject.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | subject_not_found | Value passed for `sid` was invalid. |
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
         | no_access | User do not have access to this resource. |
