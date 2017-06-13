@@ -27,7 +27,7 @@
   Subject-SubjectObject:
     type: object
     required:
-      - title
+      - name
     properties:
       sid:
         description: A character string that uniquely identifies this subject.

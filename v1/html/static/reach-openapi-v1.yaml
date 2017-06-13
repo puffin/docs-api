@@ -82,7 +82,24 @@ tags:
 
   - name: 5. authentication
     description: |
-      The Authentication service
+      In authentication, when the user successfully logs in using their credentials,
+      a JSON Web Token will be returned and must be saved locally, instead of the
+      traditional approach of creating a session in the server and returning a cookie.
+
+      Whenever the user wants to access a protected route or resource, the user agent
+      should send the JWT, typically in the Authorization header using the Bearer schema.
+      The content of the header should look like the following.
+
+      ```
+      Authorization: Bearer [token]
+      ```
+
+      This is a stateless authentication mechanism as the user state is never saved
+      in server memory. The server's protected routes will check for a valid JWT in
+      the Authorization header, and if it's present, the user will be allowed to access
+      protected resources. As JWTs are self-contained, all the necessary information
+      is there, reducing the need to query the database multiple times.
+
 x-tagGroups:
   - name: Introduction
     tags:
@@ -113,6 +130,13 @@ x-tagGroups:
 schemes:
   - http
   - https
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+security:
+  - Bearer: []
 consumes:
   - application/json
 produces:
@@ -1631,6 +1655,148 @@ paths:
           $ref: '#/responses/Forbidden'
         '404':
           $ref: '#/responses/NotFound'
+  /auth/login:
+    post:
+      tags:
+        - 5. authentication
+      summary: Authenticate a user
+      description: |
+        Allows user to pass in credentials in order to receive an authentication token.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | access_denied | Value passed for `email` or `password` was invalid. |
+
+      security: []
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required:
+              - email
+              - password
+            properties:
+              username:
+                type: string
+                description: The user email address.
+              password:
+                type: string
+                description: The user password.
+
+      responses:
+        '200':
+          description: Authentication successful
+          schema:
+            $ref: '#/definitions/Auth-JWTToken'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+  /auth/token:
+    post:
+      tags:
+        - 5. authentication
+      summary: Refresh an access token
+      description: |
+        Use this endpoint to refresh an access token, using the refresh token you got during authorization.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | invalid_refresh_token | Invalid refresh token. |
+
+      security: []
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required:
+              - refresh_token
+            properties:
+              refresh_token:
+                type: string
+                description: The refresh token to use.
+
+      responses:
+        '200':
+          description: Token refresh successful
+          schema:
+            $ref: '#/definitions/Auth-JWTToken'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+  /auth/revoke:
+    post:
+      tags:
+        - 5. authentication
+      summary: Revoke an access token
+      description: |
+        Use this endpoint to revoke an access token.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | no_auth | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+
+      security: []
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required:
+              - token
+            properties:
+              token:
+                type: string
+                description: The token to revoke.
+
+      responses:
+        '200':
+          description: Token revoke successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
 definitions:
   Meta:
     type: object
@@ -1970,7 +2136,7 @@ definitions:
   Subject-SubjectObject:
     type: object
     required:
-      - title
+      - name
     properties:
       sid:
         description: A character string that uniquely identifies this subject.
@@ -2126,12 +2292,10 @@ definitions:
           This value is mapped to the Payload item, therefore the aps key has to be used
           to change standard attributes. Adds custom key-value pairs to the root of
           the dictionary. Refer to [APNS documentation](https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html) for more details.
-        default: null
       inbox:
         type: string
         description: |
           Inbox specific payload that overrides corresponding attributes in generic payload.
-        default: null
 
   Notify-Bindings:
     type: object
@@ -2191,3 +2355,27 @@ definitions:
           The address specific to the channel. For APNS it is the device token.
           For Inbox it is the User unique identifier.
         type: string
+  Auth-JWTToken:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      tokens:
+        type: object
+        $ref: '#/definitions/Auth-JWTTokenObject'
+
+  Auth-JWTTokenObject:
+    type: object
+    properties:
+      token:
+        type: string
+        description: |
+          JWT Access token - used to authenticate against protected API resources.
+          It must be set in Authorization header.
+      refresh_token:
+        type: string
+        description: |
+          JWT Refresh token - used to acquire new Access Token. Token refresh is
+          handled by the following API endpoint `/auth/token`.

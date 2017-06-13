@@ -1,0 +1,24 @@
+  Auth-JWTToken:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      tokens:
+        type: object
+        $ref: '#/definitions/Auth-JWTTokenObject'
+
+  Auth-JWTTokenObject:
+    type: object
+    properties:
+      token:
+        type: string
+        description: |
+          JWT Access token - used to authenticate against protected API resources.
+          It must be set in Authorization header.
+      refresh_token:
+        type: string
+        description: |
+          JWT Refresh token - used to acquire new Access Token. Token refresh is
+          handled by the following API endpoint `/auth/token`.

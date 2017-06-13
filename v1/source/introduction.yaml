@@ -82,7 +82,24 @@ tags:
 
   - name: 5. authentication
     description: |
-      The Authentication service
+      In authentication, when the user successfully logs in using their credentials,
+      a JSON Web Token will be returned and must be saved locally, instead of the
+      traditional approach of creating a session in the server and returning a cookie.
+
+      Whenever the user wants to access a protected route or resource, the user agent
+      should send the JWT, typically in the Authorization header using the Bearer schema.
+      The content of the header should look like the following.
+
+      ```
+      Authorization: Bearer [token]
+      ```
+
+      This is a stateless authentication mechanism as the user state is never saved
+      in server memory. The server's protected routes will check for a valid JWT in
+      the Authorization header, and if it's present, the user will be allowed to access
+      protected resources. As JWTs are self-contained, all the necessary information
+      is there, reducing the need to query the database multiple times.
+
 x-tagGroups:
   - name: Introduction
     tags:
@@ -113,6 +130,13 @@ x-tagGroups:
 schemes:
   - http
   - https
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+security:
+  - Bearer: []
 consumes:
   - application/json
 produces:
