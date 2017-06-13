@@ -1358,6 +1358,46 @@ paths:
           $ref: '#/responses/Forbidden'
         '404':
           $ref: '#/responses/NotFound'
+
+  /notify/notications/{sid}:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this notification.
+        required: true
+        type: string
+
+    get:
+      tags:
+        - 4. notifications
+      summary: Retrieve a notification
+      description: |
+        Get a single notification.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | notification_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+      responses:
+        '200':
+          description: Notification retrieval successful
+          schema:
+            $ref: '#/definitions/Notify-Notification'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
   /notify/bindings:
     get:
       tags:
@@ -2003,6 +2043,13 @@ definitions:
         enum:
           - none
           - invite
+      attributes:
+        description: |
+          An optional string metadata field that can be use to store any data you wish.
+          The string value must contain structurally valid JSON if specified.
+          Note that this will always be null for resources returned via LIST GET operations,
+          but will be present for single GET.
+        type: string
       apn:
         type: string
         description: |
