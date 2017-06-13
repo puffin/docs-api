@@ -35,9 +35,41 @@ tags:
       ```
   - name: authentication
     description: |
-      Authenticate your Web API requests by providing a bearer token, which identifies a single user.
+      The majority of the Reach API require authentication as a user.
 
-      JSON Web Token (JWT) should be passed in all Web API calls as a parameter called `token`.
+      Make an HTTP POST to `api.rea.ch/v1/auth/login` with a JSON body indicating the
+      user’s `email` and `password`.
+
+      ```
+      curl -i -d '{"email":"someone@nowhere.com","password":"thisisabadpassword"}' https://api.rea.ch/v1/auth/login
+      ```
+
+      If successful, the response will contain a `JWT Access token` and a `JWT Refresh token`.
+
+      ```
+      HTTP/1.1 200 OK
+      Date: Fri, 11 Sep 2015 13:21:14 GMT
+      Content-Length: 657
+      Content-Type: application/json; charset=utf-8
+
+      {
+        "ok": true,
+        "tokens": {
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWQiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0.jfk27TWEdnHx6kCZwzvX5ZhdAf9uDFmQHZopoh2h4kU",
+          "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWQiOiIxMjM0NTY3ODkwIn0.dJltAPWAQ36LQsS2ottsKpZ4Pxadykvg04Ys-34bDbo"
+        }
+      }
+      ```
+
+      Include the `JWT Access token` as part of the `Authorization` header on your future API requests with the `Bearer` method.
+
+      ```
+      curl -i -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6...' https://api.rea.ch/v1/auth/me
+      ```
+
+      You should now be able to access the API as the user you logged in as.
+
+      Additional information on JWT Tokens can be found here: https://jwt.io/introduction/
 
   - name: 1. events
     description: |
