@@ -39,6 +39,19 @@ tags:
 
       JSON Web Token (JWT) should be passed in all Web API calls as a parameter called `token`.
 
+  - name: 1. events
+    description: |
+      The Microapp inbox provide an interface to retrieve Inbox events.
+
+      Inbox events are comprised of notification events, conversation events, and subject events.
+
+  - name: 2. subjects
+    description: |
+      The Subject resource.
+  - name: 2. users
+    description: |
+      The User resource of Subject represents a unique identity interacting with the service.
+
   - name: 3. conversations
     description: |
       The Conversation resource of Chat represents a "chat room" - a scope in which
@@ -51,12 +64,6 @@ tags:
   - name: 3. users
     description: |
       The User resource of Chat represents a unique identity interacting with the service.
-
-  - name: 1. events
-    description: |
-      The Microapp inbox provide an interface to retrieve Inbox events.
-
-      Inbox events are comprised of notification events, conversation events, and subject events.
 
   - name: 4. notifications
     description: |
@@ -73,12 +80,9 @@ tags:
       and for inbox it's the User unique identifier. Creating a Binding for an Identity and Address
       allows to send notifications to an identity rather than a specific device.
 
-  - name: 2. subjects
+  - name: 5. authentication
     description: |
-      The Subject resource.
-  - name: 2. users
-    description: |
-      The User resource of Subject represents a unique identity interacting with the service.
+      The Authentication service
 x-tagGroups:
   - name: Introduction
     tags:
@@ -103,6 +107,9 @@ x-tagGroups:
     tags:
       - 4. notifications
       - 4. bindings
+  - name: 5. Auth Service
+    tags:
+      - 5. authentication
 schemes:
   - http
   - https
