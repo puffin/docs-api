@@ -83,6 +83,9 @@ tags:
   - name: 2. users
     description: |
       The User resource of Subject represents a unique identity interacting with the service.
+  - name: 2. conversations
+    description: |
+      The Conversation resource of Subject represents a unique identity interacting with the service.
 
   - name: 3. conversations
     description: |
@@ -156,6 +159,7 @@ x-tagGroups:
     tags:
       - 2. subjects
       - 2. users
+      - 2. conversations
   - name: 3. Chat Service
     tags:
       - 3. conversations
@@ -1497,6 +1501,92 @@ paths:
           description: Subject list retrieval successful
           schema:
             $ref: '#/definitions/Subject-Subjects'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+  /subject/conversations/{sid}/link:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this conversation.
+        required: true
+        type: string
+    post:
+      tags:
+        - 2. conversations
+      summary: Link subject to conversation
+      description: |
+        Link a subject to a conversation.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | conversation_not_found | Value passed for `sid` was invalid. |
+        | already_linked | Subject is already linked to this conversation. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_link_subject | Authenticated user does not have permission to link this subject. |
+      parameters:
+        - name: subject
+          in: body
+          description: The subject to link to.
+          schema:
+            $ref: '#/definitions/Subject-SubjectLinkObject'
+      responses:
+        '200':
+          description: Subject link successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+    delete:
+      tags:
+        - 2. conversations
+      summary: Unlink subject from conversation
+      description: |
+        Unlink a subject from a conversation.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | conversation_not_found | Value passed for `sid` was invalid. |
+        | not_linked | Subject is not linked to this conversation. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_unlink_subject | Authenticated user does not have permission to unlink this subject. |
+      parameters:
+        - name: subject
+          in: body
+          description: The subject to unlink from.
+          schema:
+            $ref: '#/definitions/Subject-SubjectLinkObject'
+      responses:
+        '200':
+          description: Subject unlink successful
+          schema:
+            $ref: '#/definitions/AppOk'
         '400':
           $ref: '#/responses/BadRequest'
         '401':

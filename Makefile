@@ -22,6 +22,7 @@ build-v1: .npminstall
 
 	@cat $(V1_SRC)/subject/subjects.yaml >> $(V1_YAML)
 	@cat $(V1_SRC)/subject/users.yaml >> $(V1_YAML)
+	@cat $(V1_SRC)/subject/conversations.yaml >> $(V1_YAML)
 
 	@cat $(V1_SRC)/inbox/events.yaml >> $(V1_YAML)
 

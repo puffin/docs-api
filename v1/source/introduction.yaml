@@ -83,6 +83,9 @@ tags:
   - name: 2. users
     description: |
       The User resource of Subject represents a unique identity interacting with the service.
+  - name: 2. conversations
+    description: |
+      The Conversation resource of Subject represents a unique identity interacting with the service.
 
   - name: 3. conversations
     description: |
@@ -156,6 +159,7 @@ x-tagGroups:
     tags:
       - 2. subjects
       - 2. users
+      - 2. conversations
   - name: 3. Chat Service
     tags:
       - 3. conversations
