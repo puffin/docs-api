@@ -1615,12 +1615,90 @@ paths:
       description: |
         Get a list of events in a user inbox. Use the query parameters to modify the behaviour of this endpoint.
 
-        #### Event associated objects
+        #### Common Properties
 
-        An event associated object can be a `notification`, `conversation` or `subject`.
+        | Name | Description |
+        | - | - |
+        | sid | A character string that uniquely identifies this event. |
+        | date_created | The timestamp that this resource was created. |
+        | notification or message | Associated resource. |
 
-        Properties to properly format each associated objects can be found in respective
-        section.
+        #### Event associated resource
+
+        An event associated resource can be a `notification` or `message`.
+
+        #### Notification Properties
+
+        | Name | Description |
+        | - | - |
+        | sid | A character string that uniquely identifies this notification. |
+        | date_created | The timestamp that this resource was created. |
+        | title | The title of the notification. |
+        | subject or conversation | The content object of the notification. |
+        | action | Specifies the action to be displayed for the notification. Valid values are: `none` or `invite` |
+        | action_result | Store the action result. |
+
+        ##### Response sample
+
+        ```json
+        {
+          "sid": "234734213.56765867",
+          "date_created": "2017-06-14T17:04:36Z",
+          "notification": {
+              "sid": "238077.0785345",
+              "date_created": "2017-06-14T17:04:36Z",
+              "title": "You are invited to join a subject by Bobby",
+              "subject": {
+                "sid": "39661947.295728",
+                "title": "KPI",
+                "description": "Performance measure..."
+              }",
+              "action": "invite",
+              "action_result": null
+            }
+        }
+        ```
+
+        #### Message Properties
+
+        | Name | Description |
+        | - | - |
+        | sid | A character string that uniquely identifies this message. |
+        | date_created | The timestamp that this resource was created. |
+        | from | Identity of the message’s author. If the message was created by a system, the value will be `system`. |
+        | avatar | URL to the user avatar picture. |
+        | persona | The name of the author's persona. |
+        | title | The title of the conversation. |
+        | body | The content of the message |
+        | subjects | an array of associated subjects. |
+
+        ##### Response sample
+
+        ```json
+        {
+          "sid": "234734213.56765867",
+          "date_created": "2017-06-14T17:04:36Z",
+          "message": {
+              "sid": "238077.0785345",
+              "date_created": "2017-06-14T17:04:36Z",
+              "from": "Bobby",
+              "avatar": "http://api-docs.rea.ch/static/rea.ch-logo-black.png",
+              "persona": "Agency 231",
+              "title": "Evaluate IR Camera 32B",
+              "body": "Why is the jump to production so difficult?",
+              "subjects": [
+                {
+                  "sid": "39661947.295728",
+                  "title": "KPI"
+                },
+                {
+                  "sid": "92794389.207597",
+                  "title": "Finance"
+                }
+              ]
+            }
+        }
+        ```
 
         #### Errors
 
@@ -2802,33 +2880,9 @@ definitions:
         type: array
         uniqueItems: true
         items:
-          $ref: '#/definitions/Inbox-EventObject'
+          type: object
       meta:
         $ref: '#/definitions/Meta'
-
-  Inbox-EventObject:
-    type: object
-    properties:
-      sid:
-        description: A character string that uniquely identifies this event.
-        type: string
-        readOnly: true
-      date_created:
-        description: The timestamp that this resource was created.
-        type: string
-        format: date-time
-        readOnly: true
-      type:
-        type: string
-        enum:
-          - notification
-          - conversation
-          - subject
-        readOnly: true
-      object:
-        description: An event associated object. Can be a `notification`, `conversation` or `subject`
-        type: object
-        readOnly: true
   Notify-Notifications:
     type: object
     properties:
