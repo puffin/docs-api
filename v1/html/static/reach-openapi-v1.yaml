@@ -1665,7 +1665,7 @@ paths:
         | - | - |
         | sid | A character string that uniquely identifies this message. |
         | date_created | The timestamp that this resource was created. |
-        | from | Identity of the message’s author. If the message was created by a system, the value will be `system`. |
+        | from | Full name of the message’s author. If the message was created by a system, the value will be `system`. |
         | avatar | URL to the user avatar picture. |
         | persona | The name of the author's persona. |
         | title | The title of the conversation. |
