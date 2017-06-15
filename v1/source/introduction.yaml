@@ -100,13 +100,6 @@ tags:
     description: |
       The User resource of Chat represents a unique identity interacting with the service.
 
-  - name: 4. notifications
-    description: |
-      The Notification resource of the Notify service represents a notification to be sent to registered Bindings.
-
-      Currently the following channels are supported:
-      * APNS for iOS devices
-
   - name: 4. bindings
     description: |
       The Binding resource binds a User to its Address. Addresses are different per channel.

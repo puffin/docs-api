@@ -26,7 +26,6 @@ build-v1: .npminstall
 
 	@cat $(V1_SRC)/inbox/events.yaml >> $(V1_YAML)
 
-	@cat $(V1_SRC)/notify/notifications.yaml >> $(V1_YAML)
 	@cat $(V1_SRC)/notify/bindings.yaml >> $(V1_YAML)
 
 	@cat $(V1_SRC)/auth/authentication.yaml >> $(V1_YAML)

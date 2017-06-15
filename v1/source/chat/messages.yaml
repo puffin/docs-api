@@ -42,50 +42,6 @@
         '404':
           $ref: '#/responses/NotFound'
 
-  /chat/messages:
-    post:
-      tags:
-        - 3. messages
-      summary: Create a message
-      description: |
-        Create a new message in a conversation. To create the message as a response to another message, provide `thread_id`.
-
-        #### Errors
-
-        This table lists the expected errors that this method could return. However, other
-        errors can be returned in the case where the service is down or other unexpected
-        factors affect processing. Callers should always check the value of the `ok` params in the response.
-
-        | Error | Description |
-        | - | - |
-        | conversation_not_found | Value passed for `conv_sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
-        | not_in_conversation | Cannot post user messages to a conversation they are not in. |
-        | is_archived | Conversation has been archived. |
-        | msg_too_long | Message body is too long. |
-        | no_text | No message text provided. |
-
-      parameters:
-        - name: message
-          in: body
-          description: The message to create.
-          schema:
-            $ref: '#/definitions/Chat-MessageObject'
-      responses:
-        '201':
-          description: Message creation successful
-          schema:
-            $ref: '#/definitions/Chat-Message'
-        '400':
-          $ref: '#/responses/BadRequest'
-        '401':
-          $ref: '#/responses/Unauthorized'
-        '403':
-          $ref: '#/responses/Forbidden'
-        '404':
-          $ref: '#/responses/NotFound'
-
   /chat/messages/{sid}:
     parameters:
       - name: sid
