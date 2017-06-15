@@ -39,7 +39,6 @@
                 enum:
                   - all
                   - apn
-                  - inbox
         - $ref: "#/parameters/page"
         - $ref: "#/parameters/page_size"
       responses:
@@ -65,7 +64,7 @@
         features or to customize content for each channel.
 
         Channel specific payload of a notification can be provided by adding a parameter
-        where the name is the channel type (apn or inbox) and the value is the channel
+        where the name is the channel type (apn or other) and the value is the channel
         specific payload in a json object.
 
         #### Errors

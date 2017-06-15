@@ -52,14 +52,6 @@
         enum:
           - all
           - apn
-          - inbox
-      action:
-        type: string
-        description: Specifies the actions to be displayed for the notification.
-        default: none
-        enum:
-          - none
-          - invite
       attributes:
         description: |
           An optional string metadata field that can be use to store any data you wish.
@@ -75,10 +67,6 @@
           This value is mapped to the Payload item, therefore the aps key has to be used
           to change standard attributes. Adds custom key-value pairs to the root of
           the dictionary. Refer to [APNS documentation](https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html) for more details.
-      inbox:
-        type: string
-        description: |
-          Inbox specific payload that overrides corresponding attributes in generic payload.
 
   Notify-Bindings:
     type: object
@@ -129,12 +117,10 @@
       type:
         description: The type of the binding. This determines the transport technology to use.
         type: string
-        default: inbox
+        default: apn
         enum:
           - apn
-          - inbox
       address:
         description: |
           The address specific to the channel. For APNS it is the device token.
-          For Inbox it is the User unique identifier.
         type: string

@@ -106,14 +106,13 @@ tags:
 
       Currently the following channels are supported:
       * APNS for iOS devices
-      * Inbox service
 
   - name: 4. bindings
     description: |
       The Binding resource binds a User to its Address. Addresses are different per channel.
-      For instance, for iOS push notifications the address is an APNS device token,
-      and for inbox it's the User unique identifier. Creating a Binding for an Identity and Address
-      allows to send notifications to an identity rather than a specific device.
+      For instance, for iOS push notifications the address is an APNS device token.
+      Creating a Binding for an Identity and Address allows to send notifications to an
+      identity rather than a specific device.
 
   - name: 5. authentication
     description: |
@@ -1770,7 +1769,6 @@ paths:
                 enum:
                   - all
                   - apn
-                  - inbox
         - $ref: "#/parameters/page"
         - $ref: "#/parameters/page_size"
       responses:
@@ -1796,7 +1794,7 @@ paths:
         features or to customize content for each channel.
 
         Channel specific payload of a notification can be provided by adding a parameter
-        where the name is the channel type (apn or inbox) and the value is the channel
+        where the name is the channel type (apn or other) and the value is the channel
         specific payload in a json object.
 
         #### Errors
@@ -2937,14 +2935,6 @@ definitions:
         enum:
           - all
           - apn
-          - inbox
-      action:
-        type: string
-        description: Specifies the actions to be displayed for the notification.
-        default: none
-        enum:
-          - none
-          - invite
       attributes:
         description: |
           An optional string metadata field that can be use to store any data you wish.
@@ -2960,10 +2950,6 @@ definitions:
           This value is mapped to the Payload item, therefore the aps key has to be used
           to change standard attributes. Adds custom key-value pairs to the root of
           the dictionary. Refer to [APNS documentation](https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html) for more details.
-      inbox:
-        type: string
-        description: |
-          Inbox specific payload that overrides corresponding attributes in generic payload.
 
   Notify-Bindings:
     type: object
@@ -3014,14 +3000,12 @@ definitions:
       type:
         description: The type of the binding. This determines the transport technology to use.
         type: string
-        default: inbox
+        default: apn
         enum:
           - apn
-          - inbox
       address:
         description: |
           The address specific to the channel. For APNS it is the device token.
-          For Inbox it is the User unique identifier.
         type: string
   Auth-JWTToken:
     type: object
