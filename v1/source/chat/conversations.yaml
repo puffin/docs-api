@@ -114,6 +114,13 @@
                 enum:
                   - private
                   - public
+              attributes:
+                description: |
+                  An optional string metadata field that can be use to store any data you wish.
+                  The string value must contain structurally valid JSON if specified.
+                  Note that this will always be null for resources returned via LIST GET operations,
+                  but will be present for single GET.
+                type: string
       responses:
         '200':
           description: Conversation update successful

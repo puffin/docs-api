@@ -74,6 +74,58 @@
           $ref: '#/responses/Forbidden'
         '404':
           $ref: '#/responses/NotFound'
+    put:
+      tags:
+        - 2. subjects
+      summary: Update a subject
+      description: |
+        Update a subject.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | subject_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_update_subject | Authenticated user does not have permission to update this subject. |
+      parameters:
+        - name: subject
+          in: body
+          description: The subject to update.
+          schema:
+            type: object
+            properties:
+              name:
+                description: The subject name.
+                type: string
+              description:
+                description: The subject description.
+                type: string
+              attributes:
+                description: |
+                  An optional string metadata field that can be use to store any data you wish.
+                  The string value must contain structurally valid JSON if specified.
+                  Note that this will always be null for resources returned via LIST GET operations,
+                  but will be present for single GET.
+                type: string
+      responses:
+        '200':
+          description: Subject update successful
+          schema:
+            $ref: '#/definitions/Subject-Subject'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
 
   /subject/subjects/{sid}/invite:
     parameters:
