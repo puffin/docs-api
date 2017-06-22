@@ -2493,6 +2493,12 @@ definitions:
         enum:
           - private
           - public
+      subjects:
+        description: List of subject sids associated to this conversation.
+        type: array
+        items:
+          type: string
+        readOnly: true
       users:
         description: List of user sids that have access to this conversation.
         type: array
