@@ -57,10 +57,16 @@
         description: The type of the message.
         type: string
         default: message
+      subtype:
+        description: The subtype of the message.
+        type: string
         enum:
-          - message
-          - event
-          - ad
+          - conversation_join
+          - conversation_leave
+          - conversation_title
+          - conversation_objective
+          - subject_conversation_link
+          - subject_conversation_unlink
       unfurl_links:
         description: Pass `true` to enable unfurling of text-based content.
         type: boolean

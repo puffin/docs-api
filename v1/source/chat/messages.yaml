@@ -1,6 +1,6 @@
-  /chat/conversations/{conv_sid}/messages:
+  /chat/conversations/{sid}/messages:
     parameters:
-      - name: conv_sid
+      - name: sid
         in: path
         description: The conversation ID to get the messages for.
         required: true
@@ -20,7 +20,7 @@
 
         | Error | Description |
         | - | - |
-        | conversation_not_found | Value passed for `conv_sid` was invalid. |
+        | conversation_not_found | Value passed for `sid` was invalid. |
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
         | invalid_page | Value passed for `page` was invalid |
