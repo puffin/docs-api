@@ -71,6 +71,99 @@ tags:
 
       Additional information on JWT Tokens can be found here: https://jwt.io/introduction/
 
+  - name: websocket
+    description: |
+      In addition to the HTTP RESTful API, Reach also offers a Real-Time API
+      based on WebSocket that allows our clients (mobile and web based) to send messages
+      and receives events from reach backend in real-time.
+
+      To connect to the WebSocket, clients follow the standard opening handshake as [defined by the RFC specification](https://tools.ietf.org/html/rfc6455#section-1.3) to the `api.rea.ch/v1/websocket` endpoint of Reach.
+
+      #### Authentication
+
+      The client authenticated itself with the WebSocket using the same JWT Token as it would use in RESTful requests.
+
+      To authenticate, the client pass the JWT token in the WebSocket URI when connecting.
+
+      Once successfully authenticated, the server will pass a `hello` WebSocket event over the connection.
+
+      ```
+      {
+        "type": "hello"
+      }
+      ```
+
+      #### Events
+
+      WebSocket events are primarily used to alert the client to changes in reach, such as delivering new messages, passing new inbox events or alerting the client that another user is typing in a conversation.
+
+      Events on the WebSocket will have the form:
+
+      ```
+      {
+        "type": "message"
+        "data": {
+          "sid": "1355517523.000005",
+          "date_created": "2017-06-21T13:03:32Z",
+          "from": "U228389023",
+          "to": "C9375920278",
+          "body": "Hello World!"
+        }
+      }
+      ```
+
+      #### WebSocket API
+
+      Clients can send a message to reach by sending JSON over the websocket connection.
+
+      Every message sent should have a unique positive integer ID. All replies to that message
+      will include this ID allowing the client to correlate responses with the messages sent;
+      replies may be "out of order" due to the asynchronous nature of the message servers.
+
+      Also, as with events sent from the server, each event sent by the client has a string
+      type specifying what the message does. Chat messages are of type message.
+
+      So to post a message:
+
+      ```
+      {
+        "id": 1,
+        "type": "message"
+        "data": {
+          "to": "C9375920278",
+          "body": "John, John, I am a message!"
+        }
+      }
+      ```
+
+      Once the JSON has been sent to the server, clients should immediately display the text in the conversation,
+      knowing it is pending. At some point after that the server will send a confirmation that the message was received:
+
+      ```
+      {
+        "ok": true,
+        "reply_to": 1,
+        "type": "message",
+        "data": {
+          "sid": "1482960137.003543",
+          "date_created": "2017-06-21T13:03:32Z",
+          "from": "U228389023",
+          "to": "C9375920278",
+          "body": "John, John, I am a message!"
+        }
+      }
+      ```
+
+      In the case of an error, the response would be:
+
+      ```
+      {
+        "ok": false,
+        "reply_to": 1,
+        "error": "no_text"
+      }
+      ```
+
   - name: 1. events
     description: |
       The Microapp inbox provide an interface to retrieve Inbox events.
@@ -144,6 +237,7 @@ x-tagGroups:
     tags:
       - basics
       - authentication
+      - websocket
   - name: 1. Inbox Service
     tags:
       - 1. events
