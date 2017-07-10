@@ -101,7 +101,7 @@ tags:
 
       ```
       {
-        "type": "message"
+        "type": "message",
         "data": {
           "sid": "1355517523.000005",
           "date_created": "2017-06-21T13:03:32Z",
@@ -128,7 +128,7 @@ tags:
       ```
       {
         "id": 1,
-        "type": "message"
+        "type": "message",
         "data": {
           "to": "C9375920278",
           "body": "John, John, I am a message!"
