@@ -2592,6 +2592,10 @@ definitions:
         description: The latest message sid in the conversation.
         type: string
         readOnly: true
+      last_read:
+        description: the message sid for the last message the calling user has read in this conversation.
+        type: string
+        readOnly: true
 
   Chat-Users:
     type: object
