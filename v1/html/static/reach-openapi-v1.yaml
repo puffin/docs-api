@@ -21,13 +21,13 @@ tags:
       `ok`, indicating success or failure. For failure results, the `error` property will contain a
       short machine-readable error code.
 
-      ```
+      ```json
       {
         "ok": true,
         "stuff": "This is good"
       }
       ```
-      ```
+      ```json
       {
         "ok": false,
         "error": "something_bad"
@@ -87,7 +87,7 @@ tags:
 
       Once successfully authenticated, the server will pass a `hello` WebSocket event over the connection.
 
-      ```
+      ```json
       {
         "type": "hello"
       }
@@ -99,7 +99,7 @@ tags:
 
       Events on the WebSocket will have the form:
 
-      ```
+      ```json
       {
         "type": "message",
         "data": {
@@ -125,7 +125,7 @@ tags:
 
       So to post a message:
 
-      ```
+      ```json
       {
         "id": 1,
         "type": "message",
@@ -139,7 +139,7 @@ tags:
       Once the JSON has been sent to the server, clients should immediately display the text in the conversation,
       knowing it is pending. At some point after that the server will send a confirmation that the message was received:
 
-      ```
+      ```json
       {
         "ok": true,
         "reply_to": 1,
@@ -156,7 +156,7 @@ tags:
 
       In the case of an error, the response would be:
 
-      ```
+      ```json
       {
         "ok": false,
         "reply_to": 1,
