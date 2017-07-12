@@ -1657,17 +1657,17 @@ paths:
           "sid": "234734213.56765867",
           "date_created": "2017-06-14T17:04:36Z",
           "notification": {
-              "sid": "238077.0785345",
-              "date_created": "2017-06-14T17:04:36Z",
-              "title": "You are invited to join a subject by Bobby",
-              "subject": {
-                "sid": "39661947.295728",
-                "title": "KPI",
-                "description": "Performance measure..."
-              }",
-              "action": "invite",
-              "action_result": null
-            }
+            "sid": "238077.0785345",
+            "date_created": "2017-06-14T17:04:36Z",
+            "title": "You are invited to join a subject by Bobby",
+            "subject": {
+              "sid": "39661947.295728",
+              "title": "KPI",
+              "description": "Performance measure..."
+            },
+            "action": "invite",
+            "action_result": null
+          }
         }
         ```
 
@@ -1691,24 +1691,24 @@ paths:
           "sid": "234734213.56765867",
           "date_created": "2017-06-14T17:04:36Z",
           "message": {
-              "sid": "238077.0785345",
-              "date_created": "2017-06-14T17:04:36Z",
-              "from": "Bobby",
-              "avatar": "http://api-docs.rea.ch/static/rea.ch-logo-black.png",
-              "persona": "Agency 231",
-              "title": "Evaluate IR Camera 32B",
-              "body": "Why is the jump to production so difficult?",
-              "subjects": [
-                {
-                  "sid": "39661947.295728",
-                  "title": "KPI"
-                },
-                {
-                  "sid": "92794389.207597",
-                  "title": "Finance"
-                }
-              ]
-            }
+            "sid": "238077.0785345",
+            "date_created": "2017-06-14T17:04:36Z",
+            "from": "Bobby",
+            "avatar": "http://api-docs.rea.ch/static/rea.ch-logo-black.png",
+            "persona": "Agency 231",
+            "title": "Evaluate IR Camera 32B",
+            "body": "Why is the jump to production so difficult?",
+            "subjects": [
+              {
+                "sid": "39661947.295728",
+                "title": "KPI"
+              },
+              {
+                "sid": "92794389.207597",
+                "title": "Finance"
+              }
+            ]
+          }
         }
         ```
 
