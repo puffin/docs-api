@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/reach-service/docs-api#readme",
   "dependencies": {
-    "auth-static": "^1.0.3"
+    "auth-static": "^1.0.3",
+    "swagger-cli": "^1.0.0-beta.2"
   }
 }
