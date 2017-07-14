@@ -170,13 +170,10 @@
       objective:
         description: The conversation objective.
         type: string
-      type:
-        description: The conversation type. Either `private` or `public`.
-        type: string
-        default: private
-        enum:
-          - private
-          - public
+      private:
+        description: Conversation is private?
+        type: boolean
+        default: true
       subjects:
         description: List of subject sids associated to this conversation.
         type: array
