@@ -74,3 +74,18 @@
         type: string
         format: date-time
         readOnly: true
+      personas:
+        type: array
+        items:
+          $ref: '#/definitions/Auth-PersonaObject'
+
+  Auth-PersonaObject:
+    type: object
+    properties:
+      sid:
+        description: A character string that uniquely identifies this persona.
+        type: string
+        readOnly: true
+      name:
+        description: The name of the persona.
+        type: string
