@@ -1633,6 +1633,7 @@ paths:
         | - | - |
         | sid | A character string that uniquely identifies this event. |
         | date_created | The timestamp that this resource was created. |
+        | user_sid | The user ID associated with this event. |
         | notification or message | Associated resource. |
 
         #### Event associated resource
@@ -1656,6 +1657,7 @@ paths:
         {
           "sid": "234734213.56765867",
           "date_created": "2017-06-14T17:04:36Z",
+          "user_sid": "U228389023",
           "notification": {
             "sid": "238077.0785345",
             "date_created": "2017-06-14T17:04:36Z",
@@ -1690,6 +1692,7 @@ paths:
         {
           "sid": "234734213.56765867",
           "date_created": "2017-06-14T17:04:36Z",
+          "user_sid": "U228389023",
           "message": {
             "sid": "238077.0785345",
             "date_created": "2017-06-14T17:04:36Z",
