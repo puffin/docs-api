@@ -239,10 +239,9 @@
     - $ref:  '#/definitions/Chat-UserBaseObject'
     - type: object
       properties:
-        personas:
-          type: array
-          items:
-            $ref: '#/definitions/Chat-PersonaObject'
+        persona:
+          type: object
+          $ref: '#/definitions/Chat-PersonaObject'
 
   Chat-UserBaseObject:
     type: object
