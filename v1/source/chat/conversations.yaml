@@ -107,10 +107,10 @@
               objective:
                 description: The conversation objective.
                 type: string
-              type:
-                description: The conversation type. Either `private` or `public`.
-                type: string
-                default: private
+              private:
+                description: Conversation is private?
+                type: boolean
+                default: true
                 enum:
                   - private
                   - public
