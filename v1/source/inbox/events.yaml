@@ -39,8 +39,8 @@
         | date_created | The timestamp that this resource was created. |
         | title | The title of the notification. |
         | subject or conversation | The content object of the notification. |
-        | action | Specifies the action to be displayed for the notification. Valid values are: `none` or `invite` |
-        | action_result | Store the action result. |
+        | action | Specifies the action to be displayed for the notification. Valid values are. `null` or `invite` |
+        | action_result | Store the action result. `null`, `accepted` or `declined` |
 
         ##### Response sample
 
@@ -74,6 +74,7 @@
         | avatar | URL to the user avatar picture. |
         | persona | The name of the author's persona. |
         | title | The title of the conversation. |
+        | objective | The objective of the conversation. |
         | body | The content of the message |
         | subjects | an array of associated subjects. |
 
@@ -91,6 +92,7 @@
             "avatar": "http://api-docs.rea.ch/static/rea.ch-logo-black.png",
             "persona": "Agency 231",
             "title": "Evaluate IR Camera 32B",
+            "objective": "Hello World!",
             "body": "Why is the jump to production so difficult?",
             "subjects": [
               {
