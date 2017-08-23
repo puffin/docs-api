@@ -166,9 +166,11 @@ tags:
 
   - name: 1. events
     description: |
-      The Microapp inbox provide an interface to retrieve Inbox events.
+      The inbox service provide an interface to retrieve Inbox events.
 
       Inbox events are comprised of notification events, conversation events, and subject events.
+
+      Inbox are unique per user, backend returns user's inbox events based on the JWT token.
 
   - name: 2. subjects
     description: |
@@ -1608,18 +1610,7 @@ paths:
         '404':
           $ref: '#/responses/NotFound'
   /inbox/events:
-    parameters:
-      - in: body
-        name: body
-        required: true
-        schema:
-          type: object
-          required:
-            - user_sid
-          properties:
-            user_sid:
-              type: string
-              description: The user ID to get the events for.
+    
     get:
       tags:
         - 1. events

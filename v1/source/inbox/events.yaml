@@ -1,16 +1,5 @@
   /inbox/events:
-    parameters:
-      - in: body
-        name: body
-        required: true
-        schema:
-          type: object
-          required:
-            - user_sid
-          properties:
-            user_sid:
-              type: string
-              description: The user ID to get the events for.
+    
     get:
       tags:
         - 1. events
