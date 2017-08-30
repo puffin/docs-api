@@ -1,0 +1,117 @@
+  Account-User:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      user:
+        type: object
+        $ref: '#/definitions/Account-UserObject'
+
+  Account-UserCreate:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      user:
+        type: object
+        $ref: '#/definitions/Account-UserObject'
+      tokens:
+        type: object
+        $ref: '#/definitions/Auth-JWTTokenObject'
+
+  Account-UserObject:
+    allOf:
+    - $ref:  '#/definitions/Account-UserBaseObject'
+    - type: object
+      properties:
+        personas:
+          description: List of personas this user owns.
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/definitions/Account-PersonaObject'
+          readOnly: true
+
+  Account-UserBaseObject:
+    type: object
+    required:
+      - first_name
+      - last_name
+      - email
+    properties:
+      sid:
+        description: A character string that uniquely identifies this user.
+        type: string
+        readOnly: true
+      username:
+        description: The username of a user.
+        type: string
+        readOnly: true
+      first_name:
+        description: The user first name.
+        type: string
+      last_name:
+        description: The user last name.
+        type: string
+      email:
+        description: The user email address.
+        type: string
+      email_verified:
+        description: Denote if user's email has been verified.
+        type: boolean
+        readOnly: true
+        default: false
+      avatar:
+        description: URL to the user avatar picture.
+        type: string
+        readOnly: true
+      attributes:
+        description: |
+          An optional string metadata field that can be use to store any data you wish.
+          The string value must contain structurally valid JSON if specified.
+          Note that this will always be null for resources returned via LIST GET operations,
+          but will be present for single GET.
+        type: string
+      date_created:
+        description: The timestamp that this resource was created.
+        type: string
+        format: date-time
+        readOnly: true
+      date_updated:
+        description: The timestamp that this resource was updated.
+        type: string
+        format: date-time
+        readOnly: true
+      date_deactivated:
+        description: The timestamp that this resource was deactivated.
+        type: string
+        format: date-time
+        readOnly: true
+
+  Account-Persona:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      persona:
+        type: object
+        $ref: '#/definitions/Account-PersonaObject'
+
+  Account-PersonaObject:
+    type: object
+    required:
+      - name
+    properties:
+      sid:
+        description: A character string that uniquely identifies this persona.
+        type: string
+        readOnly: true
+      name:
+        description: The name of the persona.
+        type: string

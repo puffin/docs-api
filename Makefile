@@ -5,10 +5,10 @@ V1_YAML = v1/html/static/reach-openapi-v1.yaml
 V1_SRC = v1/source
 
 deploy: build
-	@echo Pushing to production
+	@echo Pushing new build
 	@git add .
 	@git diff --quiet --exit-code --cached || git commit -m "build docs"
-	@git push git@github.com:reach-service/docs-api.git master
+	@git push git@github.com:reach-service/docs-api.git `git rev-parse --abbrev-ref HEAD`
 
 build: build-v1
 
@@ -34,6 +34,9 @@ build-v1: .npminstall
 	@cat $(V1_SRC)/iam/conversations.yaml >> $(V1_YAML)
 	@cat $(V1_SRC)/iam/subjects.yaml >> $(V1_YAML)
 
+	@cat $(V1_SRC)/account/users.yaml >> $(V1_YAML)
+	@cat $(V1_SRC)/account/personas.yaml >> $(V1_YAML)
+
 	# Compile all definitions files
 	@cat $(V1_SRC)/definitions.yaml >> $(V1_YAML)
 	@cat $(V1_SRC)/chat/definitions.yaml >> $(V1_YAML)
@@ -42,6 +45,7 @@ build-v1: .npminstall
 	@cat $(V1_SRC)/notify/definitions.yaml >> $(V1_YAML)
 	@cat $(V1_SRC)/auth/definitions.yaml >> $(V1_YAML)
 	@cat $(V1_SRC)/iam/definitions.yaml >> $(V1_YAML)
+	@cat $(V1_SRC)/account/definitions.yaml >> $(V1_YAML)
 
 	@node_modules/swagger-cli/bin/swagger.js validate $(V1_YAML)
 

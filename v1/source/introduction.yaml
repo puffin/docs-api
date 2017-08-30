@@ -231,6 +231,15 @@ tags:
   - name: 6. subjects
     description: |
       Identity and access management for the Subject resource.
+
+  - name: 7. users
+    description: |
+      Endpoints for creating, getting and interacting with users.
+
+      When using endpoints that require a user `sid`, the string `me` can be used in place of the user `sid` to indicate the action is to be taken for the logged in user.
+  - name: 7. personas
+    description: |
+      The Persona resource.
 x-tagGroups:
   - name: Introduction
     tags:
@@ -265,6 +274,10 @@ x-tagGroups:
       - 6. users
       - 6. conversations
       - 6. subjects
+  - name: 7. Account Service
+    tags:
+      - 7. users
+      - 7. personas
 schemes:
   - http
   - https

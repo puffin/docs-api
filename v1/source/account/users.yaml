@@ -1,0 +1,339 @@
+  /account/users:
+    post:
+      tags:
+        - 7. users
+      summary: Create a user
+      description: |
+        Create a new user on the system.
+
+        #### Token
+
+        An app token is required to interact with this endpoint.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+
+      parameters:
+        - name: user
+          in: body
+          description: The user to create.
+          required: true
+          schema:
+            allOf:
+            - $ref:  '#/definitions/Account-UserBaseObject'
+            - type: object
+              required:
+                - password
+              properties:
+                password:
+                  description: The user password.
+                  type: string
+      responses:
+        '201':
+          description: User creation successful
+          schema:
+            $ref: '#/definitions/Account-UserCreate'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+
+  /account/users/{sid}:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this user.
+        required: true
+        type: string
+    get:
+      tags:
+        - 7. users
+      summary: Get a user
+      description: |
+        Get a single user.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | user_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+      responses:
+        '200':
+          description: User retrieval successful
+          schema:
+            $ref: '#/definitions/Account-User'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+    put:
+      tags:
+        - 7. users
+      summary: Update a user
+      description: |
+        Update a user.
+
+        Note that when an email is changed, the `email_verified` field is automatically set to `false`. The
+        user need to pass the verification email process.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | user_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_update_user | Authenticated user does not have permission to update this user. |
+      parameters:
+        - name: user
+          in: body
+          description: The user to update.
+          schema:
+            type: object
+            properties:
+              first_name:
+                description: The user first name.
+                type: string
+              last_name:
+                description: The user last name.
+                type: string
+              email:
+                description: The user email address.
+                type: string
+              attributes:
+                description: |
+                  An optional string metadata field that can be use to store any data you wish.
+                  The string value must contain structurally valid JSON if specified.
+                  Note that this will always be null for resources returned via LIST GET operations,
+                  but will be present for single GET.
+                type: string
+      responses:
+        '200':
+          description: User update successful
+          schema:
+            $ref: '#/definitions/Account-User'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+    delete:
+      tags:
+        - 7. users
+      summary: Deactivate user account
+      description: |
+        Deactivates the user by archiving its user object.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | user_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_archive_user | Authenticated user does not have permission to archive this user. |
+      responses:
+        '200':
+          description: User archive successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+  /account/users/{sid}/image:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this user.
+        required: true
+        type: string
+    post:
+      tags:
+        - 7. users
+      summary: Set user avatar image
+      description: |
+        Set a user's avatar image based on user sid string parameter.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | user_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_update_user | Authenticated user does not have permission to update this user. |
+        | bad_image | The uploaded image could not be processed - try passing a JPEG, GIF or PNG. |
+        | too_large | The uploaded image had excessive dimensions. |
+        | invalid_form_data | The method was called via a `POST` request with `Content-Type` `application/x-www-form-urlencoded` or `multipart/form-data`, but the form data was either missing or syntactically invalid. |
+        | invalid_post_type | The method was called via a `POST` request, but the specified `Content-Type` was invalid. Valid types are: `application/x-www-form-urlencoded` or `multipart/form-data`. |
+        | missing_post_type | The method was called via a `POST` request and included a data payload, but the request did not include a `Content-Type` header. |
+      consumes: ["multipart/form-data"]
+      parameters:
+        - name: image
+          in: formData
+          description: The image to be uploaded. File contents via `multipart/form-data`.
+          required: true
+          type: file
+      responses:
+        '200':
+          description: User image set successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+    delete:
+      tags:
+        - 7. users
+      summary: Delete user avatar image
+      description: |
+        Delete a user's avatar image based on user sid string parameter. It will clear whatever image is currently set.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | user_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_update_user | Authenticated user does not have permission to update this user. |
+      responses:
+        '200':
+          description: User image deletion successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+  /account/users/email/verify/send:
+    post:
+      tags:
+        - 7. users
+      summary: Send verification email
+      description: |
+        Send an email with a verification link to a user that has an email matching the one in the request body.
+        This endpoint will return success even if the email does not match any users on the system.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required:
+              - email
+            properties:
+              email:
+                description: The user email address.
+                type: string
+      responses:
+        '200':
+          description: Email send successful if email exists
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+
+  /account/users/email/verify:
+    post:
+      tags:
+        - 7. users
+      summary: Verify user email
+      description: |
+        Verify the user email address.
+
+        #### Permissions
+
+        No permissions required.
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required:
+              - token
+            properties:
+              token:
+                description: The token given to validate the email
+                type: string
+      responses:
+        '200':
+          description: User email verification successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'

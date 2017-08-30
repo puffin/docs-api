@@ -231,6 +231,15 @@ tags:
   - name: 6. subjects
     description: |
       Identity and access management for the Subject resource.
+
+  - name: 7. users
+    description: |
+      Endpoints for creating, getting and interacting with users.
+
+      When using endpoints that require a user `sid`, the string `me` can be used in place of the user `sid` to indicate the action is to be taken for the logged in user.
+  - name: 7. personas
+    description: |
+      The Persona resource.
 x-tagGroups:
   - name: Introduction
     tags:
@@ -265,6 +274,10 @@ x-tagGroups:
       - 6. users
       - 6. conversations
       - 6. subjects
+  - name: 7. Account Service
+    tags:
+      - 7. users
+      - 7. personas
 schemes:
   - http
   - https
@@ -2340,6 +2353,492 @@ paths:
           $ref: '#/responses/Forbidden'
         '404':
           $ref: '#/responses/NotFound'
+  /account/users:
+    post:
+      tags:
+        - 7. users
+      summary: Create a user
+      description: |
+        Create a new user on the system.
+
+        #### Token
+
+        An app token is required to interact with this endpoint.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+
+      parameters:
+        - name: user
+          in: body
+          description: The user to create.
+          required: true
+          schema:
+            allOf:
+            - $ref:  '#/definitions/Account-UserBaseObject'
+            - type: object
+              required:
+                - password
+              properties:
+                password:
+                  description: The user password.
+                  type: string
+      responses:
+        '201':
+          description: User creation successful
+          schema:
+            $ref: '#/definitions/Account-UserCreate'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+
+  /account/users/{sid}:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this user.
+        required: true
+        type: string
+    get:
+      tags:
+        - 7. users
+      summary: Get a user
+      description: |
+        Get a single user.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | user_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+      responses:
+        '200':
+          description: User retrieval successful
+          schema:
+            $ref: '#/definitions/Account-User'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+    put:
+      tags:
+        - 7. users
+      summary: Update a user
+      description: |
+        Update a user.
+
+        Note that when an email is changed, the `email_verified` field is automatically set to `false`. The
+        user need to pass the verification email process.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | user_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_update_user | Authenticated user does not have permission to update this user. |
+      parameters:
+        - name: user
+          in: body
+          description: The user to update.
+          schema:
+            type: object
+            properties:
+              first_name:
+                description: The user first name.
+                type: string
+              last_name:
+                description: The user last name.
+                type: string
+              email:
+                description: The user email address.
+                type: string
+              attributes:
+                description: |
+                  An optional string metadata field that can be use to store any data you wish.
+                  The string value must contain structurally valid JSON if specified.
+                  Note that this will always be null for resources returned via LIST GET operations,
+                  but will be present for single GET.
+                type: string
+      responses:
+        '200':
+          description: User update successful
+          schema:
+            $ref: '#/definitions/Account-User'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+    delete:
+      tags:
+        - 7. users
+      summary: Deactivate user account
+      description: |
+        Deactivates the user by archiving its user object.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | user_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_archive_user | Authenticated user does not have permission to archive this user. |
+      responses:
+        '200':
+          description: User archive successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+  /account/users/{sid}/image:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this user.
+        required: true
+        type: string
+    post:
+      tags:
+        - 7. users
+      summary: Set user avatar image
+      description: |
+        Set a user's avatar image based on user sid string parameter.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | user_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_update_user | Authenticated user does not have permission to update this user. |
+        | bad_image | The uploaded image could not be processed - try passing a JPEG, GIF or PNG. |
+        | too_large | The uploaded image had excessive dimensions. |
+        | invalid_form_data | The method was called via a `POST` request with `Content-Type` `application/x-www-form-urlencoded` or `multipart/form-data`, but the form data was either missing or syntactically invalid. |
+        | invalid_post_type | The method was called via a `POST` request, but the specified `Content-Type` was invalid. Valid types are: `application/x-www-form-urlencoded` or `multipart/form-data`. |
+        | missing_post_type | The method was called via a `POST` request and included a data payload, but the request did not include a `Content-Type` header. |
+      consumes: ["multipart/form-data"]
+      parameters:
+        - name: image
+          in: formData
+          description: The image to be uploaded. File contents via `multipart/form-data`.
+          required: true
+          type: file
+      responses:
+        '200':
+          description: User image set successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+    delete:
+      tags:
+        - 7. users
+      summary: Delete user avatar image
+      description: |
+        Delete a user's avatar image based on user sid string parameter. It will clear whatever image is currently set.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | user_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_update_user | Authenticated user does not have permission to update this user. |
+      responses:
+        '200':
+          description: User image deletion successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+  /account/users/email/verify/send:
+    post:
+      tags:
+        - 7. users
+      summary: Send verification email
+      description: |
+        Send an email with a verification link to a user that has an email matching the one in the request body.
+        This endpoint will return success even if the email does not match any users on the system.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required:
+              - email
+            properties:
+              email:
+                description: The user email address.
+                type: string
+      responses:
+        '200':
+          description: Email send successful if email exists
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+
+  /account/users/email/verify:
+    post:
+      tags:
+        - 7. users
+      summary: Verify user email
+      description: |
+        Verify the user email address.
+
+        #### Permissions
+
+        No permissions required.
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required:
+              - token
+            properties:
+              token:
+                description: The token given to validate the email
+                type: string
+      responses:
+        '200':
+          description: User email verification successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+  /account/personas:
+    post:
+      tags:
+        - 7. personas
+      summary: Create a persona
+      description: |
+        Create a persona for a particular user.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+
+      parameters:
+        - name: body
+          in: body
+          description: The persona to create.
+          schema:
+            $ref:  '#/definitions/Account-PersonaObject'
+      responses:
+        '201':
+          description: Persona creation successful
+          schema:
+            $ref: '#/definitions/Account-Persona'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+
+  /account/personas/{sid}:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this persona.
+        required: true
+        type: string
+    get:
+      tags:
+        - 7. personas
+      summary: Get a user persona
+      description: |
+        Get a single user persona.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | persona_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+      responses:
+        '200':
+          description: Persona retrieval successful
+          schema:
+            $ref: '#/definitions/Account-Persona'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+    put:
+      tags:
+        - 7. personas
+      summary: Update a persona
+      description: |
+        Update a persona.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | persona_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_update_persona | Authenticated user does not have permission to update this persona. |
+      parameters:
+        - name: body
+          in: body
+          description: The persona to update.
+          schema:
+            $ref:  '#/definitions/Account-PersonaObject'
+      responses:
+        '200':
+          description: Persona update successful
+          schema:
+            $ref: '#/definitions/Account-Persona'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+    delete:
+      tags:
+        - 7. personas
+      summary: Delete user persona
+      description: |
+        Delete a user persona.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | persona_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_delete_persona | Authenticated user does not have permission to delete this persona. |
+      responses:
+        '200':
+          description: Persona deletion successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
 definitions:
   Meta:
     type: object
@@ -2988,3 +3487,120 @@ definitions:
           - conversation
           - subject
           - user
+  Account-User:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      user:
+        type: object
+        $ref: '#/definitions/Account-UserObject'
+
+  Account-UserCreate:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      user:
+        type: object
+        $ref: '#/definitions/Account-UserObject'
+      tokens:
+        type: object
+        $ref: '#/definitions/Auth-JWTTokenObject'
+
+  Account-UserObject:
+    allOf:
+    - $ref:  '#/definitions/Account-UserBaseObject'
+    - type: object
+      properties:
+        personas:
+          description: List of personas this user owns.
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/definitions/Account-PersonaObject'
+          readOnly: true
+
+  Account-UserBaseObject:
+    type: object
+    required:
+      - first_name
+      - last_name
+      - email
+    properties:
+      sid:
+        description: A character string that uniquely identifies this user.
+        type: string
+        readOnly: true
+      username:
+        description: The username of a user.
+        type: string
+        readOnly: true
+      first_name:
+        description: The user first name.
+        type: string
+      last_name:
+        description: The user last name.
+        type: string
+      email:
+        description: The user email address.
+        type: string
+      email_verified:
+        description: Denote if user's email has been verified.
+        type: boolean
+        readOnly: true
+        default: false
+      avatar:
+        description: URL to the user avatar picture.
+        type: string
+        readOnly: true
+      attributes:
+        description: |
+          An optional string metadata field that can be use to store any data you wish.
+          The string value must contain structurally valid JSON if specified.
+          Note that this will always be null for resources returned via LIST GET operations,
+          but will be present for single GET.
+        type: string
+      date_created:
+        description: The timestamp that this resource was created.
+        type: string
+        format: date-time
+        readOnly: true
+      date_updated:
+        description: The timestamp that this resource was updated.
+        type: string
+        format: date-time
+        readOnly: true
+      date_deactivated:
+        description: The timestamp that this resource was deactivated.
+        type: string
+        format: date-time
+        readOnly: true
+
+  Account-Persona:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      persona:
+        type: object
+        $ref: '#/definitions/Account-PersonaObject'
+
+  Account-PersonaObject:
+    type: object
+    required:
+      - name
+    properties:
+      sid:
+        description: A character string that uniquely identifies this persona.
+        type: string
+        readOnly: true
+      name:
+        description: The name of the persona.
+        type: string

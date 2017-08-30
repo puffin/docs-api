@@ -1,0 +1,147 @@
+  /account/personas:
+    post:
+      tags:
+        - 7. personas
+      summary: Create a persona
+      description: |
+        Create a persona for a particular user.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+
+      parameters:
+        - name: body
+          in: body
+          description: The persona to create.
+          schema:
+            $ref:  '#/definitions/Account-PersonaObject'
+      responses:
+        '201':
+          description: Persona creation successful
+          schema:
+            $ref: '#/definitions/Account-Persona'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+
+  /account/personas/{sid}:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this persona.
+        required: true
+        type: string
+    get:
+      tags:
+        - 7. personas
+      summary: Get a user persona
+      description: |
+        Get a single user persona.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | persona_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+      responses:
+        '200':
+          description: Persona retrieval successful
+          schema:
+            $ref: '#/definitions/Account-Persona'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+    put:
+      tags:
+        - 7. personas
+      summary: Update a persona
+      description: |
+        Update a persona.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | persona_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_update_persona | Authenticated user does not have permission to update this persona. |
+      parameters:
+        - name: body
+          in: body
+          description: The persona to update.
+          schema:
+            $ref:  '#/definitions/Account-PersonaObject'
+      responses:
+        '200':
+          description: Persona update successful
+          schema:
+            $ref: '#/definitions/Account-Persona'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+    delete:
+      tags:
+        - 7. personas
+      summary: Delete user persona
+      description: |
+        Delete a user persona.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description |
+        | - | - |
+        | persona_not_found | Value passed for `sid` was invalid. |
+        | not_authed | No authentication token provided. |
+        | invalid_auth | Invalid authentication token. |
+        | cant_delete_persona | Authenticated user does not have permission to delete this persona. |
+      responses:
+        '200':
+          description: Persona deletion successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
