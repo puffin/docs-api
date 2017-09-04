@@ -2955,7 +2955,7 @@ definitions:
         readOnly: true
       created_by:
         description: |
-          Identity of the conversation's creator. If the conversation was created by a
+          Identity of the conversation's creator (User SID). If the conversation was created by a
           system, the value will be `system`.
         type: string
         readOnly: true
