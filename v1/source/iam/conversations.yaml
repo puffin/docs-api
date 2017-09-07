@@ -19,13 +19,14 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | conversation_not_found | Value passed for `sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
-        | no_access | User do not have access to this resource. |
-
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `conversation_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
+        | `invalid_page` | Value passed for `page` was invalid | 400 |
+        | `invalid_page_size` | Value passed for `page_size` was invalid | 400 |
       parameters:
         - $ref: "#/parameters/page"
         - $ref: "#/parameters/page_size"

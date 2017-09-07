@@ -12,11 +12,11 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | access_denied | Value passed for `email` or `password` was invalid. |
-        | missing_params | Invalid or missing parameters in URL or request body. |
-        | user_not_found | User not found for this `email`. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `access_denied` | Value passed for `email` or `password` was invalid. | 401 |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `user_not_found` | User not found for this `email`. | 404 |
 
       security: []
       parameters:
@@ -47,8 +47,6 @@
           description: Access denied
           schema:
             $ref: '#/definitions/AppError'
-        '403':
-          $ref: '#/responses/Forbidden'
         '404':
           $ref: '#/responses/NotFound'
 
@@ -66,10 +64,10 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | missing_params | Invalid or missing parameters in URL or request body. |
-        | invalid_refresh_token | Invalid refresh token. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `invalid_refresh_token` | Invalid refresh token. | 401 |
 
       security: []
       parameters:
