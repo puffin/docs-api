@@ -18,13 +18,14 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | conversation_not_found | Value passed for `sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
-        | invalid_page | Value passed for `page` was invalid |
-        | invalid_page_size | Value passed for `page_size` was invalid |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `conversation_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `invalid_page` | Value passed for `page` was invalid | 400 |
+        | `invalid_page_size` | Value passed for `page_size` was invalid | 400 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
         - $ref: "#/parameters/page"
         - $ref: "#/parameters/page_size"
@@ -63,18 +64,17 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | message_not_found | Value passed for `sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `message_not_found` | Value passed for `sid` was invalid. |  404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       responses:
         '200':
           description: Message retrieval successful
           schema:
             $ref: '#/definitions/Chat-Message'
-        '400':
-          $ref: '#/responses/BadRequest'
         '401':
           $ref: '#/responses/Unauthorized'
         '403':
@@ -95,15 +95,16 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | conversation_not_found | Value passed for `conv_sid` was invalid. |
-        | message_not_found | Value passed for `sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
-        | cant_update_message | Authenticated user does not have permission to update this message. |
-        | msg_too_long | Message body is too long. |
-        | no_text | No message text provided. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `message_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `cant_update_message` | Authenticated user does not have permission to update this message. | 403 |
+        | `msg_too_long` | Message body is too long. | 400 |
+        | `no_text` | No message text provided. | 400 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
         - name: message
           in: body
@@ -159,19 +160,18 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | message_not_found | Value passed for `sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
-        | cant_delete_message | Authenticated user does not have permission to delete this message. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `message_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `cant_delete_message` | Authenticated user does not have permission to delete this message. | 403 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       responses:
         '200':
           description: Message deletion successful
           schema:
             $ref: '#/definitions/AppOk'
-        '400':
-          $ref: '#/responses/BadRequest'
         '401':
           $ref: '#/responses/Unauthorized'
         '403':
@@ -200,13 +200,14 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | message_not_found | Value passed for `sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
-        | invalid_page | Value passed for `page` was invalid |
-        | invalid_page_size | Value passed for `page_size` was invalid |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `message_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `invalid_page` | Value passed for `page` was invalid | 400 |
+        | `invalid_page_size` | Value passed for `page_size` was invalid | 400 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
         - $ref: "#/parameters/page"
         - $ref: "#/parameters/page_size"

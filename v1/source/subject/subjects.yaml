@@ -12,10 +12,11 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
 
       parameters:
         - name: subject
@@ -56,11 +57,12 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | subject_not_found | Value passed for `sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `subject_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       responses:
         '200':
           description: Subject retrieval successful
@@ -87,12 +89,14 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | subject_not_found | Value passed for `sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
-        | cant_update_subject | Authenticated user does not have permission to update this subject. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `subject_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `cant_update_subject` | Authenticated user does not have permission to update this subject. | 403 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
         - name: subject
           in: body
@@ -153,16 +157,18 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | subject_not_found | Value passed for `sid` was invalid. |
-        | user_not_found | Value passed for `user` was invalid. |
-        | cant_invite_self | Authenticated user cannot invite themselves to a subject. |
-        | not_in_subject | Authenticated user is not in the subject. |
-        | already_in_subject | Invited user is already in the subject. |
-        | cant_invite | User cannot be invited to this subject. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `subject_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `user_not_found` | Value passed for `user_sid` was invalid. | 404 |
+        | `cant_invite_self` | Authenticated user cannot invite themselves to a subject. | 403 |
+        | `not_in_subject` | Authenticated user is not in the subject. | 403 |
+        | `already_in_subject` | Invited user is already in the subject. | 403 |
+        | `cant_invite` | User cannot be invited to this subject. | 403 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
         - in: body
           name: body
@@ -217,14 +223,17 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | subject_not_found | Value passed for `sid` was invalid. |
-        | user_not_found | Value passed for `user` was invalid. |
-        | cant_kick_self | Authenticated user cannot kick themselves from a subject. |
-        | not_in_subject | User is not in the subject. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `subject_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `user_not_found` | Value passed for `user_sid` was invalid. | 404 |
+        | `cant_kick_self` | Authenticated user cannot kick themselves from a subject. | 403 |
+        | `not_in_subject` | Authenticated user is not in the subject. | 403 |
+        | `cant_kick` | Authenticated user can't kick User from this subject. | 403 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
         - in: body
           name: body
@@ -269,14 +278,13 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | subject_not_found | Value passed for `sid` was invalid. |
-        | user_not_found | Value passed for `user` was invalid. |
-        | already_in_subject | User is already member of the subject. |
-        | not_in_subject | User is not in the subject. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `subject_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `already_in_subject` | ser is already member of the subject. | 403 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       responses:
         '200':
           description: Subject join successful
@@ -311,12 +319,13 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | subject_not_found | Value passed for `sid` was invalid. |
-        | not_in_subject | User is not in the subject. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `subject_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_in_subject` | User is not in the subject. | 403 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       responses:
         '200':
           description: Subject leave successful
@@ -351,13 +360,15 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | subject_not_found | Value passed for `sid` was invalid. |
-        | already_linked | Subjects are already linked together. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
-        | cant_link_subject | Authenticated user does not have permission to link this subject. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `subject_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `already_linked` | Subjects are already linked together. | 403 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `cant_link_subject` | Authenticated user does not have permission to link this subject. | 403 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
         - name: subject
           in: body
@@ -391,13 +402,15 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | subject_not_found | Value passed for `sid` was invalid. |
-        | not_linked | Subjects are not linked together. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
-        | cant_unlink_subject | Authenticated user does not have permission to unlink this subject. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `subject_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_linked` | Subjects are not linked together. | 403 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `cant_unlink_subject` | Authenticated user does not have permission to unlink this subject. | 403 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
         - name: subject
           in: body

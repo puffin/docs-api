@@ -18,13 +18,14 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | conversation_not_found | Value passed for `sid` was invalid. |
-        | already_linked | Subject is already linked to this conversation. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
-        | cant_link_subject | Authenticated user does not have permission to link this subject. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `conversation_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `already_linked` | Subject is already linked to this conversation. | 403 |
+        | `cant_link_subject` | Authenticated user does not have permission to link this subject. | 403 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
         - name: subject
           in: body
@@ -58,13 +59,14 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | conversation_not_found | Value passed for `sid` was invalid. |
-        | not_linked | Subject is not linked to this conversation. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
-        | cant_unlink_subject | Authenticated user does not have permission to unlink this subject. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `conversation_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `already_linked` | Subject is already linked to this conversation. | 403 |
+        | `cant_unlink_subject` | Authenticated user does not have permission to unlink this subject. | 403 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
         - name: subject
           in: body

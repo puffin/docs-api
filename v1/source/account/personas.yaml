@@ -12,10 +12,11 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
 
       parameters:
         - name: body
@@ -55,11 +56,12 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | persona_not_found | Value passed for `sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `persona_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       responses:
         '200':
           description: Persona retrieval successful
@@ -87,12 +89,14 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | persona_not_found | Value passed for `sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
-        | cant_update_persona | Authenticated user does not have permission to update this persona. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `persona_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `cant_update_persona` | Authenticated user does not have permission to update this persona. | 403 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
         - name: body
           in: body
@@ -126,12 +130,13 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | persona_not_found | Value passed for `sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
-        | cant_delete_persona | Authenticated user does not have permission to delete this persona. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `persona_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `cant_delete_persona` | Authenticated user does not have permission to delete this persona. | 403 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       responses:
         '200':
           description: Persona deletion successful

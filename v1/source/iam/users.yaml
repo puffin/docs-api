@@ -19,12 +19,12 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | user_not_found | Value passed for `sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
-        | no_access | User do not have access to this resource. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `user_not_found` | Value passed for `sid` was invalid. |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
 
       parameters:
         - name: body
@@ -62,12 +62,14 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | user_not_found | Value passed for `sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
-        | cant_add_role | Authenticated user does not have permission to add this role to this resource. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `user_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `cant_add_role` | Authenticated user does not have permission to add this role to this resource. | 403 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
 
       parameters:
         - name: body
@@ -102,12 +104,13 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | user_not_found | Value passed for `sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
-        | cant_remove_role | Authenticated user does not have permission to remove this role to this resource. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `user_not_found` | Value passed for `sid` was invalid. |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `cant_remove_role` | Authenticated user does not have permission to remove this role to this resource. | 403 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
 
       parameters:
         - name: body
@@ -150,12 +153,12 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | user_not_found | Value passed for `sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
-        | no_access | User do not have access to this resource. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `user_not_found` | Value passed for `sid` was invalid. |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
 
       parameters:
         - $ref: "#/parameters/page"

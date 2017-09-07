@@ -12,25 +12,13 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | user_not_found | Value passed for `user_sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
-        | invalid_page | Value passed for `page` was invalid |
-        | invalid_page_size | Value passed for `page_size` was invalid |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `invalid_page` | Value passed for `page` was invalid | 400 |
+        | `invalid_page_size` | Value passed for `page_size` was invalid | 400 |
       parameters:
-        - in: body
-          name: body
-          required: true
-          schema:
-            type: object
-            required:
-              - user_sid
-            properties:
-              user_sid:
-                type: string
-                description: The user ID to get the bindings for.
         - $ref: "#/parameters/page"
         - $ref: "#/parameters/page_size"
       responses:
@@ -62,13 +50,12 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | user_not_found | Value passed for `user_sid` was invalid. |
-        | address_missing | No address provided. |
-        | invalid_binding_type | Invalid binding type. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `invalid_binding_type` | Invalid binding type. | 400 |
 
       parameters:
         - in: body
@@ -112,11 +99,13 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | binding_not_found | Value passed for `sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `binding_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
+
       responses:
         '200':
           description: Binding retrieval successful
@@ -144,12 +133,14 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | binding_not_found | Value passed for `sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
-        | cant_delete_binding | Authenticated user does not have permission to delete this binding. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `binding_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `cant_delete_binding` | Authenticated user does not have permission to delete this binding. | 403 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
+
       responses:
         '200':
           description: Binding deletion successful

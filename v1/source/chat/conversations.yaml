@@ -12,10 +12,11 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
 
       parameters:
         - name: conversation
@@ -56,11 +57,12 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | conversation_not_found | Value passed for `sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `conversation_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       responses:
         '200':
           description: Conversation retrieval successful
@@ -88,12 +90,14 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | conversation_not_found | Value passed for `sid` was invalid. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
-        | cant_update_conversation | Authenticated user does not have permission to update this conversation. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `conversation_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `cant_update_conversation` | Authenticated user does not have permission to update this conversation. | 403 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
         - name: conversation
           in: body
@@ -155,19 +159,18 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | conversation_not_found | Value passed for `sid` was invalid. |
-        | already_archived | Conversation has already been archived. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `conversation_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `already_archived` | Conversation has already been archived. | 403 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       responses:
         '200':
           description: Conversation archive successful
           schema:
             $ref: '#/definitions/AppOk'
-        '400':
-          $ref: '#/responses/BadRequest'
         '401':
           $ref: '#/responses/Unauthorized'
         '403':
@@ -195,19 +198,18 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | conversation_not_found | Value passed for `sid` was invalid. |
-        | not_archived | Conversation is not archived. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `conversation_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_archived` | Conversation is not archived. | 403 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       responses:
         '200':
           description: Conversation unarchive successful
           schema:
             $ref: '#/definitions/AppOk'
-        '400':
-          $ref: '#/responses/BadRequest'
         '401':
           $ref: '#/responses/Unauthorized'
         '403':
@@ -241,17 +243,19 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | conversation_not_found | Value passed for `sid` was invalid. |
-        | user_not_found | Value passed for `user` was invalid. |
-        | cant_invite_self | Authenticated user cannot invite themselves to a conversation. |
-        | not_in_conversation | Authenticated user is not in the conversation. |
-        | already_in_conversation | Invited user is already in the conversation. |
-        | is_archived | Conversation has been archived. |
-        | cant_invite | User cannot be invited to this conversation. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `conversation_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `user_not_found` | Value passed for `user` was invalid. | 404 |
+        | `cant_invite_self` | Authenticated user cannot invite themselves to a conversation. | 403 |
+        | `not_in_conversation` | Authenticated user is not in the conversation. | 403 |
+        | `already_in_conversation` | Invited user is already in the conversation. | 403 |
+        | `is_archived` | Conversation has been archived. | 403 |
+        | `cant_invite` | User cannot be invited to this conversation. | 403 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
         - in: body
           name: body
@@ -307,15 +311,18 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | conversation_not_found | Value passed for `sid` was invalid. |
-        | user_not_found | Value passed for `user` was invalid. |
-        | cant_kick_self | Authenticated user cannot kick themselves from a conversation. |
-        | not_in_conversation | User is not in the conversation. |
-        | is_archived | Conversation has been archived. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `conversation_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `user_not_found` | Value passed for `user` was invalid. | 404 |
+        | `cant_kick_self` | Authenticated user cannot kick themselves from a conversation. | 403 |
+        | `not_in_conversation` | User is not in the conversation. | 403 |
+        | `is_archived` | Conversation has been archived. | 403 |
+        | `cant_kick` | Authenticated user can't kick User from this conversation. | 403 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
         - in: body
           name: body
@@ -360,15 +367,17 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | conversation_not_found | Value passed for `sid` was invalid. |
-        | persona_not_found | Value passed for `persona` was invalid. |
-        | already_in_conversation | User is already in the conversation with a persona. |
-        | not_in_conversation | User is not in the conversation. |
-        | is_archived | Conversation has been archived. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `conversation_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `persona_not_found` | Value passed for `persona` was invalid. | 404 |
+        | `already_in_conversation` | User is already in the conversation with a persona. | 403 |
+        | `not_in_conversation` | User is not in the conversation. | 403 |
+        | `is_archived` | Conversation has been archived. | 403 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
         - in: body
           name: body
@@ -413,19 +422,18 @@
         errors can be returned in the case where the service is down or other unexpected
         factors affect processing. Callers should always check the value of the `ok` params in the response.
 
-        | Error | Description |
-        | - | - |
-        | conversation_not_found | Value passed for `sid` was invalid. |
-        | not_in_conversation | User is not in the conversation. |
-        | not_authed | No authentication token provided. |
-        | invalid_auth | Invalid authentication token. |
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `conversation_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_in_conversation` | User is not in the conversation. | 403 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
       responses:
         '200':
           description: Conversation persona leave successful
           schema:
             $ref: '#/definitions/AppOk'
-        '400':
-          $ref: '#/responses/BadRequest'
         '401':
           $ref: '#/responses/Unauthorized'
         '403':

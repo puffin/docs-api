@@ -44,6 +44,7 @@
       user_sid:
         description: A character string that uniquely identifies the user.
         type: string
+        readOnly: true
       type:
         description: The type of the binding. This determines the transport technology to use.
         type: string
