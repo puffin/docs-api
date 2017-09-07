@@ -14,6 +14,7 @@
 
         | Error | Description |
         | - | - |
+        | missing_params | Invalid or missing parameters in URL or request body. |
         | not_authed | No authentication token provided. |
         | invalid_auth | Invalid authentication token. |
 
