@@ -2929,11 +2929,6 @@ definitions:
         type: boolean
         default: false
         readOnly: true
-      index:
-        description:  The index of the message within the conversation.
-        type: integer
-        default: 1
-        readOnly: true
       attributes:
         description: |
           An optional string metadata field that can be use to store any data you wish.
