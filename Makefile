@@ -20,6 +20,7 @@ build-v1: .npminstall
 	@cat $(V1_SRC)/chat/messages.yaml >> $(V1_YAML)
 	@cat $(V1_SRC)/chat/users.yaml >> $(V1_YAML)
 
+	@cat $(V1_SRC)/subject/events.yaml >> $(V1_YAML)
 	@cat $(V1_SRC)/subject/subjects.yaml >> $(V1_YAML)
 	@cat $(V1_SRC)/subject/users.yaml >> $(V1_YAML)
 	@cat $(V1_SRC)/subject/conversations.yaml >> $(V1_YAML)

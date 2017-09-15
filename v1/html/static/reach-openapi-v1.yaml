@@ -172,6 +172,11 @@ tags:
 
       Inbox are unique per user, backend returns user's inbox events based on the JWT token.
 
+  - name: 2. events
+    description: |
+      The subject service provide an interface to retrieve Subject events.
+
+      Subject events are unique per user, backend returns user's subject events based on the JWT token.
   - name: 2. subjects
     description: |
       The Subject resource.
@@ -254,6 +259,7 @@ x-tagGroups:
       - 1. events
   - name: 2. Subject Service
     tags:
+      - 2. events
       - 2. subjects
       - 2. users
       - 2. conversations
@@ -1078,6 +1084,148 @@ paths:
           description: Conversation list retrieval successful
           schema:
             $ref: '#/definitions/Chat-Conversations'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+  /subject/events:
+
+    get:
+      tags:
+        - 2. events
+      summary: Get events for a subject
+      description: |
+        Get a list of events for a subject.  Use the query parameters to modify the behaviour of this endpoint.
+
+        #### Common Properties
+
+        | Name | Description |
+        | - | - |
+        | `sid` | A character string that uniquely identifies this event. |
+        | `date_created` | The timestamp that this resource was created. |
+        | `user_sid` | The user ID associated with this event. |
+        | `notification` or `message` | Associated resource. |
+        | `social_detail` | Associated social details resource if any. |
+
+        #### Social details resource
+
+        Additional social details associated with the events.
+
+        ##### Social details Properties
+
+        | Name | Description |
+        | - | - |
+        | `title` | The title of the social details. |
+
+        #### Event associated resource
+
+        An event associated resource can be a `notification` or `message`.
+
+        ##### Notification Properties
+
+        | Name | Description |
+        | - | - |
+        | `sid` | A character string that uniquely identifies this notification. |
+        | `date_created` | The timestamp that this resource was created. |
+        | `title` | The title of the notification. |
+        | `subject` or `conversation` | The content object of the notification. |
+
+        ##### Response sample
+
+        ```json
+        {
+          "sid": "234734213.56765867",
+          "date_created": "2017-06-14T17:04:36Z",
+          "user_sid": "U228389023",
+          "notification": {
+            "sid": "238077.0785345",
+            "date_created": "2017-06-14T17:04:36Z",
+            "title": "Maria joined a conversation",
+            "conversation": {
+              "sid": "C234253394",
+              "title": "Evaluate IR Camera 32B",
+              "objective": "Hello World!",
+              "subjects": [
+                {
+                  "sid": "S44546566",
+                  "title": "KPI"
+                },
+                {
+                  "sid": "S1980847483",
+                  "title": "Finance"
+                }
+              ]
+            }
+          }
+        }
+        ```
+
+        ##### Message Properties
+
+        | Name | Description |
+        | - | - |
+        | `sid` | A character string that uniquely identifies this message. |
+        | `date_created` | The timestamp that this resource was created. |
+        | `from` | Full name of the message’s author. If the message was created by a system, the value will be `system`. |
+        | `avatar` | URL to the user avatar picture. |
+        | `persona` | The name of the author's persona. |
+        | `title` | The title of the conversation. |
+        | `objective` | The objective of the conversation. |
+        | `body` | The content of the message |
+        | `subjects` | an array of associated subjects. |
+
+        ##### Response sample
+
+        ```json
+        {
+          "sid": "234734213.56765867",
+          "date_created": "2017-06-14T17:04:36Z",
+          "user_sid": "U228389023",
+          "message": {
+            "sid": "238077.0785345",
+            "date_created": "2017-06-14T17:04:36Z",
+            "from": "Bobby",
+            "avatar": "http://api-docs.rea.ch/static/rea.ch-logo-black.png",
+            "persona": "Agency 231",
+            "title": "Evaluate IR Camera 32B",
+            "body": "Why is the jump to production so difficult?"
+          },
+          "social_detail": {
+            "title": "**Mark** and 3 more participate"
+          }
+        }
+        ```
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `invalid_page` | Value passed for `page` was invalid | 400 |
+        | `invalid_page_size` | Value passed for `page_size` was invalid | 400 |
+        | `invalid_type` | Value passed for `type` was invalid | 400 |
+      parameters:
+        - $ref: "#/parameters/page"
+        - $ref: "#/parameters/page_size"
+        - name: type
+          in: query
+          description: Filter type of events to return. Possible values are `all`, `notification` or `message`.
+          default: all
+          type: string
+      responses:
+        '200':
+          description: Event list retrieval successful
+          schema:
+            $ref: '#/definitions/Subject-Events'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
@@ -3128,6 +3276,21 @@ definitions:
       name:
         description: The name of the persona.
         type: string
+  Subject-Events:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      events:
+        type: array
+        uniqueItems: true
+        items:
+          type: object
+      meta:
+        $ref: '#/definitions/Meta'
+
   Subject-Subjects:
     type: object
     properties:
@@ -3192,6 +3355,18 @@ definitions:
       description:
         description: The subject description.
         type: string
+      participant_count:
+        description: Number of participants of this subject.
+        type: integer
+        readOnly: true
+      conversation_count:
+        description: Number of conversations for this subject.
+        type: integer
+        readOnly: true
+      link_count:
+        description: Number of linked subjects for this subject.
+        type: integer
+        readOnly: true
       users:
         description: List of user sids that have access to this subject.
         type: array

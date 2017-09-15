@@ -172,6 +172,11 @@ tags:
 
       Inbox are unique per user, backend returns user's inbox events based on the JWT token.
 
+  - name: 2. events
+    description: |
+      The subject service provide an interface to retrieve Subject events.
+
+      Subject events are unique per user, backend returns user's subject events based on the JWT token.
   - name: 2. subjects
     description: |
       The Subject resource.
@@ -254,6 +259,7 @@ x-tagGroups:
       - 1. events
   - name: 2. Subject Service
     tags:
+      - 2. events
       - 2. subjects
       - 2. users
       - 2. conversations

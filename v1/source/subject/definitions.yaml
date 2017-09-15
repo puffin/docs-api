@@ -1,3 +1,18 @@
+  Subject-Events:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      events:
+        type: array
+        uniqueItems: true
+        items:
+          type: object
+      meta:
+        $ref: '#/definitions/Meta'
+
   Subject-Subjects:
     type: object
     properties:
@@ -62,6 +77,18 @@
       description:
         description: The subject description.
         type: string
+      participant_count:
+        description: Number of participants of this subject.
+        type: integer
+        readOnly: true
+      conversation_count:
+        description: Number of conversations for this subject.
+        type: integer
+        readOnly: true
+      link_count:
+        description: Number of linked subjects for this subject.
+        type: integer
+        readOnly: true
       users:
         description: List of user sids that have access to this subject.
         type: array
