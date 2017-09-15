@@ -71,6 +71,7 @@
 
         | Error | Description | Status Code |
         | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
         | `user_not_found` | Value passed for `sid` was invalid. | 404 |
         | `not_authed` | No authentication token provided. | 401 |
         | `invalid_auth` | Invalid authentication token. | 401 |
@@ -165,6 +166,7 @@
 
         | Error | Description | Status Code |
         | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
         | `user_not_found` | Value passed for `sid` was invalid. | 404 |
         | `not_authed` | No authentication token provided. | 401 |
         | `invalid_auth` | Invalid authentication token. | 401 |
@@ -206,6 +208,7 @@
 
         | Error | Description | Status Code |
         | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
         | `user_not_found` | Value passed for `sid` was invalid. | 404 |
         | `not_authed` | No authentication token provided. | 401 |
         | `invalid_auth` | Invalid authentication token. | 401 |
@@ -252,6 +255,7 @@
 
         | Error | Description | Status Code |
         | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
         | `user_not_found` | Value passed for `sid` was invalid. | 404 |
         | `not_authed` | No authentication token provided. | 401 |
         | `invalid_auth` | Invalid authentication token. | 401 |
