@@ -92,6 +92,18 @@
         format: date-time
         readOnly: true
 
+  Account-UserImage:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      image:
+        description: URL to the user avatar picture.
+        type: string
+        readOnly: true
+
   Account-Persona:
     type: object
     properties:

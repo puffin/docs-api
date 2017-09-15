@@ -225,9 +225,9 @@
           type: file
       responses:
         '200':
-          description: User image set successful
+          description: User update successful
           schema:
-            $ref: '#/definitions/AppOk'
+            $ref: '#/definitions/Account-UserImage'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
