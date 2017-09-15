@@ -150,3 +150,68 @@
           Note that this will always be null for resources returned via LIST GET operations,
           but will be present for single GET.
         type: string
+
+  Subject-Conversations:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      conversations:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: '#/definitions/Subject-ConversationObject'
+      meta:
+        $ref: '#/definitions/Meta'
+
+  Subject-ConversationObject:
+    type: object
+    properties:
+      sid:
+        description: A character string that uniquely identifies this conversation.
+        type: string
+        readOnly: true
+      title:
+        description: The conversation title.
+        type: string
+        readOnly: true
+      objective:
+        description: The conversation objective.
+        type: string
+        readOnly: true
+      user_sid:
+        description: A character string that uniquely identifies this user.
+        type: string
+        readOnly: true
+      full_name:
+        description: The user full name.
+        type: string
+        readOnly: true
+      persona:
+        description: The name of the persona.
+        type: string
+        readOnly: true
+      date_created:
+        description: The timestamp that the message was sent was created.
+        type: string
+        format: date-time
+        readOnly: true
+      body:
+        description: The content of the message.
+        type: string
+        readOnly: true
+      subjects:
+        description: List of subject sids associated to this conversation.
+        type: array
+        items:
+          type: object
+          properties:
+            sid:
+              description: A character string that uniquely identifies this subject.
+              type: string
+            name:
+              description: The subject name.
+              type: string
+        readOnly: true
