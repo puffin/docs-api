@@ -1092,8 +1092,14 @@ paths:
           $ref: '#/responses/Forbidden'
         '404':
           $ref: '#/responses/NotFound'
-  /subject/events:
-
+  /subject/{sid}/events:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this subject.
+        required: true
+        type: string
+        
     get:
       tags:
         - 2. events
@@ -1195,7 +1201,7 @@ paths:
             "body": "Why is the jump to production so difficult?"
           },
           "social_detail": {
-            "title": "**Mark** and 3 more participate"
+            "title": "<@U024BE7LH|Mark> and 3 more participate"
           }
         }
         ```
