@@ -44,7 +44,7 @@
             "title": "You are invited to join a subject by Bobby",
             "subject": {
               "sid": "39661947.295728",
-              "title": "KPI",
+              "name": "KPI",
               "description": "Performance measure..."
             },
             "action": "invite",

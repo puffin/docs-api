@@ -5,7 +5,7 @@
         description: A character string that uniquely identifies this subject.
         required: true
         type: string
-        
+
     get:
       tags:
         - 2. events
@@ -19,6 +19,7 @@
         | - | - |
         | `sid` | A character string that uniquely identifies this event. |
         | `date_created` | The timestamp that this resource was created. |
+        | `subject_sid` | The subject ID associated with this event. |
         | `user_sid` | The user ID associated with this event. |
         | `notification` or `message` | Associated resource. |
         | `social_detail` | Associated social details resource if any. |
@@ -53,6 +54,7 @@
           "sid": "234734213.56765867",
           "date_created": "2017-06-14T17:04:36Z",
           "user_sid": "U228389023",
+          "subject_sid": "S44546566",
           "notification": {
             "sid": "238077.0785345",
             "date_created": "2017-06-14T17:04:36Z",
@@ -64,11 +66,11 @@
               "subjects": [
                 {
                   "sid": "S44546566",
-                  "title": "KPI"
+                  "name": "KPI"
                 },
                 {
                   "sid": "S1980847483",
-                  "title": "Finance"
+                  "name": "Finance"
                 }
               ]
             }
@@ -97,6 +99,7 @@
           "sid": "234734213.56765867",
           "date_created": "2017-06-14T17:04:36Z",
           "user_sid": "U228389023",
+          "subject_sid": "S44546566",
           "message": {
             "sid": "238077.0785345",
             "date_created": "2017-06-14T17:04:36Z",
