@@ -199,6 +199,9 @@ tags:
   - name: 3. users
     description: |
       The User resource of Chat represents a unique identity interacting with the service.
+  - name: 3. subjects
+    description: |
+      The Subject resource.
 
   - name: 4. bindings
     description: |
@@ -268,6 +271,7 @@ x-tagGroups:
       - 3. conversations
       - 3. messages
       - 3. users
+      - 3. subjects
   - name: 4. Notify Service
     tags:
       - 4. notifications

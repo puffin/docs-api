@@ -19,6 +19,7 @@
         | - | - |
         | `sid` | A character string that uniquely identifies this event. |
         | `date_created` | The timestamp that this resource was created. |
+        | `date_updated` | The timestamp that this resource was updated. |
         | `subject_sid` | The subject ID associated with this event. |
         | `user_sid` | The user ID associated with this event. |
         | `notification` or `message` | Associated resource. |
@@ -84,12 +85,9 @@
         | - | - |
         | `sid` | A character string that uniquely identifies this message. |
         | `date_created` | The timestamp that this resource was created. |
-        | `from` | Full name of the message’s author. If the message was created by a system, the value will be `system`. |
-        | `avatar` | URL to the user avatar picture. |
-        | `persona` | The name of the author's persona. |
-        | `title` | The title of the conversation. |
-        | `objective` | The objective of the conversation. |
-        | `body` | The content of the message |
+        | `body` | The content of the message. |
+        | `from` | Identity of the message’s author. |
+        | `to` | The conversation resource. |
         | `subjects` | an array of associated subjects. |
 
         ##### Response sample
@@ -103,11 +101,32 @@
           "message": {
             "sid": "238077.0785345",
             "date_created": "2017-06-14T17:04:36Z",
-            "from": "Bobby",
-            "avatar": "http://api-docs.rea.ch/static/rea.ch-logo-black.png",
-            "persona": "Agency 231",
-            "title": "Evaluate IR Camera 32B",
-            "body": "Why is the jump to production so difficult?"
+            "body": "Why is the jump to production so difficult?",
+            "from": {
+              "sid": "U228389023",
+              "first_name": "Bob",
+              "last_name": "Sinclair",
+              "avatar": "http://api-docs.rea.ch/static/rea.ch-logo-black.png",
+              "persona": {
+                "sid": "P928472829",
+                "name": "work"
+              }
+            },
+            "to": {
+              "sid": "C9375920278",
+              "title": "Evaluate IR Camera 32B",
+              "objective": "Hello World!"
+            }
+            "subjects": [
+              {
+                "sid": "39661947.295728",
+                "title": "KPI"
+              },
+              {
+                "sid": "92794389.207597",
+                "title": "Finance"
+              }
+            ]
           },
           "social_detail": {
             "title": "<@U024BE7LH|Mark> and 3 more participate"

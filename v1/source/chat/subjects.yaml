@@ -1,0 +1,44 @@
+  /chat/conversations/{sid}/subjects:
+    parameters:
+      - name: sid
+        in: path
+        description: The conversation ID to get the users for.
+        required: true
+        type: string
+    get:
+      tags:
+        - 3. subjects
+      summary: Get subjects for a conversation
+      description: |
+        Get a list of subjects in a conversation. Use the query parameters to modify the behaviour of this endpoint.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `conversation_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `invalid_page` | Value passed for `page` was invalid | 400 |
+        | `invalid_page_size` | Value passed for `page_size` was invalid | 400 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
+      parameters:
+        - $ref: "#/parameters/page"
+        - $ref: "#/parameters/page_size"
+      responses:
+        '200':
+          description: Subject list retrieval successful
+          schema:
+            $ref: '#/definitions/Chat-Subjects'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'

@@ -199,6 +199,9 @@ tags:
   - name: 3. users
     description: |
       The User resource of Chat represents a unique identity interacting with the service.
+  - name: 3. subjects
+    description: |
+      The Subject resource.
 
   - name: 4. bindings
     description: |
@@ -268,6 +271,7 @@ x-tagGroups:
       - 3. conversations
       - 3. messages
       - 3. users
+      - 3. subjects
   - name: 4. Notify Service
     tags:
       - 4. notifications
@@ -1092,6 +1096,50 @@ paths:
           $ref: '#/responses/Forbidden'
         '404':
           $ref: '#/responses/NotFound'
+  /chat/conversations/{sid}/subjects:
+    parameters:
+      - name: sid
+        in: path
+        description: The conversation ID to get the users for.
+        required: true
+        type: string
+    get:
+      tags:
+        - 3. subjects
+      summary: Get subjects for a conversation
+      description: |
+        Get a list of subjects in a conversation. Use the query parameters to modify the behaviour of this endpoint.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `conversation_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `invalid_page` | Value passed for `page` was invalid | 400 |
+        | `invalid_page_size` | Value passed for `page_size` was invalid | 400 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
+      parameters:
+        - $ref: "#/parameters/page"
+        - $ref: "#/parameters/page_size"
+      responses:
+        '200':
+          description: Subject list retrieval successful
+          schema:
+            $ref: '#/definitions/Chat-Subjects'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
   /subject/{sid}/events:
     parameters:
       - name: sid
@@ -1113,6 +1161,7 @@ paths:
         | - | - |
         | `sid` | A character string that uniquely identifies this event. |
         | `date_created` | The timestamp that this resource was created. |
+        | `date_updated` | The timestamp that this resource was updated. |
         | `subject_sid` | The subject ID associated with this event. |
         | `user_sid` | The user ID associated with this event. |
         | `notification` or `message` | Associated resource. |
@@ -1178,12 +1227,9 @@ paths:
         | - | - |
         | `sid` | A character string that uniquely identifies this message. |
         | `date_created` | The timestamp that this resource was created. |
-        | `from` | Full name of the message’s author. If the message was created by a system, the value will be `system`. |
-        | `avatar` | URL to the user avatar picture. |
-        | `persona` | The name of the author's persona. |
-        | `title` | The title of the conversation. |
-        | `objective` | The objective of the conversation. |
-        | `body` | The content of the message |
+        | `body` | The content of the message. |
+        | `from` | Identity of the message’s author. |
+        | `to` | The conversation resource. |
         | `subjects` | an array of associated subjects. |
 
         ##### Response sample
@@ -1197,11 +1243,32 @@ paths:
           "message": {
             "sid": "238077.0785345",
             "date_created": "2017-06-14T17:04:36Z",
-            "from": "Bobby",
-            "avatar": "http://api-docs.rea.ch/static/rea.ch-logo-black.png",
-            "persona": "Agency 231",
-            "title": "Evaluate IR Camera 32B",
-            "body": "Why is the jump to production so difficult?"
+            "body": "Why is the jump to production so difficult?",
+            "from": {
+              "sid": "U228389023",
+              "first_name": "Bob",
+              "last_name": "Sinclair",
+              "avatar": "http://api-docs.rea.ch/static/rea.ch-logo-black.png",
+              "persona": {
+                "sid": "P928472829",
+                "name": "work"
+              }
+            },
+            "to": {
+              "sid": "C9375920278",
+              "title": "Evaluate IR Camera 32B",
+              "objective": "Hello World!"
+            }
+            "subjects": [
+              {
+                "sid": "39661947.295728",
+                "title": "KPI"
+              },
+              {
+                "sid": "92794389.207597",
+                "title": "Finance"
+              }
+            ]
           },
           "social_detail": {
             "title": "<@U024BE7LH|Mark> and 3 more participate"
@@ -1910,10 +1977,11 @@ paths:
 
         | Name | Description |
         | - | - |
-        | sid | A character string that uniquely identifies this event. |
-        | date_created | The timestamp that this resource was created. |
-        | user_sid | The user ID associated with this event. |
-        | notification or message | Associated resource. |
+        | `sid` | A character string that uniquely identifies this event. |
+        | `date_created` | The timestamp that this resource was created. |
+        | `date_updated` | The timestamp that this resource was updated. |
+        | `user_sid` | The user ID associated with this event. |
+        | `notification` or `message` | Associated resource. |
 
         #### Event associated resource
 
@@ -1923,12 +1991,12 @@ paths:
 
         | Name | Description |
         | - | - |
-        | sid | A character string that uniquely identifies this notification. |
-        | date_created | The timestamp that this resource was created. |
-        | title | The title of the notification. |
-        | subject or conversation | The content object of the notification. |
-        | action | Specifies the action to be displayed for the notification. Valid values are. `null` or `invite` |
-        | action_result | Store the action result. `null`, `accepted` or `declined` |
+        | `sid` | A character string that uniquely identifies this notification. |
+        | `date_created` | The timestamp that this resource was created. |
+        | `title` | The title of the notification. |
+        | `subject` or `conversation` | The content object of the notification. |
+        | `action` | Specifies the action to be displayed for the notification. Valid values are. `null` or `invite` |
+        | `action_result` | Store the action result. `null`, `accepted` or `declined` |
 
         ##### Response sample
 
@@ -1936,6 +2004,7 @@ paths:
         {
           "sid": "234734213.56765867",
           "date_created": "2017-06-14T17:04:36Z",
+          "date_updated": "2017-06-14T17:04:36Z",
           "user_sid": "U228389023",
           "notification": {
             "sid": "238077.0785345",
@@ -1956,15 +2025,13 @@ paths:
 
         | Name | Description |
         | - | - |
-        | sid | A character string that uniquely identifies this message. |
-        | date_created | The timestamp that this resource was created. |
-        | from | Full name of the message’s author. If the message was created by a system, the value will be `system`. |
-        | avatar | URL to the user avatar picture. |
-        | persona | The name of the author's persona. |
-        | title | The title of the conversation. |
-        | objective | The objective of the conversation. |
-        | body | The content of the message |
-        | subjects | an array of associated subjects. |
+        | `sid` | A character string that uniquely identifies this message. |
+        | `date_created` | The timestamp that this resource was created. |
+        | `body` | The content of the message. |
+        | `type` | The type of the message. |
+        | `from` | Identity of the message’s author. |
+        | `to` | The conversation resource. |
+        | `subjects` | an array of associated subjects. |
 
         ##### Response sample
 
@@ -1972,16 +2039,28 @@ paths:
         {
           "sid": "234734213.56765867",
           "date_created": "2017-06-14T17:04:36Z",
+          "date_updated": "2017-06-14T17:04:36Z",
           "user_sid": "U228389023",
           "message": {
             "sid": "238077.0785345",
             "date_created": "2017-06-14T17:04:36Z",
-            "from": "Bobby",
-            "avatar": "http://api-docs.rea.ch/static/rea.ch-logo-black.png",
-            "persona": "Agency 231",
-            "title": "Evaluate IR Camera 32B",
-            "objective": "Hello World!",
             "body": "Why is the jump to production so difficult?",
+            "type": "message",
+            "from": {
+              "sid": "U228389023",
+              "first_name": "Bob",
+              "last_name": "Sinclair",
+              "avatar": "http://api-docs.rea.ch/static/rea.ch-logo-black.png",
+              "persona": {
+                "sid": "P928472829",
+                "name": "work"
+              }
+            },
+            "to": {
+              "sid": "C9375920278",
+              "title": "Evaluate IR Camera 32B",
+              "objective": "Hello World!"
+            },
             "subjects": [
               {
                 "sid": "39661947.295728",
@@ -3345,25 +3424,18 @@ definitions:
         description: A character string that uniquely identifies this user.
         type: string
         readOnly: true
-      username:
-        description: The username of a user.
+      first_name:
+        description: The user first name.
         type: string
         readOnly: true
-      full_name:
-        description: The user full name.
+      last_name:
+        description: The user last name.
         type: string
         readOnly: true
       avatar:
         description: URL to the user avatar picture.
         type: string
         readOnly: true
-      attributes:
-        description: |
-          An optional string metadata field that can be use to store any data you wish.
-          The string value must contain structurally valid JSON if specified.
-          Note that this will always be null for resources returned via LIST GET operations,
-          but will be present for single GET.
-        type: string
 
   Chat-PersonaObject:
     type: object
@@ -3375,6 +3447,33 @@ definitions:
       name:
         description: The name of the persona.
         type: string
+
+  Chat-Subjects:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      subjects:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: '#/definitions/Chat-SubjectObject'
+      meta:
+        $ref: '#/definitions/Meta'
+
+  Chat-SubjectObject:
+    type: object
+    properties:
+      sid:
+        description: A character string that uniquely identifies this subject.
+        type: string
+        readOnly: true
+      name:
+        description: The subject name.
+        type: string
+        readOnly: true
   Subject-Events:
     type: object
     properties:
@@ -3508,12 +3607,12 @@ definitions:
         description: A character string that uniquely identifies this user.
         type: string
         readOnly: true
-      username:
-        description: The username of a user.
+      first_name:
+        description: The user first name.
         type: string
         readOnly: true
-      full_name:
-        description: The user full name.
+      last_name:
+        description: The user last name.
         type: string
         readOnly: true
       avatar:
@@ -3558,29 +3657,35 @@ definitions:
         description: The conversation objective.
         type: string
         readOnly: true
-      user_sid:
-        description: A character string that uniquely identifies this user.
-        type: string
-        readOnly: true
-      full_name:
-        description: The user full name.
-        type: string
-        readOnly: true
-      persona:
-        description: The name of the persona.
-        type: string
-        readOnly: true
       date_created:
         description: The timestamp that the message was sent was created.
         type: string
         format: date-time
         readOnly: true
-      body:
-        description: The content of the message.
-        type: string
-        readOnly: true
+      message:
+        type: object
+        properties:
+          sid:
+            description: A character string that uniquely identifies this message.
+            type: string
+            readOnly: true
+          date_created:
+            description: The timestamp that this resource was created.
+            type: string
+            format: date-time
+            readOnly: true
+          from:
+            description: |
+              Identity of the message’s author. If the message was created by a system,
+              the value will be `system`.
+            type: string
+            readOnly: true
+          body:
+            description: The content of the message.
+            type: string
+            readOnly: true
       subjects:
-        description: List of subject sids associated to this conversation.
+        description: List of subjects associated to this conversation.
         type: array
         items:
           type: object

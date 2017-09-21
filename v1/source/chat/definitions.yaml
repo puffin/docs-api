@@ -245,25 +245,18 @@
         description: A character string that uniquely identifies this user.
         type: string
         readOnly: true
-      username:
-        description: The username of a user.
+      first_name:
+        description: The user first name.
         type: string
         readOnly: true
-      full_name:
-        description: The user full name.
+      last_name:
+        description: The user last name.
         type: string
         readOnly: true
       avatar:
         description: URL to the user avatar picture.
         type: string
         readOnly: true
-      attributes:
-        description: |
-          An optional string metadata field that can be use to store any data you wish.
-          The string value must contain structurally valid JSON if specified.
-          Note that this will always be null for resources returned via LIST GET operations,
-          but will be present for single GET.
-        type: string
 
   Chat-PersonaObject:
     type: object
@@ -275,3 +268,30 @@
       name:
         description: The name of the persona.
         type: string
+
+  Chat-Subjects:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      subjects:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: '#/definitions/Chat-SubjectObject'
+      meta:
+        $ref: '#/definitions/Meta'
+
+  Chat-SubjectObject:
+    type: object
+    properties:
+      sid:
+        description: A character string that uniquely identifies this subject.
+        type: string
+        readOnly: true
+      name:
+        description: The subject name.
+        type: string
+        readOnly: true

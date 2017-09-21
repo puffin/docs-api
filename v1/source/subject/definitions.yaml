@@ -131,12 +131,12 @@
         description: A character string that uniquely identifies this user.
         type: string
         readOnly: true
-      username:
-        description: The username of a user.
+      first_name:
+        description: The user first name.
         type: string
         readOnly: true
-      full_name:
-        description: The user full name.
+      last_name:
+        description: The user last name.
         type: string
         readOnly: true
       avatar:
@@ -181,29 +181,35 @@
         description: The conversation objective.
         type: string
         readOnly: true
-      user_sid:
-        description: A character string that uniquely identifies this user.
-        type: string
-        readOnly: true
-      full_name:
-        description: The user full name.
-        type: string
-        readOnly: true
-      persona:
-        description: The name of the persona.
-        type: string
-        readOnly: true
       date_created:
         description: The timestamp that the message was sent was created.
         type: string
         format: date-time
         readOnly: true
-      body:
-        description: The content of the message.
-        type: string
-        readOnly: true
+      message:
+        type: object
+        properties:
+          sid:
+            description: A character string that uniquely identifies this message.
+            type: string
+            readOnly: true
+          date_created:
+            description: The timestamp that this resource was created.
+            type: string
+            format: date-time
+            readOnly: true
+          from:
+            description: |
+              Identity of the message’s author. If the message was created by a system,
+              the value will be `system`.
+            type: string
+            readOnly: true
+          body:
+            description: The content of the message.
+            type: string
+            readOnly: true
       subjects:
-        description: List of subject sids associated to this conversation.
+        description: List of subjects associated to this conversation.
         type: array
         items:
           type: object
