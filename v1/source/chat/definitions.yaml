@@ -36,14 +36,18 @@
         type: string
         readOnly: true
       date_created:
-        description: The timestamp that this resource was created.
+        description: The datetime (ISO 8601) that this resource was created.
         type: string
         format: date-time
         readOnly: true
       date_updated:
-        description: The timestamp that this resource was updated.
+        description: The datetime (ISO 8601) that this resource was updated.
         type: string
         format: date-time
+        readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
         readOnly: true
       from:
         description: |
@@ -132,19 +136,23 @@
         type: string
         readOnly: true
       date_created:
-        description: The timestamp that this resource was created.
+        description: The datetime (ISO 8601) that this resource was created.
         type: string
         format: date-time
         readOnly: true
       date_updated:
-        description: The timestamp that this resource was updated.
+        description: The datetime (ISO 8601) that this resource was updated.
         type: string
         format: date-time
         readOnly: true
       date_archived:
-        description: The timestamp that this resource was archived.
+        description: The datetime (ISO 8601) that this resource was archived.
         type: string
         format: date-time
+        readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
         readOnly: true
       created_by:
         description: |
@@ -245,6 +253,10 @@
         description: A character string that uniquely identifies this user.
         type: string
         readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
+        readOnly: true
       first_name:
         description: The user first name.
         type: string
@@ -264,6 +276,10 @@
       sid:
         description: A character string that uniquely identifies this persona.
         type: string
+        readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
         readOnly: true
       name:
         description: The name of the persona.
@@ -290,6 +306,10 @@
       sid:
         description: A character string that uniquely identifies this subject.
         type: string
+        readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
         readOnly: true
       name:
         description: The subject name.

@@ -1183,8 +1183,9 @@ paths:
         | Name | Description |
         | - | - |
         | `sid` | A character string that uniquely identifies this event. |
-        | `date_created` | The timestamp that this resource was created. |
-        | `date_updated` | The timestamp that this resource was updated. |
+        | `date_created` | The datetime (ISO 8601) that this resource was created. |
+        | `date_updated` | The datetime (ISO 8601) that this resource was updated. |
+        | `ts` | The timestamp that this resource was last changed. |
         | `subject_sid` | The subject ID associated with this event. |
         | `user_sid` | The user ID associated with this event. |
         | `notification` or `message` | Associated resource. |
@@ -1209,7 +1210,8 @@ paths:
         | Name | Description |
         | - | - |
         | `sid` | A character string that uniquely identifies this notification. |
-        | `date_created` | The timestamp that this resource was created. |
+        | `date_created` | The datetime (ISO 8601) that this resource was created. |
+        | `ts` | The timestamp that this resource was last changed. |
         | `title` | The title of the notification. |
         | `subject` or `conversation` | The content object of the notification. |
 
@@ -1219,23 +1221,28 @@ paths:
         {
           "sid": "234734213.56765867",
           "date_created": "2017-06-14T17:04:36Z",
+          "ts": 1360782804,
           "user_sid": "U228389023",
           "subject_sid": "S44546566",
           "notification": {
             "sid": "238077.0785345",
             "date_created": "2017-06-14T17:04:36Z",
+            "ts": 1360782804,
             "title": "Maria joined a conversation",
             "conversation": {
               "sid": "C234253394",
+              "ts": 1360782804,
               "title": "Evaluate IR Camera 32B",
               "objective": "Hello World!",
               "subjects": [
                 {
                   "sid": "S44546566",
+                  "ts": 1360782804,
                   "name": "KPI"
                 },
                 {
                   "sid": "S1980847483",
+                  "ts": 1360782804,
                   "name": "Finance"
                 }
               ]
@@ -1249,7 +1256,8 @@ paths:
         | Name | Description |
         | - | - |
         | `sid` | A character string that uniquely identifies this message. |
-        | `date_created` | The timestamp that this resource was created. |
+        | `date_created` | The datetime (ISO 8601) that this resource was created. |
+        | `ts` | The timestamp that this resource was last changed. |
         | `body` | The content of the message. |
         | `from` | Identity of the message’s author. |
         | `to` | The conversation resource. |
@@ -1261,34 +1269,41 @@ paths:
         {
           "sid": "234734213.56765867",
           "date_created": "2017-06-14T17:04:36Z",
+          "ts": 1360782804,
           "user_sid": "U228389023",
           "subject_sid": "S44546566",
           "message": {
             "sid": "238077.0785345",
             "date_created": "2017-06-14T17:04:36Z",
+            "ts": 1360782804,
             "body": "Why is the jump to production so difficult?",
             "from": {
               "sid": "U228389023",
+              "ts": 1360782804,
               "first_name": "Bob",
               "last_name": "Sinclair",
               "avatar": "http://api-docs.rea.ch/static/rea.ch-logo-black.png",
               "persona": {
                 "sid": "P928472829",
+                "ts": 1360782804,
                 "name": "work"
               }
             },
             "to": {
               "sid": "C9375920278",
+              "ts": 1360782804,
               "title": "Evaluate IR Camera 32B",
               "objective": "Hello World!"
             }
             "subjects": [
               {
                 "sid": "S44546566",
+                "ts": 1360782804,
                 "name": "KPI"
               },
               {
                 "sid": "S1980847483",
+                "ts": 1360782804,
                 "name": "Finance"
               }
             ]
@@ -2006,8 +2021,9 @@ paths:
         | Name | Description |
         | - | - |
         | `sid` | A character string that uniquely identifies this event. |
-        | `date_created` | The timestamp that this resource was created. |
-        | `date_updated` | The timestamp that this resource was updated. |
+        | `date_created` | The datetime (ISO 8601) that this resource was created. |
+        | `date_updated` | The datetime (ISO 8601) that this resource was updated. |
+        | `ts` | The timestamp that this resource was last changed. |
         | `user_sid` | The user ID associated with this event. |
         | `notification` or `message` | Associated resource. |
 
@@ -2020,7 +2036,8 @@ paths:
         | Name | Description |
         | - | - |
         | `sid` | A character string that uniquely identifies this notification. |
-        | `date_created` | The timestamp that this resource was created. |
+        | `date_created` | The datetime (ISO 8601) that this resource was created. |
+        | `ts` | The timestamp that this resource was last changed. |
         | `title` | The title of the notification. |
         | `subject` or `conversation` | The content object of the notification. |
         | `action` | Specifies the action to be displayed for the notification. Valid values are. `null` or `invite` |
@@ -2033,13 +2050,16 @@ paths:
           "sid": "234734213.56765867",
           "date_created": "2017-06-14T17:04:36Z",
           "date_updated": "2017-06-14T17:04:36Z",
+          "ts": 1360782804,
           "user_sid": "U228389023",
           "notification": {
             "sid": "238077.0785345",
             "date_created": "2017-06-14T17:04:36Z",
+            "ts": 1360782804,
             "title": "You are invited to join a subject by Bobby",
             "subject": {
               "sid": "S44546566",
+              "ts": 1360782804,
               "name": "KPI",
               "description": "Performance measure..."
             },
@@ -2054,7 +2074,8 @@ paths:
         | Name | Description |
         | - | - |
         | `sid` | A character string that uniquely identifies this message. |
-        | `date_created` | The timestamp that this resource was created. |
+        | `date_created` | The datetime (ISO 8601) that this resource was created. |
+        | `ts` | The timestamp that this resource was last changed. |
         | `body` | The content of the message. |
         | `type` | The type of the message. |
         | `from` | Identity of the message’s author. |
@@ -2068,34 +2089,41 @@ paths:
           "sid": "234734213.56765867",
           "date_created": "2017-06-14T17:04:36Z",
           "date_updated": "2017-06-14T17:04:36Z",
+          "ts": 1360782804,
           "user_sid": "U228389023",
           "message": {
             "sid": "238077.0785345",
             "date_created": "2017-06-14T17:04:36Z",
+            "ts": 1360782804,
             "body": "Why is the jump to production so difficult?",
             "type": "message",
             "from": {
               "sid": "U228389023",
+              "ts": 1360782804,
               "first_name": "Bob",
               "last_name": "Sinclair",
               "avatar": "http://api-docs.rea.ch/static/rea.ch-logo-black.png",
               "persona": {
                 "sid": "P928472829",
+                "ts": 1360782804,
                 "name": "work"
               }
             },
             "to": {
               "sid": "C9375920278",
+              "ts": 1360782804,
               "title": "Evaluate IR Camera 32B",
               "objective": "Hello World!"
             },
             "subjects": [
               {
                 "sid": "S44546566",
+                "ts": 1360782804,
                 "name": "KPI"
               },
               {
                 "sid": "S1980847483",
+                "ts": 1360782804,
                 "name": "Finance"
               }
             ]
@@ -3248,14 +3276,18 @@ definitions:
         type: string
         readOnly: true
       date_created:
-        description: The timestamp that this resource was created.
+        description: The datetime (ISO 8601) that this resource was created.
         type: string
         format: date-time
         readOnly: true
       date_updated:
-        description: The timestamp that this resource was updated.
+        description: The datetime (ISO 8601) that this resource was updated.
         type: string
         format: date-time
+        readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
         readOnly: true
       from:
         description: |
@@ -3344,19 +3376,23 @@ definitions:
         type: string
         readOnly: true
       date_created:
-        description: The timestamp that this resource was created.
+        description: The datetime (ISO 8601) that this resource was created.
         type: string
         format: date-time
         readOnly: true
       date_updated:
-        description: The timestamp that this resource was updated.
+        description: The datetime (ISO 8601) that this resource was updated.
         type: string
         format: date-time
         readOnly: true
       date_archived:
-        description: The timestamp that this resource was archived.
+        description: The datetime (ISO 8601) that this resource was archived.
         type: string
         format: date-time
+        readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
         readOnly: true
       created_by:
         description: |
@@ -3457,6 +3493,10 @@ definitions:
         description: A character string that uniquely identifies this user.
         type: string
         readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
+        readOnly: true
       first_name:
         description: The user first name.
         type: string
@@ -3476,6 +3516,10 @@ definitions:
       sid:
         description: A character string that uniquely identifies this persona.
         type: string
+        readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
         readOnly: true
       name:
         description: The name of the persona.
@@ -3502,6 +3546,10 @@ definitions:
       sid:
         description: A character string that uniquely identifies this subject.
         type: string
+        readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
         readOnly: true
       name:
         description: The subject name.
@@ -3558,14 +3606,18 @@ definitions:
         type: string
         readOnly: true
       date_created:
-        description: The timestamp that this resource was created.
+        description: The datetime (ISO 8601) that this resource was created.
         type: string
         format: date-time
         readOnly: true
       date_updated:
-        description: The timestamp that this resource was updated.
+        description: The datetime (ISO 8601) that this resource was updated.
         type: string
         format: date-time
+        readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
         readOnly: true
       created_by:
         description: |
@@ -3640,6 +3692,10 @@ definitions:
         description: A character string that uniquely identifies this user.
         type: string
         readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
+        readOnly: true
       first_name:
         description: The user first name.
         type: string
@@ -3682,6 +3738,10 @@ definitions:
         description: A character string that uniquely identifies this conversation.
         type: string
         readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
+        readOnly: true
       title:
         description: The conversation title.
         type: string
@@ -3691,7 +3751,7 @@ definitions:
         type: string
         readOnly: true
       date_created:
-        description: The timestamp that the message was sent was created.
+        description: The datetime (ISO 8601) that this resource was created.
         type: string
         format: date-time
         readOnly: true
@@ -3702,8 +3762,12 @@ definitions:
             description: A character string that uniquely identifies this message.
             type: string
             readOnly: true
+          ts:
+            description: The timestamp that this resource was last changed.
+            type: integer
+            readOnly: true
           date_created:
-            description: The timestamp that this resource was created.
+            description: The datetime (ISO 8601) that this resource was created.
             type: string
             format: date-time
             readOnly: true
@@ -3726,6 +3790,10 @@ definitions:
             sid:
               description: A character string that uniquely identifies this subject.
               type: string
+            ts:
+              description: The timestamp that this resource was last changed.
+              type: integer
+              readOnly: true
             name:
               description: The subject name.
               type: string
@@ -3777,13 +3845,17 @@ definitions:
         description: A character string that uniquely identifies this binding.
         type: string
         readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
+        readOnly: true
       date_created:
-        description: The timestamp that this resource was created.
+        description: The datetime (ISO 8601) that this resource was created.
         type: string
         format: date-time
         readOnly: true
       date_updated:
-        description: The timestamp that this resource was updated.
+        description: The datetime (ISO 8601) that this resource was updated.
         type: string
         format: date-time
         readOnly: true
@@ -3956,6 +4028,10 @@ definitions:
         description: A character string that uniquely identifies this user.
         type: string
         readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
+        readOnly: true
       username:
         description: The username of a user.
         type: string
@@ -3986,17 +4062,17 @@ definitions:
           but will be present for single GET.
         type: string
       date_created:
-        description: The timestamp that this resource was created.
+        description: The datetime (ISO 8601) that this resource was created.
         type: string
         format: date-time
         readOnly: true
       date_updated:
-        description: The timestamp that this resource was updated.
+        description: The datetime (ISO 8601) that this resource was updated.
         type: string
         format: date-time
         readOnly: true
       date_deactivated:
-        description: The timestamp that this resource was deactivated.
+        description: The datetime (ISO 8601) that this resource was deactivated.
         type: string
         format: date-time
         readOnly: true
@@ -4032,6 +4108,10 @@ definitions:
       sid:
         description: A character string that uniquely identifies this persona.
         type: string
+        readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
         readOnly: true
       name:
         description: The name of the persona.

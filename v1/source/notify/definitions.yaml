@@ -31,13 +31,17 @@
         description: A character string that uniquely identifies this binding.
         type: string
         readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
+        readOnly: true
       date_created:
-        description: The timestamp that this resource was created.
+        description: The datetime (ISO 8601) that this resource was created.
         type: string
         format: date-time
         readOnly: true
       date_updated:
-        description: The timestamp that this resource was updated.
+        description: The datetime (ISO 8601) that this resource was updated.
         type: string
         format: date-time
         readOnly: true

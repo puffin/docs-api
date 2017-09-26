@@ -49,14 +49,18 @@
         type: string
         readOnly: true
       date_created:
-        description: The timestamp that this resource was created.
+        description: The datetime (ISO 8601) that this resource was created.
         type: string
         format: date-time
         readOnly: true
       date_updated:
-        description: The timestamp that this resource was updated.
+        description: The datetime (ISO 8601) that this resource was updated.
         type: string
         format: date-time
+        readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
         readOnly: true
       created_by:
         description: |
@@ -131,6 +135,10 @@
         description: A character string that uniquely identifies this user.
         type: string
         readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
+        readOnly: true
       first_name:
         description: The user first name.
         type: string
@@ -173,6 +181,10 @@
         description: A character string that uniquely identifies this conversation.
         type: string
         readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
+        readOnly: true
       title:
         description: The conversation title.
         type: string
@@ -182,7 +194,7 @@
         type: string
         readOnly: true
       date_created:
-        description: The timestamp that the message was sent was created.
+        description: The datetime (ISO 8601) that this resource was created.
         type: string
         format: date-time
         readOnly: true
@@ -193,8 +205,12 @@
             description: A character string that uniquely identifies this message.
             type: string
             readOnly: true
+          ts:
+            description: The timestamp that this resource was last changed.
+            type: integer
+            readOnly: true
           date_created:
-            description: The timestamp that this resource was created.
+            description: The datetime (ISO 8601) that this resource was created.
             type: string
             format: date-time
             readOnly: true
@@ -217,6 +233,10 @@
             sid:
               description: A character string that uniquely identifies this subject.
               type: string
+            ts:
+              description: The timestamp that this resource was last changed.
+              type: integer
+              readOnly: true
             name:
               description: The subject name.
               type: string

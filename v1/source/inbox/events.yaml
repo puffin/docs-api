@@ -12,8 +12,9 @@
         | Name | Description |
         | - | - |
         | `sid` | A character string that uniquely identifies this event. |
-        | `date_created` | The timestamp that this resource was created. |
-        | `date_updated` | The timestamp that this resource was updated. |
+        | `date_created` | The datetime (ISO 8601) that this resource was created. |
+        | `date_updated` | The datetime (ISO 8601) that this resource was updated. |
+        | `ts` | The timestamp that this resource was last changed. |
         | `user_sid` | The user ID associated with this event. |
         | `notification` or `message` | Associated resource. |
 
@@ -26,7 +27,8 @@
         | Name | Description |
         | - | - |
         | `sid` | A character string that uniquely identifies this notification. |
-        | `date_created` | The timestamp that this resource was created. |
+        | `date_created` | The datetime (ISO 8601) that this resource was created. |
+        | `ts` | The timestamp that this resource was last changed. |
         | `title` | The title of the notification. |
         | `subject` or `conversation` | The content object of the notification. |
         | `action` | Specifies the action to be displayed for the notification. Valid values are. `null` or `invite` |
@@ -39,13 +41,16 @@
           "sid": "234734213.56765867",
           "date_created": "2017-06-14T17:04:36Z",
           "date_updated": "2017-06-14T17:04:36Z",
+          "ts": 1360782804,
           "user_sid": "U228389023",
           "notification": {
             "sid": "238077.0785345",
             "date_created": "2017-06-14T17:04:36Z",
+            "ts": 1360782804,
             "title": "You are invited to join a subject by Bobby",
             "subject": {
               "sid": "S44546566",
+              "ts": 1360782804,
               "name": "KPI",
               "description": "Performance measure..."
             },
@@ -60,7 +65,8 @@
         | Name | Description |
         | - | - |
         | `sid` | A character string that uniquely identifies this message. |
-        | `date_created` | The timestamp that this resource was created. |
+        | `date_created` | The datetime (ISO 8601) that this resource was created. |
+        | `ts` | The timestamp that this resource was last changed. |
         | `body` | The content of the message. |
         | `type` | The type of the message. |
         | `from` | Identity of the message’s author. |
@@ -74,34 +80,41 @@
           "sid": "234734213.56765867",
           "date_created": "2017-06-14T17:04:36Z",
           "date_updated": "2017-06-14T17:04:36Z",
+          "ts": 1360782804,
           "user_sid": "U228389023",
           "message": {
             "sid": "238077.0785345",
             "date_created": "2017-06-14T17:04:36Z",
+            "ts": 1360782804,
             "body": "Why is the jump to production so difficult?",
             "type": "message",
             "from": {
               "sid": "U228389023",
+              "ts": 1360782804,
               "first_name": "Bob",
               "last_name": "Sinclair",
               "avatar": "http://api-docs.rea.ch/static/rea.ch-logo-black.png",
               "persona": {
                 "sid": "P928472829",
+                "ts": 1360782804,
                 "name": "work"
               }
             },
             "to": {
               "sid": "C9375920278",
+              "ts": 1360782804,
               "title": "Evaluate IR Camera 32B",
               "objective": "Hello World!"
             },
             "subjects": [
               {
                 "sid": "S44546566",
+                "ts": 1360782804,
                 "name": "KPI"
               },
               {
                 "sid": "S1980847483",
+                "ts": 1360782804,
                 "name": "Finance"
               }
             ]

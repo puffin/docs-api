@@ -47,6 +47,10 @@
         description: A character string that uniquely identifies this user.
         type: string
         readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
+        readOnly: true
       username:
         description: The username of a user.
         type: string
@@ -77,17 +81,17 @@
           but will be present for single GET.
         type: string
       date_created:
-        description: The timestamp that this resource was created.
+        description: The datetime (ISO 8601) that this resource was created.
         type: string
         format: date-time
         readOnly: true
       date_updated:
-        description: The timestamp that this resource was updated.
+        description: The datetime (ISO 8601) that this resource was updated.
         type: string
         format: date-time
         readOnly: true
       date_deactivated:
-        description: The timestamp that this resource was deactivated.
+        description: The datetime (ISO 8601) that this resource was deactivated.
         type: string
         format: date-time
         readOnly: true
@@ -123,6 +127,10 @@
       sid:
         description: A character string that uniquely identifies this persona.
         type: string
+        readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
         readOnly: true
       name:
         description: The name of the persona.
