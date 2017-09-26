@@ -23,10 +23,15 @@
         | `conversation_not_found` | Value passed for `sid` was invalid. | 404 |
         | `not_authed` | No authentication token provided. | 401 |
         | `invalid_auth` | Invalid authentication token. | 401 |
+        | `invalid_latest` | Value passed for `latest` was invalid | 400 |
+        | `invalid_oldest` | Value passed for `oldest` was invalid | 400 |
         | `invalid_page` | Value passed for `page` was invalid | 400 |
         | `invalid_page_size` | Value passed for `page_size` was invalid | 400 |
         | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
+        - $ref: "#/parameters/inclusive"
+        - $ref: "#/parameters/latest"
+        - $ref: "#/parameters/oldest"
         - $ref: "#/parameters/page"
         - $ref: "#/parameters/page_size"
       responses:

@@ -144,10 +144,15 @@
         | - | - | - |
         | `not_authed` | No authentication token provided. | 401 |
         | `invalid_auth` | Invalid authentication token. | 401 |
+        | `invalid_latest` | Value passed for `latest` was invalid | 400 |
+        | `invalid_oldest` | Value passed for `oldest` was invalid | 400 |
         | `invalid_page` | Value passed for `page` was invalid | 400 |
         | `invalid_page_size` | Value passed for `page_size` was invalid | 400 |
         | `invalid_type` | Value passed for `type` was invalid | 400 |
       parameters:
+        - $ref: "#/parameters/inclusive"
+        - $ref: "#/parameters/latest"
+        - $ref: "#/parameters/oldest"
         - $ref: "#/parameters/page"
         - $ref: "#/parameters/page_size"
         - name: type

@@ -329,7 +329,25 @@ parameters:
   page_size:
     name: page_size
     in: query
-    description: The number of messages per page.
+    description: The number of resource per page.
     default: 50
     type: integer
+  inclusive:
+    name: inclusive
+    in: query
+    description: Include resource with latest or oldest in results.
+    default: true
+    type: boolean
+  latest:
+    name: latest
+    in: query
+    description: SID of the end range of resources to include in results.
+    default: null
+    type: string
+  oldest:
+    name: oldest
+    in: query
+    description: SID of the start range of resources to include in results.
+    default: null
+    type: string
 paths:

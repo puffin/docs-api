@@ -329,9 +329,27 @@ parameters:
   page_size:
     name: page_size
     in: query
-    description: The number of messages per page.
+    description: The number of resource per page.
     default: 50
     type: integer
+  inclusive:
+    name: inclusive
+    in: query
+    description: Include resource with latest or oldest in results.
+    default: true
+    type: boolean
+  latest:
+    name: latest
+    in: query
+    description: SID of the end range of resources to include in results.
+    default: null
+    type: string
+  oldest:
+    name: oldest
+    in: query
+    description: SID of the start range of resources to include in results.
+    default: null
+    type: string
 paths:
   /chat/conversations:
     post:
@@ -800,10 +818,15 @@ paths:
         | `conversation_not_found` | Value passed for `sid` was invalid. | 404 |
         | `not_authed` | No authentication token provided. | 401 |
         | `invalid_auth` | Invalid authentication token. | 401 |
+        | `invalid_latest` | Value passed for `latest` was invalid | 400 |
+        | `invalid_oldest` | Value passed for `oldest` was invalid | 400 |
         | `invalid_page` | Value passed for `page` was invalid | 400 |
         | `invalid_page_size` | Value passed for `page_size` was invalid | 400 |
         | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
+        - $ref: "#/parameters/inclusive"
+        - $ref: "#/parameters/latest"
+        - $ref: "#/parameters/oldest"
         - $ref: "#/parameters/page"
         - $ref: "#/parameters/page_size"
       responses:
@@ -1286,10 +1309,15 @@ paths:
         | - | - | - |
         | `not_authed` | No authentication token provided. | 401 |
         | `invalid_auth` | Invalid authentication token. | 401 |
+        | `invalid_latest` | Value passed for `latest` was invalid | 400 |
+        | `invalid_oldest` | Value passed for `oldest` was invalid | 400 |
         | `invalid_page` | Value passed for `page` was invalid | 400 |
         | `invalid_page_size` | Value passed for `page_size` was invalid | 400 |
         | `invalid_type` | Value passed for `type` was invalid | 400 |
       parameters:
+        - $ref: "#/parameters/inclusive"
+        - $ref: "#/parameters/latest"
+        - $ref: "#/parameters/oldest"
         - $ref: "#/parameters/page"
         - $ref: "#/parameters/page_size"
         - name: type
@@ -2085,9 +2113,14 @@ paths:
         | - | - | - |
         | `not_authed` | No authentication token provided. | 401 |
         | `invalid_auth` | Invalid authentication token. | 401 |
+        | `invalid_latest` | Value passed for `latest` was invalid | 400 |
+        | `invalid_oldest` | Value passed for `oldest` was invalid | 400 |
         | `invalid_page` | Value passed for `page` was invalid | 400 |
         | `invalid_page_size` | Value passed for `page_size` was invalid | 400 |
       parameters:
+        - $ref: "#/parameters/inclusive"
+        - $ref: "#/parameters/latest"
+        - $ref: "#/parameters/oldest"
         - $ref: "#/parameters/page"
         - $ref: "#/parameters/page_size"
       responses:
