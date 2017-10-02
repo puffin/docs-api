@@ -2061,7 +2061,9 @@ paths:
               "sid": "S44546566",
               "ts": 1360782804,
               "name": "KPI",
-              "description": "Performance measure..."
+              "description": "Performance measure...",
+              "participant_count": 0,
+              "conversation_count": 0
             },
             "action": "invite",
             "action_result": null
@@ -2080,7 +2082,8 @@ paths:
         | `type` | The type of the message. |
         | `from` | Identity of the message’s author. |
         | `to` | The conversation resource. |
-        | `subjects` | an array of associated subjects. |
+        | `participant_count` | Number of participants of this convrsation. |
+        | `subject_count` | Number of subjects of this convrsation. |
 
         ##### Response sample
 
@@ -2115,18 +2118,8 @@ paths:
               "title": "Evaluate IR Camera 32B",
               "objective": "Hello World!"
             },
-            "subjects": [
-              {
-                "sid": "S44546566",
-                "ts": 1360782804,
-                "name": "KPI"
-              },
-              {
-                "sid": "S1980847483",
-                "ts": 1360782804,
-                "name": "Finance"
-              }
-            ]
+            "participant_count": 0,
+            "subject_count": 0
           }
         }
         ```
