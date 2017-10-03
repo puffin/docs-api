@@ -2043,7 +2043,7 @@ paths:
         | `action` | Specifies the action to be displayed for the notification. Valid values are. `null` or `invite` |
         | `action_result` | Store the action result. `null`, `accepted` or `declined` |
 
-        ##### Response sample
+        ##### Subject response sample
 
         ```json
         {
@@ -2064,6 +2064,33 @@ paths:
               "description": "Performance measure...",
               "participant_count": 0,
               "conversation_count": 0
+            },
+            "action": "invite",
+            "action_result": null
+          }
+        }
+        ```
+
+        ##### Conversation response sample
+
+        ```json
+        {
+          "sid": "234734213.56765867",
+          "date_created": "2017-06-14T17:04:36Z",
+          "date_updated": "2017-06-14T17:04:36Z",
+          "ts": 1360782804,
+          "user_sid": "U228389023",
+          "notification": {
+            "sid": "238077.0785345",
+            "date_created": "2017-06-14T17:04:36Z",
+            "ts": 1360782804,
+            "title": "You are invited to join a conversation by John",
+            "conversation": {
+              "sid": "C9375920278",
+              "ts": 1360782804,
+              "title": "Evaluate IR Camera 32B",
+              "participant_count": 0,
+              "subject_count": 0
             },
             "action": "invite",
             "action_result": null
@@ -2115,8 +2142,7 @@ paths:
             "to": {
               "sid": "C9375920278",
               "ts": 1360782804,
-              "title": "Evaluate IR Camera 32B",
-              "objective": "Hello World!"
+              "title": "Evaluate IR Camera 32B"
             },
             "participant_count": 0,
             "subject_count": 0
