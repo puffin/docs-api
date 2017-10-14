@@ -3436,30 +3436,10 @@ definitions:
         description: Conversation is private?
         type: boolean
         default: true
-      subjects:
-        description: List of subject sids associated to this conversation.
-        type: array
-        items:
-          type: string
-        readOnly: true
-      users:
-        description: List of user sids that have access to this conversation.
-        type: array
-        items:
-          type: string
-        readOnly: true
-      participants:
-        description: List of users that participate in this conversation with a persona.
-        type: array
-        items:
-          type: object
-          properties:
-            user_sid:
-              type: string
-              description: A character string that uniquely identifies the user.
-            persona:
-              type: object
-              $ref: '#/definitions/Chat-PersonaObject'
+      participate:
+        description: User participate in conversation (with a persona)?
+        type: boolean
+        default: true
         readOnly: true
       latest:
         description: The latest message sid in the conversation.
