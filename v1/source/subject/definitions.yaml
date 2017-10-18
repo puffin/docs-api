@@ -39,7 +39,7 @@
         type: object
         $ref: '#/definitions/Subject-SubjectObject'
 
-  Subject-SubjectObject:
+  Subject-SubjectBaseObject:
     type: object
     required:
       - name
@@ -48,63 +48,93 @@
         description: A character string that uniquely identifies this subject.
         type: string
         readOnly: true
-      date_created:
-        description: The datetime (ISO 8601) that this resource was created.
-        type: string
-        format: date-time
-        readOnly: true
-      date_updated:
-        description: The datetime (ISO 8601) that this resource was updated.
-        type: string
-        format: date-time
-        readOnly: true
       ts:
         description: The timestamp that this resource was last changed.
         type: integer
         readOnly: true
-      created_by:
-        description: |
-          Identity of the subject's creator. If the subject was created by a
-          system, the value will be `system`.
-        type: string
-        readOnly: true
-      attributes:
-        description: |
-          An optional string metadata field that can be use to store any data you wish.
-          The string value must contain structurally valid JSON if specified.
-          Note that this will always be null for resources returned via LIST GET operations,
-          but will be present for single GET.
-        type: string
       name:
         description: The subject name.
         type: string
       description:
         description: The subject description.
         type: string
-      participant_count:
-        description: Number of participants of this subject.
-        type: integer
-        readOnly: true
-      conversation_count:
-        description: Number of conversations for this subject.
-        type: integer
-        readOnly: true
-      link_count:
-        description: Number of linked subjects for this subject.
-        type: integer
-        readOnly: true
-      users:
-        description: List of user sids that have access to this subject.
-        type: array
-        items:
+
+  Subject-SubjectObject:
+    allOf:
+    - $ref:  '#/definitions/Subject-SubjectBaseObject'
+    - type: object
+      properties:
+        date_created:
+          description: The datetime (ISO 8601) that this resource was created.
           type: string
-        readOnly: true
-      participants:
-        description: List of users that participate in this subject.
-        type: array
-        items:
+          format: date-time
+          readOnly: true
+        date_updated:
+          description: The datetime (ISO 8601) that this resource was updated.
           type: string
-        readOnly: true
+          format: date-time
+          readOnly: true
+        created_by:
+          description: |
+            Identity of the subject's creator. If the subject was created by a
+            system, the value will be `system`.
+          type: string
+          readOnly: true
+        attributes:
+          description: |
+            An optional string metadata field that can be use to store any data you wish.
+            The string value must contain structurally valid JSON if specified.
+            Note that this will always be null for resources returned via LIST GET operations,
+            but will be present for single GET.
+          type: string
+        users:
+          description: List of user sids that have access to this subject.
+          type: array
+          items:
+            type: string
+          readOnly: true
+        participants:
+          description: List of users that participate in this conversation with a persona.
+          type: array
+          items:
+            type: object
+            properties:
+              user_sid:
+                type: string
+                description: A character string that uniquely identifies the user.
+              persona:
+                type: object
+                $ref: '#/definitions/Subject-PersonaObject'
+          readOnly: true
+
+  Subject-SubjectLinks:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      subjects:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: '#/definitions/Subject-SubjectListingObject'
+      meta:
+        $ref: '#/definitions/Meta'
+
+  Subject-SubjectListingObject:
+    allOf:
+    - $ref:  '#/definitions/Subject-SubjectBaseObject'
+    - type: object
+      properties:
+        participant_count:
+          description: Number of participants of this subject.
+          type: integer
+          readOnly: true
+        conversation_count:
+          description: Number of conversations for this subject.
+          type: integer
+          readOnly: true
 
   Subject-SubjectLinkObject:
     type: object
@@ -129,6 +159,15 @@
         $ref: '#/definitions/Meta'
 
   Subject-UserObject:
+    allOf:
+    - $ref:  '#/definitions/Subject-UserBaseObject'
+    - type: object
+      properties:
+        persona:
+          type: object
+          $ref: '#/definitions/Subject-PersonaObject'
+
+  Subject-UserBaseObject:
     type: object
     properties:
       sid:
@@ -151,12 +190,20 @@
         description: URL to the user avatar picture.
         type: string
         readOnly: true
-      attributes:
-        description: |
-          An optional string metadata field that can be use to store any data you wish.
-          The string value must contain structurally valid JSON if specified.
-          Note that this will always be null for resources returned via LIST GET operations,
-          but will be present for single GET.
+
+  Subject-PersonaObject:
+    type: object
+    properties:
+      sid:
+        description: A character string that uniquely identifies this persona.
+        type: string
+        readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
+        readOnly: true
+      name:
+        description: The name of the persona.
         type: string
 
   Subject-Conversations:
@@ -189,55 +236,87 @@
         description: The conversation title.
         type: string
         readOnly: true
-      objective:
-        description: The conversation objective.
-        type: string
+      participant_count:
+        description: Number of participants of this conversation.
+        type: integer
         readOnly: true
-      date_created:
-        description: The datetime (ISO 8601) that this resource was created.
-        type: string
-        format: date-time
+      subject_count:
+        description: Number of subjects for this conversation.
+        type: integer
         readOnly: true
-      message:
+
+  Subject-SubjectCover:
+    type: object
+    properties:
+      ok:
+        description: Indicating success or failure.
+        type: boolean
+        default: true
+      subject:
         type: object
-        properties:
-          sid:
-            description: A character string that uniquely identifies this message.
-            type: string
-            readOnly: true
-          ts:
-            description: The timestamp that this resource was last changed.
-            type: integer
-            readOnly: true
-          date_created:
-            description: The datetime (ISO 8601) that this resource was created.
-            type: string
-            format: date-time
-            readOnly: true
-          from:
-            description: |
-              Identity of the message’s author. If the message was created by a system,
-              the value will be `system`.
-            type: string
-            readOnly: true
-          body:
-            description: The content of the message.
-            type: string
-            readOnly: true
-      subjects:
-        description: List of subjects associated to this conversation.
+        $ref: '#/definitions/Subject-SubjectCoverObject'
+
+  Subject-SubjectCoverObject:
+    type: object
+    properties:
+      sid:
+        description: A character string that uniquely identifies this subject.
+        type: string
+        readOnly: true
+      ts:
+        description: The timestamp that this resource was last changed.
+        type: integer
+        readOnly: true
+      name:
+        description: The subject name.
+        type: string
+        readOnly: true
+      description:
+        description: The subject description.
+        type: string
+        readOnly: true
+      participant_count:
+        description: Number of participants of this subject.
+        type: integer
+        readOnly: true
+      conversation_count:
+        description: Number of conversations for this subject.
+        type: integer
+        readOnly: true
+      link_count:
+        description: Number of linked subjects for this subject.
+        type: integer
+        readOnly: true
+      tag:
+        description: The subject tag name.
+        type: string
+        readOnly: true
+      picture:
+        description: URL to the subject cover picture.
+        type: string
+        readOnly: true
+      theme:
+        description: Color theme of the cover page.
+        type: string
+        readOnly: true
+        default: light
+        enum:
+          - light
+          - dark
+      conversations:
+        description: List of conversations highlighted in the cover page.
         type: array
         items:
           type: object
           properties:
             sid:
-              description: A character string that uniquely identifies this subject.
+              description: A character string that uniquely identifies this conversation.
               type: string
             ts:
               description: The timestamp that this resource was last changed.
               type: integer
               readOnly: true
-            name:
-              description: The subject name.
+            title:
+              description: The conversation title.
               type: string
         readOnly: true

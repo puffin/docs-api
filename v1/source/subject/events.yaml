@@ -69,18 +69,8 @@
               "ts": 1360782804,
               "title": "Evaluate IR Camera 32B",
               "objective": "Hello World!",
-              "subjects": [
-                {
-                  "sid": "S44546566",
-                  "ts": 1360782804,
-                  "name": "KPI"
-                },
-                {
-                  "sid": "S1980847483",
-                  "ts": 1360782804,
-                  "name": "Finance"
-                }
-              ]
+              "participant_count": 0,
+              "subject_count": 0
             }
           }
         }
@@ -96,7 +86,8 @@
         | `body` | The content of the message. |
         | `from` | Identity of the message’s author. |
         | `to` | The conversation resource. |
-        | `subjects` | an array of associated subjects. |
+        | `participant_count` | Number of participants of this convrsation. |
+        | `subject_count` | Number of subjects of this convrsation. |
 
         ##### Response sample
 
@@ -129,19 +120,9 @@
               "ts": 1360782804,
               "title": "Evaluate IR Camera 32B",
               "objective": "Hello World!"
-            }
-            "subjects": [
-              {
-                "sid": "S44546566",
-                "ts": 1360782804,
-                "name": "KPI"
-              },
-              {
-                "sid": "S1980847483",
-                "ts": 1360782804,
-                "name": "Finance"
-              }
-            ]
+            },
+            "participant_count": 0,
+            "subject_count": 0
           },
           "social_detail": {
             "title": "<@U024BE7LH|Mark> and 3 more participate"
@@ -163,18 +144,12 @@
         | `invalid_oldest` | Value passed for `oldest` was invalid | 400 |
         | `invalid_page` | Value passed for `page` was invalid | 400 |
         | `invalid_page_size` | Value passed for `page_size` was invalid | 400 |
-        | `invalid_type` | Value passed for `type` was invalid | 400 |
       parameters:
         - $ref: "#/parameters/inclusive"
         - $ref: "#/parameters/latest"
         - $ref: "#/parameters/oldest"
         - $ref: "#/parameters/page"
         - $ref: "#/parameters/page_size"
-        - name: type
-          in: query
-          description: Filter type of events to return. Possible values are `all`, `notification` or `message`.
-          default: all
-          type: string
       responses:
         '200':
           description: Event list retrieval successful
