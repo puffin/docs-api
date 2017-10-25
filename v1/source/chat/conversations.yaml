@@ -402,6 +402,49 @@
         '404':
           $ref: '#/responses/NotFound'
 
+  /chat/conversations/{sid}/decline-invite:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this conversation.
+        required: true
+        type: string
+    post:
+      tags:
+        - 3. conversations
+      summary: Decline a conversation invite
+      description: |
+        User decline a conversation invitation.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `conversation_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_in_conversation` | User is not in the conversation. | 403 |
+        | `is_archived` | Conversation has been archived. | 403 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
+      responses:
+        '200':
+          description: Conversation decline invite successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
   /chat/conversations/{sid}/leave:
     parameters:
       - name: sid
