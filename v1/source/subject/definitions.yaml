@@ -87,24 +87,11 @@
             Note that this will always be null for resources returned via LIST GET operations,
             but will be present for single GET.
           type: string
-        users:
-          description: List of user sids that have access to this subject.
+        participate:
+          description: List of persona sids of the user that participate to this subject.
           type: array
           items:
             type: string
-          readOnly: true
-        participants:
-          description: List of users that participate in this conversation with a persona.
-          type: array
-          items:
-            type: object
-            properties:
-              user_sid:
-                type: string
-                description: A character string that uniquely identifies the user.
-              persona:
-                type: object
-                $ref: '#/definitions/Subject-PersonaObject'
           readOnly: true
 
   Subject-SubjectLinks:
@@ -163,9 +150,11 @@
     - $ref:  '#/definitions/Subject-UserBaseObject'
     - type: object
       properties:
-        persona:
-          type: object
-          $ref: '#/definitions/Subject-PersonaObject'
+        personas:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/definitions/Subject-PersonaObject'
 
   Subject-UserBaseObject:
     type: object

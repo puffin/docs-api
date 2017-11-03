@@ -1750,6 +1750,16 @@ paths:
         | `not_authed` | No authentication token provided. | 401 |
         | `invalid_auth` | Invalid authentication token. | 401 |
         | `no_access` | Authenticated user do not have access to this resource. | 403 |
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              persona_sid:
+                description: The persona unique identifier.
+                type: string
       responses:
         '200':
           description: Subject leave successful
@@ -1929,6 +1939,51 @@ paths:
           description: User list retrieval successful
           schema:
             $ref: '#/definitions/Subject-Users'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+  /subject/users/{sid}/subjects:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this user.
+        required: true
+        type: string
+    get:
+      tags:
+        - 2. users
+      summary: Get subjects for user
+      description: |
+        Get all the subjects for a user.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `user_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `invalid_page` | Value passed for `page` was invalid | 400 |
+        | `invalid_page_size` | Value passed for `page_size` was invalid | 400 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
+      parameters:
+        - $ref: "#/parameters/page"
+        - $ref: "#/parameters/page_size"
+      responses:
+        '200':
+          description: Subject list retrieval successful
+          schema:
+            $ref: '#/definitions/Subject-Subjects'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
@@ -3713,24 +3768,11 @@ definitions:
             Note that this will always be null for resources returned via LIST GET operations,
             but will be present for single GET.
           type: string
-        users:
-          description: List of user sids that have access to this subject.
+        participate:
+          description: List of persona sids of the user that participate to this subject.
           type: array
           items:
             type: string
-          readOnly: true
-        participants:
-          description: List of users that participate in this conversation with a persona.
-          type: array
-          items:
-            type: object
-            properties:
-              user_sid:
-                type: string
-                description: A character string that uniquely identifies the user.
-              persona:
-                type: object
-                $ref: '#/definitions/Subject-PersonaObject'
           readOnly: true
 
   Subject-SubjectLinks:
@@ -3789,9 +3831,11 @@ definitions:
     - $ref:  '#/definitions/Subject-UserBaseObject'
     - type: object
       properties:
-        persona:
-          type: object
-          $ref: '#/definitions/Subject-PersonaObject'
+        personas:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/definitions/Subject-PersonaObject'
 
   Subject-UserBaseObject:
     type: object

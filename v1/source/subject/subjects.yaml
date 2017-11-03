@@ -377,6 +377,16 @@
         | `not_authed` | No authentication token provided. | 401 |
         | `invalid_auth` | Invalid authentication token. | 401 |
         | `no_access` | Authenticated user do not have access to this resource. | 403 |
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              persona_sid:
+                description: The persona unique identifier.
+                type: string
       responses:
         '200':
           description: Subject leave successful
