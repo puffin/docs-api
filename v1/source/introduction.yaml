@@ -324,7 +324,7 @@ parameters:
     name: page
     in: query
     description: The page to select.
-    default: 0
+    default: 1
     type: integer
   page_size:
     name: page_size
