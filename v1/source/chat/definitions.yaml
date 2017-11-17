@@ -190,6 +190,14 @@
         description: the message sid for the last message the calling user has read in this conversation.
         type: string
         readOnly: true
+      participant_count:
+        description: Number of participants of this conversation.
+        type: integer
+        readOnly: true
+      subject_count:
+        description: Number of subjects for this conversation.
+        type: integer
+        readOnly: true
 
   Chat-Users:
     type: object

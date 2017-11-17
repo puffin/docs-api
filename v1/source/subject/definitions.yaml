@@ -93,6 +93,14 @@
           items:
             type: string
           readOnly: true
+        participant_count:
+          description: Number of participants of this subject.
+          type: integer
+          readOnly: true
+        conversation_count:
+          description: Number of conversations for this subject.
+          type: integer
+          readOnly: true
 
   Subject-SubjectLinks:
     type: object
