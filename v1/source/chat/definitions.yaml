@@ -28,7 +28,6 @@
     type: object
     required:
       - body
-      - from
       - to
     properties:
       sid:
@@ -54,6 +53,7 @@
           Identity of the message’s author. If the message was created by a system,
           the value will be `system`.
         type: string
+        readOnly: true
       to:
         description: The unique id of the conversation this message is sent to.
         type: string
@@ -61,6 +61,7 @@
         description: The type of the message.
         type: string
         default: message
+        readOnly: true
       subtype:
         description: The subtype of the message.
         type: string
@@ -71,6 +72,7 @@
           - conversation_objective
           - subject_conversation_link
           - subject_conversation_unlink
+        readOnly: true
       unfurl_links:
         description: Pass `true` to enable unfurling of text-based content.
         type: boolean
