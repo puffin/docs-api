@@ -273,3 +273,182 @@
           $ref: '#/responses/Forbidden'
         '404':
           $ref: '#/responses/NotFound'
+
+  /chat/messages/transient:
+    post:
+      tags:
+        - 3. messages
+      summary: Create a transient message
+      description: |
+        Sends a transient message to a user in a conversation.
+
+        This method posts an ephemeral message, which is visible only to the assigned user in a specific conversation.
+
+        Transient message delivery is not guaranteed - the user must be currently active in Reach and a member of the specified conversation.
+        they only exists the time the user is active in a specific conversation. These message do not persist across reloads, devices or sessions.
+
+        Use these messages to send users context-sensitive messages, relevant to the conversation they're actually participating in.
+        This is mainly to inform a user after he did a specific actions. i.e. The user mentions a subject, the bot sends a transient message
+        only to this user in the specific conversation to ask for actions.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `conversation_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_in_conversation` | Authenticated user is not in the conversation. | 403 |
+        | `is_archived` | Conversation has been archived. | 403 |
+        | `msg_too_long` | Message body is too long. | 400 |
+        | `no_text` | No message text provided. | 400 |
+        | `user_not_in_conversation` | Intended recipient is not in the conversation. | 400 |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
+
+      parameters:
+        - name: message
+          in: body
+          description: The message to create.
+          schema:
+            $ref: '#/definitions/Chat-MessageTransientObject'
+      responses:
+        '201':
+          description: Transient message creation successful
+          schema:
+            $ref: '#/definitions/Chat-MessageTransient'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+
+  /chat/messages/transient/{sid}:
+    parameters:
+      - name: sid
+        in: path
+        description: A character string that uniquely identifies this message.
+        required: true
+        type: string
+
+    get:
+      tags:
+        - 3. messages
+      summary: Get a transient message
+      description: |
+        Get a single transient message.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `message_not_found` | Value passed for `sid` was invalid. |  404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
+      responses:
+        '200':
+          description: Transient message retrieval successful
+          schema:
+            $ref: '#/definitions/Chat-MessageTransient'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+    put:
+      tags:
+        - 3. messages
+      summary: Update a transient message
+      description: |
+        Update a transient message.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
+        | `message_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `cant_update_message` | Authenticated user does not have permission to update this message. | 403 |
+        | `msg_too_long` | Message body is too long. | 400 |
+        | `no_text` | No message text provided. | 400 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
+      parameters:
+        - name: message
+          in: body
+          description: The message to update.
+          schema:
+            type: object
+            properties:
+              attributes:
+                description: |
+                  An optional string metadata field that can be use to store any data you wish.
+                  The string value must contain structurally valid JSON if specified.
+                  Note that this will always be null for resources returned via LIST GET operations,
+                  but will be present for single GET.
+                type: string
+              body:
+                description: The content of the message.
+                type: string
+      responses:
+        '200':
+          description: Transient message update successful
+          schema:
+            $ref: '#/definitions/Chat-MessageTransient'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+
+    delete:
+      tags:
+        - 3. messages
+      summary: Delete a transient message
+      description: |
+        Delete a transient message.
+
+        #### Errors
+
+        This table lists the expected errors that this method could return. However, other
+        errors can be returned in the case where the service is down or other unexpected
+        factors affect processing. Callers should always check the value of the `ok` params in the response.
+
+        | Error | Description | Status Code |
+        | - | - | - |
+        | `message_not_found` | Value passed for `sid` was invalid. | 404 |
+        | `not_authed` | No authentication token provided. | 401 |
+        | `invalid_auth` | Invalid authentication token. | 401 |
+        | `cant_delete_message` | Authenticated user does not have permission to delete this message. | 403 |
+        | `no_access` | Authenticated user do not have access to this resource. | 403 |
+      responses:
+        '200':
+          description: Transient message deletion successful
+          schema:
+            $ref: '#/definitions/AppOk'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
