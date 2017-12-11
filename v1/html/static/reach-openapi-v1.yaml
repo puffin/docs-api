@@ -1970,6 +1970,7 @@ paths:
         | - | - | - |
         | `subject_not_found` | Value passed for `sid` was invalid. | 404 |
         | `not_in_subject` | User is not in the subject. | 403 |
+        | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
         | `not_authed` | No authentication token provided. | 401 |
         | `invalid_auth` | Invalid authentication token. | 401 |
         | `no_access` | Authenticated user do not have access to this resource. | 403 |
