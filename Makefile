@@ -49,7 +49,7 @@ build-v1: .npminstall
 	@cat $(V1_SRC)/iam/definitions.yaml >> $(V1_YAML)
 	@cat $(V1_SRC)/account/definitions.yaml >> $(V1_YAML)
 
-	@node_modules/swagger-cli/bin/swagger.js validate $(V1_YAML)
+	@node_modules/swagger-cli/bin/swagger-cli.js validate $(V1_YAML)
 
 	@echo Complete
 

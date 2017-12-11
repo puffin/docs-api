@@ -4,3 +4,6 @@
 # Build
 .npminstall
 node_modules
+
+*.pem
+docker-compose-api-docs-*.yml
