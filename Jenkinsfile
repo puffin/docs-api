@@ -23,6 +23,7 @@ pipeline {
         branch "master"
       }
       steps {
+        tag("docs-api")
         release("api-docs")
       }
     }
@@ -44,6 +45,11 @@ pipeline {
       steps {
         deploy("api-docs", "api-docs", "api-docs")
       }
+    }
+  }
+  post {
+    always {
+      cleanup("api-docs")
     }
   }
 }
