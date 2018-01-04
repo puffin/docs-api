@@ -24,6 +24,7 @@ services:
         - com.df.port=8888
         - com.df.usersSecret=admin
         - com.df.reschedule=true
+        - com.df.rack=tool
       placement:
         constraints:
           - node.labels.com.reach.rack == tool
