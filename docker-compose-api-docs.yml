@@ -22,9 +22,13 @@ services:
         - com.df.servicePath=/
         - com.df.serviceDomain=api-docs.rea.ch
         - com.df.port=8888
+        - com.df.usersSecret=admin
+        - com.df.reschedule=true
       placement:
         constraints:
-          - node.role == worker
+          - node.labels.com.reach.rack == tool
+        preferences:
+          - spread: node.labels.com.reach.zone
 
 networks:
   cluster_network:

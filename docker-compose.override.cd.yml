@@ -9,4 +9,5 @@ services:
         - com.df.distribute=true
         - com.df.servicePath=/
         - com.df.serviceDomain=api-docs.reach.chat
+        - com.df.usersSecret=admin
         - com.df.port=8888
