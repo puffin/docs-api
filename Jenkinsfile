@@ -15,22 +15,16 @@ pipeline {
           def dateFormat = new SimpleDateFormat("yy.MM.dd")
           currentBuild.displayName = dateFormat.format(new Date()) + "-" + env.BUILD_NUMBER
         }
+        updateVersion("config.ini")
         build("api-docs")
       }
     }
     stage("release") {
-      when {
-        branch "master"
-      }
       steps {
-        tag("docs-api")
         release("api-docs")
       }
     }
     stage("cd") {
-      when {
-        branch "master"
-      }
       steps {
         deploy("api-docs", "api-docs", "api-docs")
       }
@@ -43,6 +37,7 @@ pipeline {
         label "prod"
       }
       steps {
+        tag("docs-api")
         deploy("api-docs", "api-docs", "api-docs")
       }
     }

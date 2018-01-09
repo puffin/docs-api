@@ -56,6 +56,10 @@
       description: |
         Sends a message to a conversation.
 
+        Messages can have zero or more attachments, defined as an array. Each hash in that
+        array will contain multiple properties. For detailed explanation of attachments, please
+        read [Attaching content to messages](https://dev-docs.rea.ch/specs/chat/attachments/)
+
         #### Errors
 
         This table lists the expected errors that this method could return. However, other
@@ -68,6 +72,7 @@
         | `not_in_conversation` | Authenticated user is not in the conversation. | 403 |
         | `is_archived` | Conversation has been archived. | 403 |
         | `msg_too_long` | Message body is too long. | 400 |
+        | `too_many_attachments` | Too many attachments included. | 400 |
         | `no_text` | No message text provided. | 400 |
         | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
         | `not_authed` | No authentication token provided. | 401 |
@@ -152,6 +157,7 @@
         | `invalid_auth` | Invalid authentication token. | 401 |
         | `cant_update_message` | Authenticated user does not have permission to update this message. | 403 |
         | `msg_too_long` | Message body is too long. | 400 |
+        | `too_many_attachments` | Too many attachments included. | 400 |
         | `no_text` | No message text provided. | 400 |
         | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
@@ -182,6 +188,12 @@
               thread_sid:
                 description: Provide another message's sid value to make this message a reply.
                 type: string
+              attachments:
+                type: array
+                default: null
+                description: A JSON-based array of structured attachments.
+                items:
+                  $ref: '#/definitions/Chat-AttachmentObject'
       responses:
         '200':
           description: Message update successful
@@ -303,6 +315,7 @@
         | `not_in_conversation` | Authenticated user is not in the conversation. | 403 |
         | `is_archived` | Conversation has been archived. | 403 |
         | `msg_too_long` | Message body is too long. | 400 |
+        | `too_many_attachments` | Too many attachments included. | 400 |
         | `no_text` | No message text provided. | 400 |
         | `user_not_in_conversation` | Intended recipient is not in the conversation. | 400 |
         | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
@@ -388,6 +401,7 @@
         | `invalid_auth` | Invalid authentication token. | 401 |
         | `cant_update_message` | Authenticated user does not have permission to update this message. | 403 |
         | `msg_too_long` | Message body is too long. | 400 |
+        | `too_many_attachments` | Too many attachments included. | 400 |
         | `no_text` | No message text provided. | 400 |
         | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
@@ -407,6 +421,12 @@
               body:
                 description: The content of the message.
                 type: string
+              attachments:
+                type: array
+                default: null
+                description: A JSON-based array of structured attachments.
+                items:
+                  $ref: '#/definitions/Chat-AttachmentObject'
       responses:
         '200':
           description: Transient message update successful

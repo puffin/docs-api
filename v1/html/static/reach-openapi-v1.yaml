@@ -894,6 +894,10 @@ paths:
       description: |
         Sends a message to a conversation.
 
+        Messages can have zero or more attachments, defined as an array. Each hash in that
+        array will contain multiple properties. For detailed explanation of attachments, please
+        read [Attaching content to messages](https://dev-docs.rea.ch/specs/chat/attachments/)
+
         #### Errors
 
         This table lists the expected errors that this method could return. However, other
@@ -906,6 +910,7 @@ paths:
         | `not_in_conversation` | Authenticated user is not in the conversation. | 403 |
         | `is_archived` | Conversation has been archived. | 403 |
         | `msg_too_long` | Message body is too long. | 400 |
+        | `too_many_attachments` | Too many attachments included. | 400 |
         | `no_text` | No message text provided. | 400 |
         | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
         | `not_authed` | No authentication token provided. | 401 |
@@ -990,6 +995,7 @@ paths:
         | `invalid_auth` | Invalid authentication token. | 401 |
         | `cant_update_message` | Authenticated user does not have permission to update this message. | 403 |
         | `msg_too_long` | Message body is too long. | 400 |
+        | `too_many_attachments` | Too many attachments included. | 400 |
         | `no_text` | No message text provided. | 400 |
         | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
@@ -1020,6 +1026,12 @@ paths:
               thread_sid:
                 description: Provide another message's sid value to make this message a reply.
                 type: string
+              attachments:
+                type: array
+                default: null
+                description: A JSON-based array of structured attachments.
+                items:
+                  $ref: '#/definitions/Chat-AttachmentObject'
       responses:
         '200':
           description: Message update successful
@@ -1141,6 +1153,7 @@ paths:
         | `not_in_conversation` | Authenticated user is not in the conversation. | 403 |
         | `is_archived` | Conversation has been archived. | 403 |
         | `msg_too_long` | Message body is too long. | 400 |
+        | `too_many_attachments` | Too many attachments included. | 400 |
         | `no_text` | No message text provided. | 400 |
         | `user_not_in_conversation` | Intended recipient is not in the conversation. | 400 |
         | `missing_params` | Invalid or missing parameters in URL or request body. | 400 |
@@ -1226,6 +1239,7 @@ paths:
         | `invalid_auth` | Invalid authentication token. | 401 |
         | `cant_update_message` | Authenticated user does not have permission to update this message. | 403 |
         | `msg_too_long` | Message body is too long. | 400 |
+        | `too_many_attachments` | Too many attachments included. | 400 |
         | `no_text` | No message text provided. | 400 |
         | `no_access` | Authenticated user do not have access to this resource. | 403 |
       parameters:
@@ -1245,6 +1259,12 @@ paths:
               body:
                 description: The content of the message.
                 type: string
+              attachments:
+                type: array
+                default: null
+                description: A JSON-based array of structured attachments.
+                items:
+                  $ref: '#/definitions/Chat-AttachmentObject'
       responses:
         '200':
           description: Transient message update successful
@@ -3685,6 +3705,12 @@ definitions:
       body:
         description: The content of the message.
         type: string
+      attachments:
+        type: array
+        default: null
+        description: A JSON-based array of structured attachments.
+        items:
+          $ref: '#/definitions/Chat-AttachmentObject'
 
   Chat-MessageObject:
     allOf:
@@ -3736,6 +3762,58 @@ definitions:
           type: string
           default: transient_message
           readOnly: true
+
+  Chat-AttachmentObject:
+    type: object
+    required:
+      - fallback
+      - title
+    properties:
+      fallback:
+        description: |
+          A plain-text summary of the attachment. This text will be used in
+          clients that don't show formatted text (eg. mobile notifications) and should not contain any markup.
+        type: string
+      color:
+        description: |
+          Used to visually distinguish an attachment from other messages. Accepts hex values (eg. `#36a64f`)
+          and a few named colors as `good`, `warning`, `danger`. This value is used to color the border along
+          the left side of the message attachment.
+        type: string
+      author_name:
+        description: |
+          Small text used to display the author's name. The author will display a small section
+          at the top of a message attachment.
+        type: string
+      author_link:
+        description: |
+          A valid URL that will hyperlink the `author_name` text mentioned above. Will only
+          work if `author_name` is present.
+        type: string
+      author_icon:
+        description: |
+          A valid URL that displays a small 16x16px image to the left of the `author_name` text.
+          Will only work if `author_name` is present.
+        type: string
+      title:
+        description: The title is displayed as larger, bold text near the top of a message attachment.
+        type: string
+      title_link:
+        description: A valid URL that will hyperlink the `title` mentioned above. Will only work if `title` is present.
+        type: string
+      text:
+        description: |
+          This is the main text in a message attachment, and can contain standard
+          [message formatting](https://dev-docs.rea.ch/specs/chat/message/).
+        type: string
+      image_url:
+        description: A valid URL to an image file that will be displayed inside a message attachment.
+        type: string
+      id:
+        description: the ID of the attachment. Start at 1 and indicate the position of the attachment in the list.
+        default: 1
+        type: integer
+        readOnly: true
 
   Chat-Conversations:
     type: object
