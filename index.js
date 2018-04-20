@@ -7,8 +7,8 @@ server({
         cache: 3600,
         gzip: true
     },
-    username: process.env.USERNAME,
-    password: process.env.PASSWORD,
+    username: process.env.AUTH_USERNAME,
+    password: process.env.AUTH_PASSWORD,
     port: process.env.PORT || 8888,
     realm: 'Private',
     root: './v1/html'
