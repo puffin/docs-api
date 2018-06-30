@@ -1,7 +1,5 @@
 # Reach API Documentation
 
-test change
-
 This repository holds the API reference available at http://api-docs.rea.ch.
 
 The Reach API reference uses the [OpenAPI standard](https://openapis.org/) and the [ReDoc document generator](https://github.com/Rebilly/ReDoc).
